@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CYBER SHIELD - Login</title>
+<style>
+body{background:#0a1220;color:white;font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh}
+.card{background:#111d32;padding:30px;border-radius:12px;width:320px;border:1px solid #1e3a5f}
+input{width:100%;padding:12px;margin:8px 0;background:#0a1220;border:1px solid #2a4a7a;color:white;border-radius:6px}
+button{width:100%;padding:12px;background:#00d4ff;border:none;border-radius:6px;font-weight:bold;cursor:pointer;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>CYBER SHIELD 3.0</h2>
+<p>Login to Security Center</p>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="register()" style="background:transparent;border:1px solid #00d4ff;color:#00d4ff">Register</button>
+<p id="msg"></p>
+</div>
+<script>
+const API_URL = "http://127.0.0.1:8000"; // CHANGE THIS after deploying to Render URL
+
+async function register(){
+  const u = document.getElementById('username').value;
+  const p = document.getElementById('password').value;
+  let res = await fetch(`${API_URL}/register?username=${u}&password=${p}`, {method:'POST'});
+  let data = await res.json();
+  document.getElementById('msg').innerText = data.message || data.detail;
+}
+async function login(){
+  const u = document.getElementById('username').value;
+  const p = document.getElementById('password').value;
+  let form = new FormData();
+  form.append('username', u);
+  form.append('password', p);
+  let res = await fetch(`${API_URL}/login`, {method:'POST', body: form});
+  let data = await res.json();
+  if(res.ok){
+    localStorage.setItem('token', data.access_token);
+    window.location.href = 'index.html';
+  } else {
+    document.getElementById('msg').innerText = data.detail;
+  }
+}
+</script>
+</body>
+</html>
