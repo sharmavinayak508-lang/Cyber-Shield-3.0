@@ -1,967 +1,167 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080d18">
-<title>Cyber Shield 3.0 | Security Operations Center</title>
-
+<title>CYBER SHIELD 3.0 - Security Dashboard</title>
 <style>
-:root {
-  --bg: #080d18;
-  --panel: #111a2b;
-  --panel2: #172238;
-  --border: #273650;
-  --text: #edf4ff;
-  --muted: #92a3bf;
-  --cyan: #37d8f5;
-  --green: #42e6a4;
-  --red: #ff6376;
-  --yellow: #ffc857;
-  --blue: #7595ff;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Inter, system-ui, Arial, sans-serif;
-  font-size: 14px;
-}
-button, input, textarea, select { font: inherit; }
-button { cursor: pointer; }
-a { color: var(--cyan); text-decoration: none; }
-.layout { display: flex; min-height: 100vh; }
-.sidebar {
-  width: 245px; flex-shrink: 0;
-  background: #0c1322;
-  border-right: 1px solid var(--border);
-  padding: 22px 14px;
-}
-.brand { display: flex; align-items: center; gap: 12px; padding: 5px 8px 27px; }
-.logo {
-  width: 42px; height: 42px; border-radius: 12px;
-  display: grid; place-items: center;
-  color: var(--cyan); background: #102b42;
-  border: 1px solid #23526b; font-size: 22px;
-}
-.brand h2 { font-size: 16px; margin: 0 0 4px; }
-.brand small { color: var(--muted); }
-.nav-label {
-  color: #71839f; font-size: 10px; font-weight: 800;
-  letter-spacing: 1.5px; padding: 14px 12px 8px;
-}
-.nav-btn {
-  width: 100%; display: flex; align-items: center;
-  gap: 11px; padding: 12px;
-  color: #aab9d0; background: transparent;
-  border: 1px solid transparent; border-radius: 9px;
-  text-align: left; margin: 3px 0;
-}
-.nav-btn:hover, .nav-btn.active {
-  background: #15243a; color: var(--cyan);
-  border-color: #253c58;
-}
-.nav-icon { width: 20px; text-align: center; font-size: 16px; }
-.side-status {
-  margin-top: 35px; border: 1px solid var(--border);
-  border-radius: 12px; padding: 14px; color: var(--muted);
-  font-size: 12px; line-height: 1.8;
-}
-.dot {
-  display: inline-block; width: 7px; height: 7px;
-  border-radius: 50%; background: var(--green);
-  margin-right: 7px;
-}
-main { min-width: 0; flex: 1; }
-.topbar {
-  height: 74px; border-bottom: 1px solid var(--border);
-  display: flex; justify-content: space-between;
-  align-items: center; padding: 0 28px; gap: 12px;
-  background: #0b1220;
-}
-.topbar h3 { margin: 0; font-size: 17px; }
-.top-right { display: flex; gap: 12px; align-items: center; }
-.pill {
-  color: var(--green); background: #10352e;
-  border: 1px solid #205347; border-radius: 20px;
-  padding: 7px 10px; font-size: 11px;
-}
-.content { max-width: 1500px; margin: auto; padding: 26px; }
-.page { display: none; }
-.page.active { display: block; }
-.page-head {
-  display: flex; justify-content: space-between;
-  align-items: center; gap: 14px; flex-wrap: wrap;
-  margin-bottom: 23px;
-}
-.page-head h1 { font-size: 25px; margin: 0 0 8px; }
-.page-head p { color: var(--muted); margin: 0; line-height: 1.6; }
-.btn {
-  border: 1px solid var(--border); color: var(--text);
-  background: var(--panel2); padding: 10px 14px;
-  border-radius: 8px;
-}
-.btn:hover { border-color: var(--cyan); }
-.btn.primary { background: #087d9b; border-color: #13a8c8; }
-.btn.danger { background: #381b2a; border-color: #783348; }
-.btn:disabled { opacity: .5; cursor: not-allowed; }
-.grid { display: grid; gap: 17px; }
-.stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.card {
-  background: var(--panel); border: 1px solid var(--border);
-  border-radius: 13px; padding: 20px; min-width: 0;
-}
-.stat-top { display: flex; justify-content: space-between; gap: 8px; }
-.stat-label { color: var(--muted); font-size: 12px; }
-.stat-value { font-size: 29px; font-weight: 750; margin: 15px 0 8px; }
-.stat-note { font-size: 11px; color: var(--muted); }
-.stat-icon {
-  width: 38px; height: 38px; display: grid;
-  place-items: center; border-radius: 10px;
-  background: #1c2d47; color: var(--cyan); font-size: 18px;
-}
-.green { color: var(--green); }
-.red { color: var(--red); }
-.yellow { color: var(--yellow); }
-.cyan { color: var(--cyan); }
-.section-title {
-  font-size: 15px; margin: 0 0 18px;
-  display: flex; justify-content: space-between; align-items: center;
-  gap: 10px;
-}
-.muted { color: var(--muted); }
-.small { font-size: 12px; }
-hr { border: 0; border-top: 1px solid var(--border); margin: 17px 0; }
-.bar-row { margin: 18px 0; }
-.bar-label { display: flex; justify-content: space-between; margin-bottom: 9px; font-size: 12px; }
-.bar { background: #253149; height: 7px; border-radius: 10px; overflow: hidden; }
-.bar span { display: block; height: 100%; border-radius: 10px; }
-.event {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 13px 0; border-bottom: 1px solid var(--border);
-}
-.event:last-child { border: 0; }
-.event-mark { width: 9px; height: 9px; margin-top: 5px; border-radius: 50%; flex-shrink: 0; }
-.event strong { font-size: 12px; }
-.event p { margin: 5px 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
-.event time { color: #71839f; font-size: 10px; }
-.input-group { margin: 15px 0; }
-.input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 12px; }
-.field {
-  width: 100%; background: #0a1221; color: var(--text);
-  border: 1px solid #34445f; padding: 12px;
-  border-radius: 8px; outline: none;
-}
-.field:focus { border-color: var(--cyan); }
-textarea.field { min-height: 100px; resize: vertical; }
-.result {
-  margin-top: 17px; padding: 15px; border-radius: 9px;
-  background: #0a1321; border: 1px solid var(--border);
-  line-height: 1.7; overflow-wrap: anywhere;
-}
-.result h3 { margin: 0 0 8px; font-size: 14px; }
-.hidden { display: none !important; }
-.tag {
-  display: inline-block; border-radius: 5px;
-  padding: 5px 8px; font-size: 10px; font-weight: 700;
-}
-.tag.good { color: var(--green); background: #12372f; }
-.tag.warn { color: var(--yellow); background: #3a3020; }
-.tag.bad { color: var(--red); background: #3b202b; }
-.tag.info { color: var(--cyan); background: #143144; }
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; text-align: left; }
-th, td { padding: 14px 12px; border-bottom: 1px solid var(--border); font-size: 12px; }
-th { color: var(--muted); font-weight: 600; }
-td { overflow-wrap: anywhere; }
-.empty { padding: 30px; text-align: center; color: var(--muted); }
-.score-layout { display: flex; align-items: center; gap: 25px; }
-.score-circle {
-  width: 130px; height: 130px; border-radius: 50%;
-  display: grid; place-items: center; flex-shrink: 0;
-  background: conic-gradient(var(--green) 0deg, var(--green) 270deg, #26344b 270deg);
-  position: relative;
-}
-.score-circle:before {
-  content: ""; position: absolute; width: 104px; height: 104px;
-  border-radius: 50%; background: var(--panel);
-}
-.score-circle div { position: relative; text-align: center; }
-.score-circle strong { font-size: 27px; display: block; }
-.score-circle small { font-size: 10px; color: var(--muted); }
-.footer { padding: 25px 0 8px; color: #6e819e; font-size: 11px; text-align: center; line-height: 1.8; }
-.menu-toggle { display: none; }
-.notice {
-  border: 1px solid #594c2a; background: #2a2519;
-  color: #f2d796; padding: 12px 14px; border-radius: 9px;
-  font-size: 12px; line-height: 1.6; margin-bottom: 20px;
-}
-@media(max-width:1050px) {
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media(max-width:700px) {
-  .sidebar {
-    position: fixed; z-index: 10; inset: 0 auto 0 0;
-    transform: translateX(-100%); transition: transform .2s;
-    width: 250px; overflow-y: auto;
-  }
-  .sidebar.open { transform: translateX(0); }
-  .menu-toggle { display: inline-block; }
-  .topbar { height: 64px; padding: 0 15px; }
-  .topbar h3 { font-size: 14px; }
-  .content { padding: 17px 13px; }
-  .stats, .two, .three { grid-template-columns: 1fr; }
-  .page-head h1 { font-size: 22px; }
-  .score-layout { flex-direction: column; align-items: flex-start; }
-  .top-right .pill { display: none; }
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter, Segoe UI, sans-serif}
+body{background:#080e1d;color:#cbd5e1;display:flex;min-height:100vh}
+.sidebar{width:260px;background:#0a1220;border-right:1px solid #16243f;padding:20px;display:flex;flex-direction:column;position:fixed;height:100vh}
+.logo{display:flex;gap:10px;align-items:center;margin-bottom:30px}
+.logo-icon{width:36px;height:36px;background:#0f233f;border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid #1e3a5f}
+.logo h2{font-size:14px;color:white;letter-spacing:0.5px}
+.logo p{font-size:11px;color:#6b7a99}
+.menu-label{font-size:10px;color:#5a6d8f;letter-spacing:1.5px;margin:18px 0 8px}
+.menu-item{padding:10px 12px;border-radius:8px;font-size:13px;color:#8a9bb8;cursor:pointer;display:flex;gap:10px;margin:2px 0}
+.menu-item.active{background:#11233f;color:#3ac4ff;border:1px solid #1e3a5f}
+.menu-item:hover{background:#11233f}
+.main{margin-left:260px;flex:1;padding:0;background:#080e1d}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-bottom:1px solid #16243f;background:#0a1220}
+.topbar h3{font-size:14px;color:white}
+.badge{font-size:10px;padding:4px 10px;border-radius:20px;background:#0e2a24;color:#3dd598;border:1px solid #1a4a3a}
+.content{padding:24px}
+.demo-banner{background:#231e0e;border:1px solid #5a4a1e;color:#d1b06a;padding:12px 16px;border-radius:8px;font-size:12px;margin-bottom:20px;line-height:1.5}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.card{background:#111d32;border:1px solid #1b2f53;border-radius:12px;padding:18px}
+.card-top{display:flex;justify-content:space-between;margin-bottom:18px;font-size:12px;color:#6b7a99}
+.card h1{font-size:28px;color:white}
+.card h1 span.blue{color:#3ac4ff}
+.card h1 span.yellow{color:#f5c542}
+.card p{font-size:11px;color:#6b7a99;margin-top:6px}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:20px}
+.score-circle{width:110px;height:110px;border-radius:50%;background:conic-gradient(#3dd598 75%, #1a2f4a 0);display:flex;align-items:center;justify-content:center;position:relative}
+.score-inner{width:88px;height:88px;background:#111d32;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-inner b{font-size:22px;color:white}
+.score-inner span{font-size:10px;color:#6b7a99}
+.check-row{margin:12px 0}
+.check-row .label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px}
+.bar{height:6px;background:#1a2f4a;border-radius:10px;overflow:hidden}
+.bar-fill{height:100%;border-radius:10px}
+.btn{padding:8px 14px;border-radius:6px;border:1px solid #1b2f53;background:#16243f;color:#8a9bb8;font-size:12px;cursor:pointer}
+.btn-primary{background:#0e7a8c;color:white;border-color:#1a9ab0}
+.status-box{margin-top:auto;padding:12px;background:#0f1a2e;border:1px solid #1b2f53;border-radius:10px;font-size:11px;line-height:1.8}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#3dd598;margin-right:6px}
 </style>
 </head>
-
 <body>
-<div class="layout">
 
-<aside class="sidebar" id="sidebar">
-  <div class="brand">
-    <div class="logo">⬡</div>
-    <div>
-      <h2>CYBER SHIELD</h2>
-      <small>Security Center 3.0</small>
-    </div>
+<div class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">⬡</div>
+    <div><h2>CYBER SHIELD</h2><p>Security Center 3.0</p></div>
   </div>
-
-  <div class="nav-label">OVERVIEW</div>
-  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
-
-  <div class="nav-label">SECURITY TOOLS</div>
-  <button class="nav-btn" data-page="url"><span class="nav-icon">◎</span>URL Security</button>
-  <button class="nav-btn" data-page="password"><span class="nav-icon">⌑</span>Password Analyzer</button>
-  <button class="nav-btn" data-page="file"><span class="nav-icon">▤</span>File Analysis</button>
-
-  <div class="nav-label">OPERATIONS</div>
-  <button class="nav-btn" data-page="alerts"><span class="nav-icon">♧</span>Security Alerts</button>
-  <button class="nav-btn" data-page="reports"><span class="nav-icon">▧</span>Reports</button>
-  <button class="nav-btn" data-page="about"><span class="nav-icon">ⓘ</span>About Project</button>
-
-  <div class="side-status">
+  <div class="menu-label">OVERVIEW</div>
+  <div class="menu-item active">☰ Dashboard</div>
+  <div class="menu-label">SECURITY TOOLS</div>
+  <div class="menu-item">◉ URL Security</div>
+  <div class="menu-item">⚑ Password Analyzer</div>
+  <div class="menu-item">▤ File Analysis</div>
+  <div class="menu-label">OPERATIONS</div>
+  <div class="menu-item">☁ Security Alerts</div>
+  <div class="menu-item">◫ Reports</div>
+  <div class="menu-item">ⓘ About Project</div>
+  <div class="status-box">
     <div><span class="dot"></span>Interface operational</div>
-    <div>Mode: <span class="yellow">Frontend demo</span></div>
-    <div>Backend: Not connected</div>
+    <div id="mode-text">Mode: Checking...</div>
+    <div id="backend-text">Backend: Checking...</div>
+    <div style="margin-top:8px"><button class="btn" onclick="logout()">Logout</button></div>
   </div>
-</aside>
+</div>
 
-<main>
-  <header class="topbar">
-    <div style="display:flex;align-items:center;gap:13px">
-      <button class="btn menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
-      <h3 id="pageTitle">Security Dashboard</h3>
+<div class="main">
+  <div class="topbar">
+    <h3>Security Dashboard</h3>
+    <div style="display:flex;gap:10px;align-items:center">
+      <span class="badge" id="demoBadge">● DEMO MODE</span>
+      <button class="btn btn-primary" onclick="loadDashboard()">↻ Refresh dashboard</button>
     </div>
-    <div class="top-right">
-      <span class="pill">● DEMO MODE</span>
-      <span id="clock" class="muted small"></span>
-    </div>
-  </header>
-
+  </div>
   <div class="content">
-
-    <section class="page active" id="page-dashboard">
-      <div class="page-head">
-        <div>
-          <h1>Security Overview</h1>
-          <p>Monitor your security checks and explore your cybersecurity tools.</p>
-        </div>
-        <button class="btn primary" id="runCheck">↻ Refresh dashboard</button>
-      </div>
-
-      <div class="notice">
-        Demo dashboard: the figures below are illustrative, not live security telemetry.
-        This page does not monitor your computer or connect to your Python database.
-      </div>
-
-      <div class="grid stats">
-        <div class="card">
-          <div class="stat-top"><span class="stat-label">Security Score</span><span class="stat-icon">◈</span></div>
-          <div class="stat-value cyan" id="mainScore">75/100</div>
-          <div class="stat-note">Illustrative demo score</div>
-        </div>
-        <div class="card">
-          <div class="stat-top"><span class="stat-label">URL Checks</span><span class="stat-icon">◎</span></div>
-          <div class="stat-value" id="urlCount">0</div>
-          <div class="stat-note">Checks in this session</div>
-        </div>
-        <div class="card">
-          <div class="stat-top"><span class="stat-label">Files Analyzed</span><span class="stat-icon">▤</span></div>
-          <div class="stat-value" id="fileCount">0</div>
-          <div class="stat-note">Files hashed in this session</div>
-        </div>
-        <div class="card">
-          <div class="stat-top"><span class="stat-label">Alerts Recorded</span><span class="stat-icon">♧</span></div>
-          <div class="stat-value yellow" id="alertCount">0</div>
-          <div class="stat-note">Demo events in this session</div>
-        </div>
-      </div>
-
-      <div class="grid two" style="margin-top:18px">
-        <div class="card">
-          <h3 class="section-title">Security Score <span class="tag info">DEMO</span></h3>
-          <div class="score-layout">
-            <div class="score-circle" id="scoreCircle">
-              <div><strong id="circleScore">75</strong><small>OUT OF 100</small></div>
-            </div>
-            <div>
-              <h3 id="scoreStatus">Baseline score</h3>
-              <p class="muted small" style="line-height:1.8">
-                This sample score is not calculated from a real device scan.
-                Run the individual tools to evaluate their specific inputs.
-              </p>
-              <button class="btn" data-go="url">Check a URL →</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 class="section-title">Security Checklist</h3>
-          <div class="bar-row">
-            <div class="bar-label"><span>Use strong passwords</span><span class="cyan">Recommended</span></div>
-            <div class="bar"><span style="width:85%;background:var(--cyan)"></span></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label"><span>Verify suspicious links</span><span class="cyan">Recommended</span></div>
-            <div class="bar"><span style="width:70%;background:var(--blue)"></span></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label"><span>Keep software updated</span><span class="yellow">Check manually</span></div>
-            <div class="bar"><span style="width:55%;background:var(--yellow)"></span></div>
-          </div>
-          <p class="muted small">These bars are illustrative recommendations, not measured device status.</p>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:18px">
-        <h3 class="section-title">Recent Activity <button class="btn" data-go="alerts">View all</button></h3>
-        <div id="recentEvents"><div class="empty">No activity yet. Try one of the security tools.</div></div>
-      </div>
-    </section>
-
-    <section class="page" id="page-url">
-      <div class="page-head">
-        <div><h1>URL Security Checker</h1><p>Inspect URL structure for common warning signs.</p></div>
-      </div>
-      <div class="notice">
-        This is a heuristic check only. It does not query threat-intelligence databases,
-        visit the website, or prove whether a URL is safe. Do not enter private URLs containing tokens.
-      </div>
-      <div class="grid two">
-        <div class="card">
-          <h3 class="section-title">Analyze a URL</h3>
-          <form id="urlForm">
-            <div class="input-group">
-              <label for="urlInput">Website URL</label>
-              <input class="field" id="urlInput" type="text" placeholder="https://example.com" required maxlength="2048" autocomplete="url">
-            </div>
-            <button class="btn primary" type="submit">Analyze URL</button>
-          </form>
-          <div id="urlResult" class="result hidden" aria-live="polite"></div>
-        </div>
-        <div class="card">
-          <h3 class="section-title">What is checked?</h3>
-          <div class="event"><span class="event-mark" style="background:var(--yellow)"></span><div><strong>HTTPS usage</strong><p>Checks whether the URL uses an encrypted connection scheme.</p></div></div>
-          <div class="event"><span class="event-mark" style="background:var(--red)"></span><div><strong>Potentially suspicious patterns</strong><p>Flags some URL shorteners, IP-based hosts, and misleading patterns.</p></div></div>
-          <div class="event"><span class="event-mark" style="background:var(--cyan)"></span><div><strong>Domain structure</strong><p>Examines basic host and URL characteristics without opening the link.</p></div></div>
-          <p class="muted small">HTTPS alone does not mean a website is trustworthy.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="page-password">
-      <div class="page-head"><div><h1>Password Analyzer</h1><p>Evaluate password complexity locally in your browser.</p></div></div>
-      <div class="notice">Your password is analyzed locally by this page and is not intentionally sent to a server. Avoid entering your actual account password; use a sample instead.</div>
-      <div class="grid two">
-        <div class="card">
-          <h3 class="section-title">Password Strength Test</h3>
-          <form id="passwordForm">
-            <div class="input-group">
-              <label for="passwordInput">Sample password</label>
-              <input class="field" id="passwordInput" type="password" required maxlength="256" placeholder="Enter a sample password" autocomplete="off">
-            </div>
-            <label class="small muted"><input type="checkbox" id="showPassword"> Show sample password</label>
-            <div style="margin-top:18px"><button class="btn primary" type="submit">Analyze strength</button></div>
-          </form>
-          <div id="passwordResult" class="result hidden" aria-live="polite"></div>
-        </div>
-        <div class="card">
-          <h3 class="section-title">Password Best Practices</h3>
-          <div class="event"><span class="event-mark" style="background:var(--green)"></span><div><strong>Use long passwords</strong><p>Prefer 16 or more characters where practical.</p></div></div>
-          <div class="event"><span class="event-mark" style="background:var(--cyan)"></span><div><strong>Use unique passwords</strong><p>Never reuse a password across important accounts.</p></div></div>
-          <div class="event"><span class="event-mark" style="background:var(--blue)"></span><div><strong>Use a password manager</strong><p>Consider a reputable manager and multifactor authentication.</p></div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="page-file">
-      <div class="page-head"><div><h1>File Analysis</h1><p>Calculate a SHA-256 hash of a file selected from your device.</p></div></div>
-      <div class="notice">This tool computes a file fingerprint in your browser. It does not scan for malware or upload the file. A hash is not a verdict on whether a file is safe.</div>
-      <div class="grid two">
-        <div class="card">
-          <h3 class="section-title">Analyze File Fingerprint</h3>
-          <div class="input-group">
-            <label for="fileInput">Select a file</label>
-            <input class="field" type="file" id="fileInput">
-          </div>
-          <button class="btn primary" id="analyzeFile">Calculate SHA-256</button>
-          <div id="fileResult" class="result hidden" aria-live="polite"></div>
-        </div>
-        <div class="card">
-          <h3 class="section-title">About SHA-256</h3>
-          <p class="muted" style="line-height:1.9">SHA-256 produces a 256-bit hash commonly represented by 64 hexadecimal characters. It can help identify whether two files have identical contents.</p>
-          <hr>
-          <div class="bar-label"><span>Algorithm</span><strong>SHA-256</strong></div>
-          <div class="bar-label"><span>Processing</span><strong>Browser-based</strong></div>
-          <div class="bar-label"><span>Malware detection</span><strong class="yellow">Not included</strong></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="page-alerts">
-      <div class="page-head">
-        <div><h1>Security Alerts</h1><p>Review activity generated by tools in this browser session.</p></div>
-        <button class="btn danger" id="clearAlerts">Clear session alerts</button>
-      </div>
-      <div class="notice">These are local demo events, not alerts from a real security monitoring system.</div>
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>TIME</th><th>EVENT</th><th>DETAILS</th><th>LEVEL</th></tr></thead>
-            <tbody id="alertTable"><tr><td colspan="4" class="empty">No events recorded.</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="page-reports">
-      <div class="page-head"><div><h1>Security Reports</h1><p>Export activity from the current browser session.</p></div></div>
-      <div class="notice">Reports contain only the events recorded by this page. They do not represent a full system security audit.</div>
-      <div class="grid two">
-        <div class="card">
-          <h3 class="section-title">Session Activity Report</h3>
-          <p class="muted" style="line-height:1.8">Download a JSON file containing the session's tool events and timestamps.</p>
-          <button class="btn primary" id="downloadReport">↓ Download JSON report</button>
-        </div>
-        <div class="card">
-          <h3 class="section-title">Session Summary</h3>
-          <div class="bar-label"><span>URL checks</span><strong id="reportUrls">0</strong></div>
-          <div class="bar-label"><span>Files analyzed</span><strong id="reportFiles">0</strong></div>
-          <div class="bar-label"><span>Events recorded</span><strong id="reportEvents">0</strong></div>
-          <hr>
-          <button class="btn" id="downloadCSV">Download CSV</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="page-about">
-      <div class="page-head"><div><h1>About Cyber Shield 3.0</h1><p>A cybersecurity project interface.</p></div></div>
-      <div class="card">
-        <div class="brand" style="padding-left:0">
-          <div class="logo">⬡</div>
-          <div><h2>Cyber Shield 3.0</h2><small>Security Operations Dashboard</small></div>
-        </div>
-        <p class="muted" style="line-height:1.9">Cyber Shield is designed to present cybersecurity utilities in a single interface. This GitHub Pages edition provides client-side URL heuristics, password complexity feedback, file hashing, and session reports.</p>
-        <h3>Technology used</h3>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:15px 0">
-          <span class="tag info">HTML5</span>
-          <span class="tag info">CSS3</span>
-          <span class="tag info">JavaScript</span>
-          <span class="tag info">Web Crypto API</span>
-          <span class="tag info">GitHub Pages</span>
-        </div>
-        <h3>Backend integration status</h3>
-        <p class="muted" style="line-height:1.9">The Python modules in your repository are not automatically connected to this page. For database storage, secure login, live system telemetry, RSA encryption, and real threat-intelligence lookups, deploy a backend service and connect it through authenticated API endpoints.</p>
-        <h3>Important limitations</h3>
-        <ul class="muted" style="line-height:2">
-          <li>No real-time system monitoring.</li>
-          <li>No server-side database connection.</li>
-          <li>No verified malware or phishing database lookup.</li>
-          <li>No real account authentication in this standalone page.</li>
-        </ul>
-      </div>
-    </section>
-
-    <div class="footer">
-      CYBER SHIELD 3.0 · Educational cybersecurity project<br>
-      Use responsibly. Local demo results are not a guarantee of security.
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div><h2 style="color:white;font-size:20px">Security Overview</h2><p style="font-size:12px;color:#6b7a99;margin-top:4px">Monitor your security checks and explore your cybersecurity tools.</p></div>
     </div>
+    <div class="demo-banner" id="banner">Demo dashboard: the figures below are illustrative, not live security telemetry. This page does not monitor your computer or connect to your Python database.</div>
+    
+    <div class="grid4">
+      <div class="card"><div class="card-top">Security Score <span>⬔</span></div><h1><span class="blue" id="scoreTop">75/100</span></h1><p>Illustrative demo score</p></div>
+      <div class="card"><div class="card-top">URL Checks <span>◉</span></div><h1 id="urlCount">0</h1><p>Checks in this session</p></div>
+      <div class="card"><div class="card-top">Files Analyzed <span>▤</span></div><h1 id="fileCount">0</h1><p>Files hashed in this session</p></div>
+      <div class="card"><div class="card-top">Alerts Recorded <span>◫</span></div><h1><span class="yellow" id="alertCount">0</span></h1><p>Demo events in this session</p></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between"><b style="color:white;font-size:13px">Security Score</b><span class="badge">DEMO</span></div>
+        <div style="display:flex;gap:24px;margin-top:20px;align-items:center">
+          <div class="score-circle"><div class="score-inner"><b id="scoreCircle">75</b><span>OUT OF 100</span></div></div>
+          <div><b style="color:white;font-size:14px">Baseline score</b><p style="font-size:11px;line-height:1.6;margin-top:8px">This sample score is not calculated from a real device scan. Run the individual tools to evaluate their specific inputs.</p><button class="btn" style="margin-top:12px" onclick="alert('Connect to URL Security tool')">Check a URL →</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <b style="color:white;font-size:13px">Security Checklist</b>
+        <div class="check-row"><div class="label"><span>Use strong passwords</span><span style="color:#3ac4ff">Recommended</span></div><div class="bar"><div class="bar-fill" style="width:92%;background:#3ac4ff"></div></div></div>
+        <div class="check-row"><div class="label"><span>Verify suspicious links</span><span style="color:#6b9cff">Recommended</span></div><div class="bar"><div class="bar-fill" style="width:75%;background:#6b9cff"></div></div></div>
+        <div class="check-row"><div class="label"><span>Keep software updated</span><span style="color:#f5c542">Check manually</span></div><div class="bar"><div class="bar-fill" style="width:50%;background:#f5c542"></div></div></div>
+        <p style="font-size:10px;margin-top:12px">These bars are illustrative recommendations, not measured device status.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between"><b style="color:white;font-size:13px">Recent Activity</b><button class="btn">View all</button></div>
+      <p style="text-align:center;padding:30px 0;font-size:12px;color:#6b7a99" id="activity">No activity yet. Try one of the security tools.</p>
+    </div>
+    <p style="text-align:center;font-size:10px;color:#3a4a64;margin-top:24px;line-height:1.6">CYBER SHIELD 3.0 - Educational cybersecurity project<br>Use responsibly. Local demo results are not a guarantee of security.</p>
   </div>
-</main>
 </div>
 
 <script>
-"use strict";
+// ====== CONFIG - CHANGE THIS AFTER DEPLOY ======
+const API_URL = "http://127.0.0.1:8000"; // for testing
+// After deploying on Render, change to: https://your-app-name.onrender.com
 
-/* Cyber Shield 3.0
-   Standalone static frontend for GitHub Pages.
-   No backend requests are made by this script.
-*/
-
-const state = {
-  urls: 0,
-  files: 0,
-  events: []
-};
-
-const titles = {
-  dashboard: "Security Dashboard",
-  url: "URL Security",
-  password: "Password Analyzer",
-  file: "File Analysis",
-  alerts: "Security Alerts",
-  reports: "Security Reports",
-  about: "About Cyber Shield"
-};
-
-const $ = id => document.getElementById(id);
-
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
+// ====== LOGIN PROTECTION ======
+const token = localStorage.getItem('token');
+if(!token){
+  window.location.href = 'login.html';
 }
 
-function showPage(name) {
-  if (!titles[name]) return;
+async function loadDashboard(){
+  try{
+    const res = await fetch(`${API_URL}/dashboard?token=${token}`);
+    if(!res.ok) throw new Error("invalid token");
+    const data = await res.json();
+    
+    // Backend Connected - Update UI
+    document.getElementById('mode-text').innerHTML = 'Mode: <span style="color:#3dd598">Backend Connected</span>';
+    document.getElementById('backend-text').innerHTML = 'Backend: <span style="color:#3dd598">Connected</span>';
+    document.getElementById('demoBadge').innerText = '● LIVE MODE';
+    document.getElementById('demoBadge').style.background = '#0e2a24';
+    document.getElementById('banner').innerText = `Welcome ${data.user}! Connected to live backend. Score from server: ${data.security_score}`;
+    document.getElementById('banner').style.background = '#0e2a24';
+    document.getElementById('banner').style.borderColor = '#1a4a3a';
+    document.getElementById('banner').style.color = '#3dd598';
 
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.toggle("active", page.id === "page-" + name);
-  });
+    document.getElementById('scoreTop').innerText = data.security_score + '/100';
+    document.getElementById('scoreCircle').innerText = data.security_score;
+    document.getElementById('urlCount').innerText = data.url_checks;
+    document.getElementById('fileCount').innerText = data.files_analyzed;
+    document.getElementById('activity').innerText = `Logged in as ${data.user} - Backend is live.`;
 
-  document.querySelectorAll(".nav-btn").forEach(button => {
-    button.classList.toggle("active", button.dataset.page === name);
-  });
-
-  $("pageTitle").textContent = titles[name];
-  $("sidebar").classList.remove("open");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
-  if (name === "alerts") renderAlerts();
-  if (name === "reports") renderReportSummary();
+  }catch(e){
+    // Backend Not Connected - Keep Demo Mode
+    document.getElementById('mode-text').innerHTML = 'Mode: <span style="color:#f5c542">Frontend demo</span>';
+    document.getElementById('backend-text').innerHTML = 'Backend: <span style="color:#ff6b6b">Not connected</span>';
+    console.log("Backend not reachable, staying in demo mode. Error:", e);
+  }
 }
 
-document.querySelectorAll(".nav-btn").forEach(button => {
-  button.addEventListener("click", () => showPage(button.dataset.page));
-});
-
-document.querySelectorAll("[data-go]").forEach(button => {
-  button.addEventListener("click", () => showPage(button.dataset.go));
-});
-
-$("menuToggle").addEventListener("click", () => {
-  $("sidebar").classList.toggle("open");
-});
-
-function updateClock() {
-  $("clock").textContent = new Date().toLocaleString([], {
-    dateStyle: "medium",
-    timeStyle: "short"
-  });
+function logout(){
+  localStorage.removeItem('token');
+  window.location.href = 'login.html';
 }
 
-updateClock();
-setInterval(updateClock, 30000);
-
-function addEvent(name, details, level = "INFO") {
-  state.events.unshift({
-    time: new Date().toISOString(),
-    event: name,
-    details: details,
-    level: level
-  });
-
-  renderEvents();
-  updateStats();
-}
-
-function renderEvents() {
-  const latest = state.events.slice(0, 5);
-
-  $("recentEvents").innerHTML = latest.length
-    ? latest.map(event => `
-      <div class="event">
-        <span class="event-mark" style="background:${
-          event.level === "HIGH" ? "var(--red)" :
-          event.level === "MEDIUM" ? "var(--yellow)" :
-          "var(--cyan)"
-        }"></span>
-        <div>
-          <strong>${escapeHTML(event.event)}</strong>
-          <p>${escapeHTML(event.details)}</p>
-          <time>${escapeHTML(new Date(event.time).toLocaleString())}</time>
-        </div>
-      </div>
-    `).join("")
-    : '<div class="empty">No activity yet. Try one of the security tools.</div>';
-
-  renderAlerts();
-}
-
-function renderAlerts() {
-  const events = state.events;
-
-  $("alertTable").innerHTML = events.length
-    ? events.map(event => `
-      <tr>
-        <td>${escapeHTML(new Date(event.time).toLocaleString())}</td>
-        <td>${escapeHTML(event.event)}</td>
-        <td>${escapeHTML(event.details)}</td>
-        <td><span class="tag ${
-          event.level === "HIGH" ? "bad" :
-          event.level === "MEDIUM" ? "warn" : "info"
-        }">${escapeHTML(event.level)}</span></td>
-      </tr>
-    `).join("")
-    : '<tr><td colspan="4" class="empty">No events recorded.</td></tr>';
-}
-
-function updateStats() {
-  $("urlCount").textContent = state.urls;
-  $("fileCount").textContent = state.files;
-  $("alertCount").textContent = state.events.length;
-  renderReportSummary();
-}
-
-function renderReportSummary() {
-  $("reportUrls").textContent = state.urls;
-  $("reportFiles").textContent = state.files;
-  $("reportEvents").textContent = state.events.length;
-}
-
-$("runCheck").addEventListener("click", () => {
-  updateClock();
-  updateStats();
-  addEvent("Dashboard refreshed", "Local dashboard figures refreshed.");
-});
-
-/* URL heuristic checker */
-$("urlForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const input = $("urlInput").value.trim();
-  const result = $("urlResult");
-
-  result.classList.remove("hidden");
-
-  let parsed;
-  try {
-    parsed = new URL(input);
-  } catch {
-    result.innerHTML = `
-      <h3 class="red">Invalid URL format</h3>
-      Enter a complete URL such as https://example.com.
-      No network request was made.
-    `;
-    return;
-  }
-
-  if (!["http:", "https:"].includes(parsed.protocol)) {
-    result.innerHTML = `
-      <h3 class="red">Unsupported URL scheme</h3>
-      Only HTTP and HTTPS URLs can be checked by this tool.
-    `;
-    return;
-  }
-
-  const host = parsed.hostname.toLowerCase();
-  const warnings = [];
-
-  if (parsed.protocol !== "https:") {
-    warnings.push("The URL does not use HTTPS.");
-  }
-
-  if (host.startsWith("xn--") || host.split(".").some(part => part.startsWith("xn--"))) {
-    warnings.push("The hostname contains an internationalized punycode label.");
-  }
-
-  if (host.includes("..")) {
-    warnings.push("The hostname has unusual dot placement.");
-  }
-
-  if (host.includes("@")) {
-    warnings.push("The URL contains an @ character in its hostname.");
-  }
-
-  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) {
-    warnings.push("The URL uses an IPv4 address rather than a domain name.");
-  }
-
-  if (host.split(".").length >= 5) {
-    warnings.push("The hostname has many subdomain labels.");
-  }
-
-  const shorteners = [
-    "bit.ly", "tinyurl.com", "t.co", "is.gd",
-    "cutt.ly", "rb.gy", "rebrand.ly"
-  ];
-
-  if (shorteners.includes(host)) {
-    warnings.push("This domain is a URL-shortening service, so the destination is hidden.");
-  }
-
-  if (parsed.username || parsed.password) {
-    warnings.push("The URL includes embedded user information.");
-  }
-
-  const suspiciousWords =
-    /login|verify|wallet|password|account|secure|payment|update|signin/i;
-
-  if (suspiciousWords.test(parsed.hostname)) {
-    warnings.push("The hostname contains words commonly used in account-related URLs. This alone does not establish malicious intent.");
-  }
-
-  const risk = warnings.length >= 3 ? "HIGH" :
-               warnings.length >= 1 ? "MEDIUM" : "LOW";
-
-  const label = risk === "HIGH" ? "Multiple warning signs" :
-                risk === "MEDIUM" ? "Potential warning signs" :
-                "No obvious heuristic warnings";
-
-  result.innerHTML = `
-    <h3 class="${risk === "HIGH" ? "red" : risk === "MEDIUM" ? "yellow" : "green"}">
-      ${escapeHTML(label)}
-    </h3>
-    <p><strong>Heuristic result:</strong> ${risk}</p>
-    <p><strong>Host:</strong> ${escapeHTML(host)}</p>
-    <p><strong>Protocol:</strong> ${escapeHTML(parsed.protocol)}</p>
-    ${warnings.length
-      ? "<strong>Findings</strong><ul>" +
-        warnings.map(item => "<li>" + escapeHTML(item) + "</li>").join("") +
-        "</ul>"
-      : "<p>No tested warning patterns were detected. This does not prove the URL is safe.</p>"
-    }
-    <p class="muted small">The URL was parsed locally. It was not opened or checked against a threat-intelligence database.</p>
-  `;
-
-  state.urls++;
-  addEvent("URL analysis completed",
-    "Heuristic result: " + risk + "; host: " + host,
-    risk === "HIGH" ? "HIGH" : risk === "MEDIUM" ? "MEDIUM" : "INFO"
-  );
-});
-
-/* Password complexity estimator */
-$("showPassword").addEventListener("change", () => {
-  $("passwordInput").type = $("showPassword").checked ? "text" : "password";
-});
-
-$("passwordForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const password = $("passwordInput").value;
-  let score = 0;
-  const tips = [];
-
-  if (password.length >= 16) score += 2;
-  else if (password.length >= 12) score += 1;
-  else tips.push("Use at least 12–16 characters.");
-
-  if (/[a-z]/.test(password)) score++;
-  else tips.push("Consider lowercase letters.");
-
-  if (/[A-Z]/.test(password)) score++;
-  else tips.push("Consider uppercase letters.");
-
-  if (/\d/.test(password)) score++;
-  else tips.push("Consider including numbers.");
-
-  if (/[^a-zA-Z0-9]/.test(password)) score++;
-  else tips.push("Consider symbols or a longer passphrase.");
-
-  if (/(.)\1{2,}/.test(password)) {
-    score--;
-    tips.push("Avoid repeated characters.");
-  }
-
-  if (/password|qwerty|123456|letmein|admin/i.test(password)) {
-    score = Math.min(score, 1);
-    tips.push("Avoid common password patterns.");
-  }
-
-  score = Math.max(0, Math.min(6, score));
-
-  const rating = score >= 5 ? "Stronger pattern" :
-                 score >= 3 ? "Moderate pattern" : "Weak pattern";
-
-  const cls = score >= 5 ? "green" :
-              score >= 3 ? "yellow" : "red";
-
-  $("passwordResult").classList.remove("hidden");
-  $("passwordResult").innerHTML = `
-    <h3 class="${cls}">${rating}</h3>
-    <div class="bar"><span style="width:${score / 6 * 100}%;background:${
-      score >= 5 ? "var(--green)" :
-      score >= 3 ? "var(--yellow)" : "var(--red)"
-    }"></span></div>
-    <p>Complexity indicators: ${score}/6</p>
-    ${tips.length
-      ? "<strong>Suggestions</strong><ul>" +
-        tips.map(tip => "<li>" + escapeHTML(tip) + "</li>").join("") +
-        "</ul>"
-      : "<p>Several basic complexity indicators are present.</p>"
-    }
-    <p class="muted small">This is a simple heuristic, not a password-cracking simulation or a guarantee of security.</p>
-  `;
-
-  addEvent("Password analysis completed",
-    "A sample password was evaluated locally. The password itself was not recorded."
-  );
-
-  $("passwordInput").value = "";
-});
-
-/* File SHA-256 fingerprint */
-$("analyzeFile").addEventListener("click", async () => {
-  const file = $("fileInput").files[0];
-  const result = $("fileResult");
-
-  result.classList.remove("hidden");
-
-  if (!file) {
-    result.innerHTML = '<h3 class="yellow">Choose a file first</h3>';
-    return;
-  }
-
-  if (!window.crypto || !window.crypto.subtle) {
-    result.innerHTML = `
-      <h3 class="red">Web Crypto unavailable</h3>
-      Open the page over HTTPS and try again.
-    `;
-    return;
-  }
-
-  // Avoid loading arbitrarily large files into memory.
-  const MAX_FILE_SIZE = 100 * 1024 * 1024;
-
-  if (file.size > MAX_FILE_SIZE) {
-    result.innerHTML = '<h3 class="yellow">File too large</h3><p>Maximum supported file size: 100 MB.</p>';
-    return;
-  }
-
-  const button = $("analyzeFile");
-  button.disabled = true;
-  button.textContent = "Calculating...";
-
-  try {
-    const buffer = await file.arrayBuffer();
-    const digest = await crypto.subtle.digest("SHA-256", buffer);
-
-    const hash = Array.from(new Uint8Array(digest))
-      .map(byte => byte.toString(16).padStart(2, "0"))
-      .join("");
-
-    result.innerHTML = `
-      <h3 class="green">SHA-256 calculated</h3>
-      <p><strong>File:</strong> ${escapeHTML(file.name)}</p>
-      <p><strong>Size:</strong> ${escapeHTML(formatBytes(file.size))}</p>
-      <p><strong>SHA-256:</strong></p>
-      <p style="font-family:monospace;font-size:11px;overflow-wrap:anywhere">${hash}</p>
-      <button class="btn" id="copyHash">Copy hash</button>
-      <p class="muted small">This fingerprint does not establish whether the file contains malware.</p>
-    `;
-
-    $("copyHash").addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(hash);
-        $("copyHash").textContent = "Copied";
-      } catch {
-        $("copyHash").textContent = "Copy unavailable";
-      }
-    });
-
-    state.files++;
-    addEvent("File fingerprint calculated",
-      "SHA-256 calculated for " + file.name + " (" + formatBytes(file.size) + ")."
-    );
-  } catch {
-    result.innerHTML = '<h3 class="red">Analysis failed</h3><p>The browser could not calculate the file hash.</p>';
-  } finally {
-    button.disabled = false;
-    button.textContent = "Calculate SHA-256";
-  }
-});
-
-function formatBytes(bytes) {
-  if (bytes < 1024) return bytes + " B";
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + " KB";
-  return (bytes / (1024 * 1024)).toFixed(2) + " MB";
-}
-
-/* Session report exports */
-function downloadBlob(filename, content, type) {
-  const blob = new Blob([content], { type: type });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-
-  anchor.href = url;
-  anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-$("downloadReport").addEventListener("click", () => {
-  const report = {
-    project: "Cyber Shield 3.0",
-    reportType: "Local browser session report",
-    generatedAt: new Date().toISOString(),
-    disclaimer: "Not a full security audit. Contains local session events only.",
-    urlChecks: state.urls,
-    filesAnalyzed: state.files,
-    events: state.events
-  };
-
-  downloadBlob(
-    "cyber-shield-report.json",
-    JSON.stringify(report, null, 2),
-    "application/json"
-  );
-});
-
-$("downloadCSV").addEventListener("click", () => {
-  const quote = value => '"' + String(value).replace(/"/g, '""') + '"';
-
-  const rows = [
-    ["Time", "Event", "Details", "Level"],
-    ...state.events.map(item => [
-      item.time, item.event, item.details, item.level
-    ])
-  ];
-
-  const csv = rows.map(row => row.map(quote).join(",")).join("\r\n");
-
-  downloadBlob(
-    "cyber-shield-report.csv",
-    "\uFEFF" + csv,
-    "text/csv;charset=utf-8"
-  );
-});
-
-$("clearAlerts").addEventListener("click", () => {
-  if (!confirm("Clear all events recorded in this browser session?")) return;
-
-  state.events = [];
-  renderEvents();
-  updateStats();
-});
-
-console.info("Cyber Shield 3.0 frontend loaded. Backend is not connected.");
+loadDashboard();
 </script>
 </body>
 </html>
