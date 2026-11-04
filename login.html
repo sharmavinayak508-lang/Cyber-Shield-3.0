@@ -1,76 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
-<title>CYBER SHIELD 3.0 v10</title>
+<title>CYBER SHIELD 3.0 v12 - Roaring Eagle</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-:root{--bg:#050a14;--card:rgba(17,29,50,0.75);--border:rgba(27,47,83,0.6);--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--green:#3dd598;--red:#ff5a65;--font:1}
-body.theme-light{--bg:#f4f6fb;--card:#fff;--border:#dbe2ef;--text:#1a2332;--text2:#6b7a99;--accent:#0066ff}
+:root{--bg:#050a14;--card:rgba(17,29,50,0.85);--border:rgba(27,47,83,0.6);--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--font:1}
+body.theme-light{--bg:#f4f6fb;--card:#ffffff;--border:#dbe2ef;--text:#1a2332;--text2:#6b7a99;--accent:#0066ff}
 body.theme-hacker{--bg:#020a02;--card:#0a1f0a;--border:#1a4a1a;--text:#7cff7c;--text2:#4a8a4a;--accent:#00ff41}
 body.high-contrast{--bg:#000;--card:#000;--border:#fff;--text:#fff;--text2:#fff;--accent:#ffff00}
-*{margin:0;padding:0;box-sizing:border-box} body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:calc(16px * var(--font))}
-.left{flex:1.2;padding:28px;display:flex;flex-direction:column;gap:16px} .right{flex:1;background:rgba(5,10,20,0.6);backdrop-filter:blur(20px);border-left:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:24px}
-.eagle{width:100%;max-width:380px;border-radius:16px;box-shadow:0 0 50px rgba(0,212,255,0.4);border:1px solid var(--border)}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
-.tabs{display:flex;background:rgba(0,0,0,0.3);border-radius:10px;padding:4px;margin:14px 0} .tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;color:var(--text2)} .tab.active{background:var(--accent);color:#000;font-weight:700}
-input{width:100%;padding:12px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;color:var(--text);margin-top:6px;font-family:'JetBrains Mono',monospace}
-.btn{width:100%;padding:13px;border-radius:10px;border:none;font-weight:700;cursor:pointer;margin-top:12px} .btn-primary{background:var(--accent);color:#000}
-.controls{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px} .controls select,.controls button{padding:5px 7px;border-radius:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);font-size:11px;cursor:pointer}
-#mapMini{height:200px;border-radius:10px;margin-top:8px;border:1px solid var(--border)}
-@media(max-width:900px){body{flex-direction:column}.right{border-left:none;border-top:1px solid var(--border)}}
-</style>
-</head>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-size:calc(14px * var(--font));background:radial-gradient(900px at 15% 10%, rgba(0,212,255,0.15), transparent),radial-gradient(600px at 90% 80%, rgba(255,120,0,0.12), transparent), linear-gradient(180deg,var(--bg),#080e1d)}
+.container{width:100%;max-width:1080px;display:grid;grid-template-columns:1.15fr 0.85fr;gap:0;background:var(--card);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,0.7);backdrop-filter:blur(20px)}
+.left{padding:28px;position:relative;overflow:hidden}
+.right{padding:32px;background:rgba(5,10,20,0.45);border-left:1px solid var(--border);display:flex;align-items:center}
+.eagle-wrap{position:relative;width:100%;border-radius:18px;overflow:hidden;border:1px solid var(--border);margin:16px 0;background:#000}
+.eagle-wrap img{width:100%;display:block;filter:drop-shadow(0 0 20px rgba(0,212,255,0.5));animation:floatLoop 5s ease-in-out infinite}
+@keyframes floatLoop{0%,100%{transform:translateY(0) scale(1)}10%{transform:translateY(-18px) scale(1.03)}20%{transform:translateY(0) scale(1)}}
+.eagle-wrap.roar{box-shadow:0 0 50px rgba(0,212,255,0.8),0 0 80px rgba(255,140,0,0.5)}
+.eagle-wrap.roar img{animation:roarShake 0.5s ease}
+@keyframes roarShake{0%,100%{transform:translateY(-18px) scale(1.03)}25%{transform:translateY(-20px) scale(1.05) translateX(-3px)}75%{transform:translateY(-16px) scale(1.04) translateX(3px)}}
+.particle{position:absolute;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;opacity:0}
+.particle.fire{background:#ff7a00;box-shadow:0 0 8px #ff7a00}
+.tabs{display:flex;background:rgba(0,0,0,0.3);border-radius:10px;padding:4px;margin:14px 0} .tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;color:var(--text2);font-size:13px} .tab.active{background:var(--accent);color:#000;font-weight:700}
+input{width:100%;padding:12px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;color:var(--text);margin-top:8px;font-family:'JetBrains Mono',monospace;outline:none}
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-weight:700;cursor:pointer;margin-top:12px} .btn-primary{background:linear-gradient(90deg,var(--accent),#00a2ff);color:#000}
+.controls{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px} .controls select,.controls button{padding:5px 7px;border-radius:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);font-size:11px;cursor:pointer}
+.badge{font-size:10px;padding:5px 10px;border-radius:20px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);color:var(--accent)}
+.roar-indicator{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.7);border:1px solid var(--accent);color:var(--accent);font-size:9px;padding:5px 10px;border-radius:20px;letter-spacing:1px;opacity:0;transition:0.3s}
+.roar-indicator.show{opacity:1}
+@media(max-width:850px){.container{grid-template-columns:1fr} .right{border-left:none;border-top:1px solid var(--border)}}
+</style></head>
 <body class="theme-dark">
+<div class="container">
 <div class="left">
-  <div style="display:flex;gap:10px;align-items:center"><div style="width:40px;height:40px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">⬡</div><div><b>CYBER SHIELD 3.0</b><div style="font-size:10px;color:var(--text2)">v10 EAGLE + WORLD MAP</div></div></div>
-  <img src="eagle.png" class="eagle" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
-  <div class="card">
-    <b style="font-size:12px">🗺️ Global Map - Zoom to City</b>
-    <div style="display:flex;gap:6px;margin-top:8px"><input id="miniSearch" placeholder="Sadhaura, India, USA..." style="margin:0"><button onclick="miniSearch()" style="padding:8px 12px;border-radius:8px;background:var(--accent);border:none;font-weight:700">Go</button></div>
-    <div id="mapMini"></div>
-    <div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap"><button onclick="miniFly('India')" style="font-size:10px">India</button><button onclick="miniFly('Haryana')">Haryana</button><button onclick="miniFly('Sadhaura')">Sadhaura</button></div>
-  </div>
+<div style="display:flex;gap:10px;align-items:center"><div style="width:42px;height:42px;background:linear-gradient(135deg,#00d4ff,#ff7a00);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">⬡</div><div><b>CYBER SHIELD 3.0</b><div style="font-size:10px;color:var(--text2);letter-spacing:2px">v12 ROARING EAGLE • 5s LOOP</div></div></div>
+
+<div class="eagle-wrap" id="eagleWrap" onclick="triggerRoar()">
+<img src="eagle.png" id="eagleImg" onerror="this.src='https://i.imgur.com/8Km9tLL.png'" alt="Roaring Eagle">
+<div class="roar-indicator" id="indicator">● ROARING EVERY 5s</div>
 </div>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+<span class="badge">● AUTO ROAR 5s</span>
+<span class="badge" style="color:#ff7a00;border-color:rgba(255,122,0,0.3)">● SOUND + HOVER</span>
+<span class="badge">● CLICK TO ROAR</span>
+</div>
+
+<h2 style="font-size:26px;margin-top:12px;line-height:1.1">Eagle that <span style="color:var(--accent)">Roars.</span><br>Every 5 seconds.</h2>
+<p style="font-size:11px;color:var(--text2);margin-top:6px">Industry level hover animation with synthesized roar sound, energy particles, and glow pulse. Map is after login.</p>
+</div>
+
 <div class="right">
-  <div class="card" style="max-width:380px;width:100%">
-    <h3>Welcome back</h3><p style="font-size:11px;color:var(--text2)">SOC Access + Customization</p>
-    <div style="margin-top:10px;padding:8px;background:rgba(0,0,0,0.3);border-radius:8px;border:1px dashed var(--border)">
-      <div style="font-size:9px;color:var(--text2)">USER CUSTOMIZATION</div>
-      <div class="controls">
-        <select id="langS" onchange="changeLang(this.value)"><option value="en">EN</option><option value="hi">HI</option><option value="ta">TA</option><option value="ar">AR</option><option value="ur">UR</option></select>
-        <select id="themeS" onchange="changeTheme(this.value)"><option value="dark">Dark</option><option value="light">Light</option><option value="hacker">Hacker</option></select>
-        <button onclick="changeFont(-0.1)">A-</button><button onclick="changeFont(0.1)">A+</button>
-        <button onclick="toggleContrast()" id="cBtn">Contrast</button>
-      </div>
-    </div>
-    <div class="tabs"><div class="tab active" id="tL" onclick="switchTab('login')">Login</div><div class="tab" id="tR" onclick="switchTab('register')">Register</div></div>
-    <input id="username" placeholder="admin"><input id="password" type="password" placeholder="Password" style="margin-top:8px">
-    <button class="btn btn-primary" onclick="handleAuth()" id="mainBtn">Authenticate →</button>
-    <div id="msg" style="margin-top:10px;font-size:12px;text-align:center;min-height:16px"></div>
-    <div style="font-size:10px;color:var(--text2);text-align:center;margin-top:8px">Demo: admin / admin123</div>
-  </div>
+<div style="width:100%">
+<h3>Secure Access</h3>
+<div style="margin-top:10px;padding:10px;background:rgba(0,0,0,0.3);border-radius:10px;border:1px dashed var(--border)"><div style="font-size:9px;color:var(--text2)">CUSTOMIZATION</div><div class="controls"><select id="langS" onchange="changeLang(this.value)"><option value="en">EN</option><option value="hi">HI</option></select><select id="themeS" onchange="changeTheme(this.value)"><option value="dark">Dark</option><option value="light">Light</option><option value="hacker">Hacker</option></select><button onclick="changeFont(-0.1)">A-</button><button onclick="changeFont(0.1)">A+</button><button onclick="toggleContrast()">Contrast</button><button onclick="toggleSound()" id="soundBtn">🔊 Sound ON</button></div></div>
+<div class="tabs"><div class="tab active" id="tL" onclick="switchTab('login')">Login</div><div class="tab" id="tR" onclick="switchTab('register')">Register</div></div>
+<label style="font-size:10px;color:var(--text2)">USERNAME</label><input id="username" placeholder="admin"><label style="font-size:10px;color:var(--text2);margin-top:10px;display:block">PASSWORD</label><input id="password" type="password" placeholder="••••••••"><button class="btn btn-primary" onclick="handleAuth()" id="mainBtn">Authenticate →</button><div id="msg" style="margin-top:12px;font-size:12px;text-align:center;min-height:16px;font-family:'JetBrains Mono',monospace"></div><div style="font-size:10px;color:var(--text2);text-align:center;margin-top:8px">Demo: admin / admin123 • Eagle auto roars every 5s</div>
+</div>
+</div>
 </div>
 <script>
-let mode='login', miniMap;
-const tr={en:{login:"Login",register:"Register"},hi:{login:"लॉगिन",register:"रजिस्टर"},ta:{login:"உள்நுழை",register:"பதிவு"},ar:{login:"دخول",register:"تسجيل"},ur:{login:"لاگ ان",register:"رجسٹر"}};
+let mode='login', soundOn=true, audioCtx;
+function initAudio(){if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)();}}
+function playRoarSound(){if(!soundOn) return; initAudio(); const ctx=audioCtx; const now=ctx.currentTime;
+let osc=ctx.createOscillator(); let gain=ctx.createGain(); let filter=ctx.createBiquadFilter();
+osc.type='sawtooth'; osc.frequency.setValueAtTime(120,now); osc.frequency.exponentialRampToValueAtTime(60,now+0.4);
+filter.type='bandpass'; filter.frequency.value=800; filter.Q.value=5;
+gain.gain.setValueAtTime(0,now); gain.gain.linearRampToValueAtTime(0.4,now+0.05); gain.gain.exponentialRampToValueAtTime(0.001,now+0.8);
+osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination); osc.start(now); osc.stop(now+0.8);
+let osc2=ctx.createOscillator(); let gain2=ctx.createGain(); osc2.type='triangle'; osc2.frequency.setValueAtTime(300,now); osc2.frequency.linearRampToValueAtTime(1200,now+0.3); gain2.gain.setValueAtTime(0,now); gain2.gain.linearRampToValueAtTime(0.2,now+0.05); gain2.gain.exponentialRampToValueAtTime(0.001,now+0.5); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.start(now); osc2.stop(now+0.5);
+}
+function createParticles(){let wrap=document.getElementById('eagleWrap'); for(let i=0;i<12;i++){let p=document.createElement('div'); p.className=Math.random()>0.5?'particle fire':'particle'; p.style.left='62%'; p.style.top='42%'; wrap.appendChild(p); let angle=Math.random()*0.8-0.4; let dist=80+Math.random()*120; let dur=600+Math.random()*400; p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dist}px, ${angle*80}px) scale(0)`,opacity:0}],{duration:dur,easing:'cubic-bezier(0.25,0.46,0.45,0.94)'}).onfinish=()=>p.remove();}}
+function triggerRoar(){let wrap=document.getElementById('eagleWrap'); let ind=document.getElementById('indicator'); wrap.classList.add('roar'); ind.classList.add('show'); playRoarSound(); createParticles(); setTimeout(()=>{wrap.classList.remove('roar'); ind.classList.remove('show');},800);}
+function startLoop(){triggerRoar(); setInterval(()=>{triggerRoar();},5000);}
+function toggleSound(){soundOn=!soundOn; document.getElementById('soundBtn').innerText=soundOn?'🔊 Sound ON':'🔇 Sound OFF'; if(soundOn){initAudio(); playRoarSound();}}
+let langMap={en:{login:"Login",register:"Register"},hi:{login:"लॉगिन",register:"रजिस्टर"}};
 function switchTab(m){mode=m; document.getElementById('tL').classList.toggle('active',m==='login'); document.getElementById('tR').classList.toggle('active',m==='register'); document.getElementById('mainBtn').innerText=m==='login'?'Authenticate →':'Create Account →';}
-function changeLang(l){localStorage.setItem('cy_lang',l); let t=tr[l]||tr.en; document.getElementById('tL').innerText=t.login; document.getElementById('tR').innerText=t.register; document.getElementById('langS').value=l; document.documentElement.dir=(l==='ar'||l==='ur')?'rtl':'ltr';}
-function changeTheme(t){document.body.className=(document.body.classList.contains('high-contrast')?'high-contrast ':'')+'theme-'+t; localStorage.setItem('cy_theme',t); document.getElementById('themeS').value=t;}
+function changeLang(l){localStorage.setItem('cy_lang',l); let t=langMap[l]||langMap.en; document.getElementById('tL').innerText=t.login; document.getElementById('tR').innerText=t.register;}
+function changeTheme(t){document.body.className=(document.body.classList.contains('high-contrast')?'high-contrast ':'')+'theme-'+t; localStorage.setItem('cy_theme',t);}
 function changeFont(d){let s=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font'))||1; s=Math.min(1.4,Math.max(0.8,s+d)); document.documentElement.style.setProperty('--font',s); localStorage.setItem('cy_font',s);}
-function toggleContrast(){document.body.classList.toggle('high-contrast'); document.getElementById('cBtn').innerText=document.body.classList.contains('high-contrast')?'Normal':'Contrast';}
+function toggleContrast(){document.body.classList.toggle('high-contrast');}
 function showMsg(t,c){document.getElementById('msg').style.color=c||'#00d4ff'; document.getElementById('msg').innerText=t;}
 function handleAuth(){mode==='login'?login():register();}
-async function register(){let u=username.value.trim(), p=password.value.trim(); if(!u||!p){showMsg("Enter details","#ff5a65");return} let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); users[u]=p; localStorage.setItem('offline_users',JSON.stringify(users)); showMsg("✅ Registered! Login now","#3dd598"); switchTab('login');}
-async function login(){let u=username.value.trim(), p=password.value.trim(); let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); if((users[u]&&users[u]===p)||(u==='admin'&&p==='admin123')){localStorage.setItem('token','offline-'+u); localStorage.setItem('username',u); showMsg("✅ Success! Redirecting...","#3dd598"); setTimeout(()=>location.href='index.html?v=10',600);}else showMsg("❌ Invalid","#ff5a65");}
-function initMini(){miniMap=L.map('mapMini').setView([30.1,77.1],5); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap); L.marker([30.149,77.19]).addTo(miniMap).bindPopup("Sadhaura");}
-function miniFly(q){fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`).then(r=>r.json()).then(d=>{if(d[0]){miniMap.flyTo([d[0].lat,d[0].lon], q==='Sadhaura'?14:6); L.marker([d[0].lat,d[0].lon]).addTo(miniMap).bindPopup(q);}});}
-function miniSearch(){miniFly(document.getElementById('miniSearch').value);}
-setTimeout(initMini,500);
-changeTheme(localStorage.getItem('cy_theme')||'dark'); changeLang(localStorage.getItem('cy_lang')||'en'); if(localStorage.getItem('cy_font')){document.documentElement.style.setProperty('--font',localStorage.getItem('cy_font'))}
+function register(){let u=username.value.trim(), p=password.value.trim(); if(!u||!p){showMsg("Enter details","#ff5a65");return} let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); users[u]=p; localStorage.setItem('offline_users',JSON.stringify(users)); showMsg("✅ Registered! Now Login","#3dd598"); switchTab('login');}
+function login(){let u=username.value.trim(), p=password.value.trim(); let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); if((users[u]&&users[u]===p)||(u==='admin'&&p==='admin123')){localStorage.setItem('token','offline-'+u); localStorage.setItem('username',u); showMsg("✅ Success! Loading SOC...","#3dd598"); setTimeout(()=>location.href='index.html?v=12',600);}else showMsg("❌ Invalid","#ff5a65");}
+window.addEventListener('load',()=>{changeTheme(localStorage.getItem('cy_theme')||'dark'); if(localStorage.getItem('cy_font')) document.documentElement.style.setProperty('--font',localStorage.getItem('cy_font')); setTimeout(startLoop,1000);});
+document.addEventListener('click',()=>{initAudio();},{once:true});
 </script>
 </body>
 </html>
