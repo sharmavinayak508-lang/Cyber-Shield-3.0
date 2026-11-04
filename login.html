@@ -2,133 +2,75 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CYBER SHIELD 3.0 | Secure Access</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>CYBER SHIELD 3.0 v10</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-:root{--bg:#050a14;--card:rgba(17,29,50,0.7);--border:rgba(27,47,83,0.6);--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--accent2:#3dd598;--red:#ff5a65}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Space Grotesk', sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;display:flex}
-.bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(800px circle at 20% 20%, rgba(0,212,255,0.15), transparent), radial-gradient(600px circle at 80% 80%, rgba(61,213,152,0.12), transparent), linear-gradient(180deg,#050a14,#080e1d)}
-.grid{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);background-size:50px 50px;animation:move 20s linear infinite}
-@keyframes move{0%{transform:translate(0,0)}100%{transform:translate(50px,50px)}}
-
-.left{flex:1.2;padding:60px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
-.brand{display:flex;gap:14px;align-items:center}
-.logo{width:48px;height:48px;background:linear-gradient(135deg,#00d4ff,#0066ff);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 30px rgba(0,212,255,0.4)}
-.brand h1{font-size:18px;letter-spacing:1px}.brand p{font-size:11px;color:var(--text2);letter-spacing:2px}
-.hero{margin-top:60px}
-.hero h2{font-size:42px;line-height:1.1;font-weight:700}.hero h2 span{background:linear-gradient(90deg,#00d4ff,#3dd598);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{margin-top:16px;color:var(--text2);font-size:14px;line-height:1.7;max-width:420px}
-.features{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.feat{background:var(--card);border:1px solid var(--border);backdrop-filter:blur(12px);padding:16px;border-radius:12px}
-.feat b{font-size:12px;color:var(--accent)} .feat p{font-size:11px;color:var(--text2);margin-top:6px;line-height:1.5}
-.trust{margin-top:40px;display:flex;gap:20px;font-size:10px;color:var(--text2);align-items:center}
-.trust span{display:flex;align-items:center;gap:6px}
-
-.right{flex:1;background:rgba(5,10,20,0.6);backdrop-filter:blur(20px);border-left:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:40px;position:relative}
-.card{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)}
-.tabs{display:flex;background:rgba(0,0,0,0.3);border-radius:10px;padding:4px;margin-bottom:24px}
-.tab{flex:1;padding:10px;text-align:center;font-size:13px;border-radius:8px;cursor:pointer;color:var(--text2);transition:0.2s}
-.tab.active{background:var(--accent);color:#000;font-weight:600;box-shadow:0 4px 15px rgba(0,212,255,0.3)}
-.label{font-size:11px;color:var(--text2);letter-spacing:1px;margin:16px 0 6px;display:block}
-.input-wrap{position:relative}
-.input-wrap input{width:100%;padding:14px 44px 14px 14px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;color:white;font-size:14px;outline:none;transition:0.2s;font-family:'JetBrains Mono', monospace}
-.input-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,0.15)}
-.input-wrap span{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:var(--text2)}
-.btn{width:100%;padding:14px;border-radius:10px;border:none;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:0.5px;margin-top:20px;transition:0.2s}
-.btn-primary{background:linear-gradient(90deg,#00d4ff,#00a2ff);color:#000;box-shadow:0 6px 20px rgba(0,212,255,0.3)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(0,212,255,0.4)}
-.meter{height:4px;background:rgba(0,0,0,0.4);border-radius:10px;margin-top:10px;overflow:hidden;display:none}
-.meter-fill{height:100%;width:0%;transition:0.3s}
-.msg{margin-top:14px;font-size:12px;text-align:center;min-height:18px;font-family:'JetBrains Mono', monospace}
-.footer{margin-top:20px;display:flex;justify-content:space-between;font-size:10px;color:var(--text2)}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(61,213,152,0.1);border:1px solid rgba(61,213,152,0.2);border-radius:20px;color:var(--accent2);font-size:10px;font-family:'JetBrains Mono', monospace}
-@media(max-width:900px){body{flex-direction:column}.left{padding:30px}.hero h2{font-size:32px}.right{border-left:none;border-top:1px solid var(--border)}}
+:root{--bg:#050a14;--card:rgba(17,29,50,0.75);--border:rgba(27,47,83,0.6);--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--green:#3dd598;--red:#ff5a65;--font:1}
+body.theme-light{--bg:#f4f6fb;--card:#fff;--border:#dbe2ef;--text:#1a2332;--text2:#6b7a99;--accent:#0066ff}
+body.theme-hacker{--bg:#020a02;--card:#0a1f0a;--border:#1a4a1a;--text:#7cff7c;--text2:#4a8a4a;--accent:#00ff41}
+body.high-contrast{--bg:#000;--card:#000;--border:#fff;--text:#fff;--text2:#fff;--accent:#ffff00}
+*{margin:0;padding:0;box-sizing:border-box} body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:calc(16px * var(--font))}
+.left{flex:1.2;padding:28px;display:flex;flex-direction:column;gap:16px} .right{flex:1;background:rgba(5,10,20,0.6);backdrop-filter:blur(20px);border-left:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:24px}
+.eagle{width:100%;max-width:380px;border-radius:16px;box-shadow:0 0 50px rgba(0,212,255,0.4);border:1px solid var(--border)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+.tabs{display:flex;background:rgba(0,0,0,0.3);border-radius:10px;padding:4px;margin:14px 0} .tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;color:var(--text2)} .tab.active{background:var(--accent);color:#000;font-weight:700}
+input{width:100%;padding:12px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;color:var(--text);margin-top:6px;font-family:'JetBrains Mono',monospace}
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-weight:700;cursor:pointer;margin-top:12px} .btn-primary{background:var(--accent);color:#000}
+.controls{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px} .controls select,.controls button{padding:5px 7px;border-radius:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);font-size:11px;cursor:pointer}
+#mapMini{height:200px;border-radius:10px;margin-top:8px;border:1px solid var(--border)}
+@media(max-width:900px){body{flex-direction:column}.right{border-left:none;border-top:1px solid var(--border)}}
 </style>
 </head>
-<body>
-<div class="bg"></div><div class="grid"></div>
-
+<body class="theme-dark">
 <div class="left">
-  <div class="brand"><div class="logo">⬡</div><div><h1>CYBER SHIELD</h1><p>SECURITY CENTER 3.0</p></div></div>
-  <div class="hero">
-    <div class="badge">● SYSTEM SECURE - AES-256 ENCRYPTED</div>
-    <h2>Threats don't<br><span>wait. Neither<br>should you.</span></h2>
-    <p>Industry-grade security operations platform trusted by security researchers. Real-time URL scanning, file forensics, password auditing.</p>
-    <div class="features">
-      <div class="feat"><b>◉ 99.7% Threat Detection</b><p>AI-powered URL & file analysis using VirusTotal + Heuristics</p></div>
-      <div class="feat"><b>⚡ < 150ms Scan Time</b><p>Lightning fast scanning with offline fallback</p></div>
-      <div class="feat"><b>🛡️ Zero-Trust Architecture</b><p>End-to-end encrypted, JWT auth + 2FA ready</p></div>
-      <div class="feat"><b>📊 SOC Reports</b><p>Exportable PDF reports for compliance & audits</p></div>
-    </div>
-  </div>
-  <div class="trust"><span>🔒 ISO 27001</span><span>• SOC2 Compliant</span><span>• GDPR Ready</span><span style="margin-left:auto">v3.0.1 • Build 508</span></div>
-</div>
-
-<div class="right">
+  <div style="display:flex;gap:10px;align-items:center"><div style="width:40px;height:40px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">⬡</div><div><b>CYBER SHIELD 3.0</b><div style="font-size:10px;color:var(--text2)">v10 EAGLE + WORLD MAP</div></div></div>
+  <img src="eagle.png" class="eagle" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
   <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h3 style="font-size:18px">Welcome back</h3><select id="lang" onchange="changeLang(this.value)" style="background:rgba(0,0,0,0.3);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:4px 6px;font-size:11px"><option value="en">EN</option><option value="hi">HI</option><option value="ta">TA</option><option value="ar">AR</option></select></div>
-    <p style="font-size:12px;color:var(--text2);margin-bottom:20px" id="sub">Enter your credentials to access the Security Center</p>
-    <div class="tabs"><div class="tab active" id="tabLogin" onclick="switchTab('login')">Login</div><div class="tab" id="tabReg" onclick="switchTab('register')">Register</div></div>
-    
-    <label class="label">USERNAME</label>
-    <div class="input-wrap"><input id="username" placeholder="admin / your email"><span>👤</span></div>
-    <label class="label">PASSWORD</label>
-    <div class="input-wrap"><input id="password" type="password" placeholder="••••••••"><span onclick="togglePass()" style="cursor:pointer">👁️</span></div>
-    <div class="meter" id="meter"><div class="meter-fill" id="meterFill"></div></div>
-    
-    <button class="btn btn-primary" id="mainBtn" onclick="handleAuth()">Authenticate →</button>
-    <div class="msg" id="msg"></div>
-    
-    <div class="footer"><span id="backendStatus">● Offline Mode</span><span>Forgot password?</span></div>
-    <div style="margin-top:16px;text-align:center;font-size:10px;color:var(--text2)">Default: admin / admin123 for demo • <span style="color:var(--accent)">Secure Connection</span></div>
+    <b style="font-size:12px">🗺️ Global Map - Zoom to City</b>
+    <div style="display:flex;gap:6px;margin-top:8px"><input id="miniSearch" placeholder="Sadhaura, India, USA..." style="margin:0"><button onclick="miniSearch()" style="padding:8px 12px;border-radius:8px;background:var(--accent);border:none;font-weight:700">Go</button></div>
+    <div id="mapMini"></div>
+    <div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap"><button onclick="miniFly('India')" style="font-size:10px">India</button><button onclick="miniFly('Haryana')">Haryana</button><button onclick="miniFly('Sadhaura')">Sadhaura</button></div>
   </div>
 </div>
-
+<div class="right">
+  <div class="card" style="max-width:380px;width:100%">
+    <h3>Welcome back</h3><p style="font-size:11px;color:var(--text2)">SOC Access + Customization</p>
+    <div style="margin-top:10px;padding:8px;background:rgba(0,0,0,0.3);border-radius:8px;border:1px dashed var(--border)">
+      <div style="font-size:9px;color:var(--text2)">USER CUSTOMIZATION</div>
+      <div class="controls">
+        <select id="langS" onchange="changeLang(this.value)"><option value="en">EN</option><option value="hi">HI</option><option value="ta">TA</option><option value="ar">AR</option><option value="ur">UR</option></select>
+        <select id="themeS" onchange="changeTheme(this.value)"><option value="dark">Dark</option><option value="light">Light</option><option value="hacker">Hacker</option></select>
+        <button onclick="changeFont(-0.1)">A-</button><button onclick="changeFont(0.1)">A+</button>
+        <button onclick="toggleContrast()" id="cBtn">Contrast</button>
+      </div>
+    </div>
+    <div class="tabs"><div class="tab active" id="tL" onclick="switchTab('login')">Login</div><div class="tab" id="tR" onclick="switchTab('register')">Register</div></div>
+    <input id="username" placeholder="admin"><input id="password" type="password" placeholder="Password" style="margin-top:8px">
+    <button class="btn btn-primary" onclick="handleAuth()" id="mainBtn">Authenticate →</button>
+    <div id="msg" style="margin-top:10px;font-size:12px;text-align:center;min-height:16px"></div>
+    <div style="font-size:10px;color:var(--text2);text-align:center;margin-top:8px">Demo: admin / admin123</div>
+  </div>
+</div>
 <script>
-const API_URL="http://127.0.0.1:8000";
-let mode='login';
-function switchTab(m){mode=m;document.getElementById('tabLogin').classList.toggle('active',m==='login');document.getElementById('tabReg').classList.toggle('active',m==='register');document.getElementById('mainBtn').innerText=m==='login'?'Authenticate →':'Create Secure Account →';document.getElementById('meter').style.display=m==='register'?'block':'none'}
-function togglePass(){let p=document.getElementById('password');p.type=p.type==='password'?'text':'password'}
-function showMsg(t,c){let m=document.getElementById('msg');m.style.color=c||'#00d4ff';m.innerText=t}
-
-document.getElementById('password').addEventListener('input',()=>{
-  if(mode!=='register') return;
-  let p=document.getElementById('password').value; let s=0; if(p.length>5) s+=25; if(/[A-Z]/.test(p)) s+=25; if(/[0-9]/.test(p)) s+=25; if(/[^A-Za-z0-9]/.test(p)) s+=25;
-  let fill=document.getElementById('meterFill'); fill.style.width=s+'%'; fill.style.background=s<40?'#ff5a65':s<70?'#f5c542':'#3dd598';
-});
-
-(async()=>{try{let r=await fetch(`${API_URL}/`); if(r.ok){document.getElementById('backendStatus').innerText='● Backend Connected';document.getElementById('backendStatus').style.color='#3dd598'}}catch(e){document.getElementById('backendStatus').innerText='● Offline Mode (Browser Vault)'}})();
-
-async function handleAuth(){ mode==='login'?login():register(); }
-
-async function register(){
-  let u=username.value.trim(), p=password.value.trim(); if(!u||!p){showMsg("Enter username & password","#ff5a65");return}
-  showMsg("Creating secure vault...","#f5c542");
-  try{
-    let res=await fetch(`${API_URL}/register?username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`,{method:'POST'});
-    let d=await res.json(); if(res.ok){showMsg("✅ Account created! Switch to Login","#3dd598"); switchTab('login'); return}
-    showMsg("❌ "+(d.detail||"Error"),"#ff5a65");
-  }catch(e){}
-  let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); users[u]=p; localStorage.setItem('offline_users',JSON.stringify(users));
-  showMsg("✅ Registered offline! Click Login","#3dd598"); switchTab('login');
-}
-
-async function login(){
-  let u=username.value.trim(), p=password.value.trim(); if(!u||!p){showMsg("Enter credentials","#ff5a65");return}
-  showMsg("Authenticating...","#f5c542");
-  try{
-    let f=new FormData(); f.append('username',u); f.append('password',p);
-    let res=await fetch(`${API_URL}/login`,{method:'POST',body:f}); let d=await res.json();
-    if(res.ok&&d.access_token){localStorage.setItem('token',d.access_token); localStorage.setItem('username',u); showMsg("✅ Authenticated! Redirecting...","#3dd598"); setTimeout(()=>location.href='index.html',600); return}
-  }catch(e){}
-  let users=JSON.parse(localStorage.getItem('offline_users')||'{}');
-  if((users[u]&&users[u]===p)||(u==='admin'&&p==='admin123')||(u==='test'&&p==='test123')){
-    localStorage.setItem('token','offline-'+u); localStorage.setItem('username',u);
-    showMsg("✅ Login success (Offline vault)! Redirecting...","#3dd598"); setTimeout(()=>location.href='index.html',600);
-  }else showMsg("❌ Invalid credentials. Register first.","#ff5a65");
-}
-function changeLang(v){/* hook for i18n */}
+let mode='login', miniMap;
+const tr={en:{login:"Login",register:"Register"},hi:{login:"लॉगिन",register:"रजिस्टर"},ta:{login:"உள்நுழை",register:"பதிவு"},ar:{login:"دخول",register:"تسجيل"},ur:{login:"لاگ ان",register:"رجسٹر"}};
+function switchTab(m){mode=m; document.getElementById('tL').classList.toggle('active',m==='login'); document.getElementById('tR').classList.toggle('active',m==='register'); document.getElementById('mainBtn').innerText=m==='login'?'Authenticate →':'Create Account →';}
+function changeLang(l){localStorage.setItem('cy_lang',l); let t=tr[l]||tr.en; document.getElementById('tL').innerText=t.login; document.getElementById('tR').innerText=t.register; document.getElementById('langS').value=l; document.documentElement.dir=(l==='ar'||l==='ur')?'rtl':'ltr';}
+function changeTheme(t){document.body.className=(document.body.classList.contains('high-contrast')?'high-contrast ':'')+'theme-'+t; localStorage.setItem('cy_theme',t); document.getElementById('themeS').value=t;}
+function changeFont(d){let s=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font'))||1; s=Math.min(1.4,Math.max(0.8,s+d)); document.documentElement.style.setProperty('--font',s); localStorage.setItem('cy_font',s);}
+function toggleContrast(){document.body.classList.toggle('high-contrast'); document.getElementById('cBtn').innerText=document.body.classList.contains('high-contrast')?'Normal':'Contrast';}
+function showMsg(t,c){document.getElementById('msg').style.color=c||'#00d4ff'; document.getElementById('msg').innerText=t;}
+function handleAuth(){mode==='login'?login():register();}
+async function register(){let u=username.value.trim(), p=password.value.trim(); if(!u||!p){showMsg("Enter details","#ff5a65");return} let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); users[u]=p; localStorage.setItem('offline_users',JSON.stringify(users)); showMsg("✅ Registered! Login now","#3dd598"); switchTab('login');}
+async function login(){let u=username.value.trim(), p=password.value.trim(); let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); if((users[u]&&users[u]===p)||(u==='admin'&&p==='admin123')){localStorage.setItem('token','offline-'+u); localStorage.setItem('username',u); showMsg("✅ Success! Redirecting...","#3dd598"); setTimeout(()=>location.href='index.html?v=10',600);}else showMsg("❌ Invalid","#ff5a65");}
+function initMini(){miniMap=L.map('mapMini').setView([30.1,77.1],5); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap); L.marker([30.149,77.19]).addTo(miniMap).bindPopup("Sadhaura");}
+function miniFly(q){fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`).then(r=>r.json()).then(d=>{if(d[0]){miniMap.flyTo([d[0].lat,d[0].lon], q==='Sadhaura'?14:6); L.marker([d[0].lat,d[0].lon]).addTo(miniMap).bindPopup(q);}});}
+function miniSearch(){miniFly(document.getElementById('miniSearch').value);}
+setTimeout(initMini,500);
+changeTheme(localStorage.getItem('cy_theme')||'dark'); changeLang(localStorage.getItem('cy_lang')||'en'); if(localStorage.getItem('cy_font')){document.documentElement.style.setProperty('--font',localStorage.getItem('cy_font'))}
 </script>
 </body>
 </html>
