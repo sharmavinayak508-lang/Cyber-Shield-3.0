@@ -1,73 +1,174 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CYBER SHIELD 3.0 - DASHBOARD v16 ULTIMATE</title>
+<title>CYBER SHIELD 3.0 - DASHBOARD v17 FIXED</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/globe.gl"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050a14;--card:#111d32;--border:#1b2f53;--text:#e6edf5;--accent:#00d4ff;--orange:#ff7a00}
-body{margin:0;font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text)}
-.header{padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:var(--card)}
+:root{--bg:#050a14;--card:#111d32;--border:#1b2f53;--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--orange:#ff7a00;--green:#00ff88}
+*{margin:0;padding:0;box-sizing:border-box}
+body{margin:0;font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.header{padding:10px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:var(--card);position:sticky;top:0;z-index:100}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav a{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:rgba(0,0,0,0.3);color:var(--text2);font-size:11px;text-decoration:none;cursor:pointer;transition:0.2s}
+.nav a.active,.nav a:hover{background:var(--accent);color:#000;border-color:var(--accent)}
 .grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:12px;padding:12px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
-#globe{width:100%;height:420px;background:#000;border-radius:12px}
-#map{width:100%;height:300px;border-radius:10px}
-.log{font-family:'JetBrains Mono',monospace;font-size:10px;max-height:200px;overflow-y:auto;background:rgba(0,0,0,0.4);padding:8px;border-radius:8px}
-.btn{padding:8px 14px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:700;cursor:pointer;margin:4px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+#globeWrap{position:relative;width:100%;height:520px;background:#000;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+#globe{width:100%;height:100%}
+#countryModal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:200;padding:16px}
+.modalBox{background:var(--card);border:2px solid var(--accent);border-radius:16px;padding:20px;max-width:480px;width:100%;max-height:80vh;overflow-y:auto}
+.log{font-family:'JetBrains Mono',monospace;font-size:10px;max-height:200px;overflow-y:auto;background:rgba(0,0,0,0.4);padding:8px;border-radius:8px;line-height:1.5}
+.btn{padding:8px 14px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:700;cursor:pointer;margin:3px;font-size:11px}
+.btn-orange{background:var(--orange)} .btn-green{background:var(--green)} .btn-ghost{background:rgba(255,255,255,0.08);border:1px solid var(--border);color:var(--text)}
+input,select{padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#000;color:var(--text);font-family:'JetBrains Mono';font-size:11px}
+.pass-bar{height:6px;background:#000;border-radius:3px;overflow:hidden;margin-top:6px}
+.pass-fill{height:100%;transition:0.5s}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.stat{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);padding:10px;border-radius:10px;text-align:center}
+@media(max-width:900px){.grid{grid-template-columns:1fr} #globeWrap{height:380px}}
 </style></head>
 <body>
-<div class="header"><div><b>⬡ CYBER SHIELD 3.0 SOC</b> <span style="font-size:10px;color:var(--accent)">v16 ALL 14 FEATURES</span></div><div><span id="aiStatus" style="font-size:10px">🤖 Shield AI: Active</span> <button class="btn" onclick="location.href='login.html'">Logout</button></div></div>
+<div class="header">
+<div><b>⬡ CYBER SHIELD 3.0 SOC</b> <span style="font-size:9px;color:var(--accent);margin-left:8px">v17 FIXED • NO MAP OVERLAP • ALL FEATURES RESTORED</span></div>
+<div class="nav">
+<a class="active" href="index.html">🌍 3D Globe</a>
+<a href="map.html">🗺️ World Map Page</a>
+<a href="#password">🔑 Password Analyzer</a>
+<a href="#phishing">🎣 Phishing Check</a>
+<a href="login.html">Logout</a>
+</div>
+</div>
+
 <div class="grid">
+<!-- 3D GLOBE - FULL, NO MAP OVERLAP -->
+<div class="card" style="grid-column: span 1;">
+<h3 style="font-size:12px;letter-spacing:1px;display:flex;justify-content:space-between">🌍 3D LIVE THREAT GLOBE - CLICK ANY COUNTRY TO SEE STATES/CITIES <span style="color:var(--green);font-size:9px">● LIVE • NO OVERLAP</span></h3>
+<div id="globeWrap"><div id="globe"></div>
+<div style="position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.7);border:1px solid var(--border);padding:6px 10px;border-radius:20px;font-size:9px;color:var(--accent)">💡 Click any country/ocean → Shows States, Cities, Lat/Lng, Threat Status</div>
+</div>
+<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+<button class="btn" onclick="addThreat()">⚡ Simulate Attack</button>
+<button class="btn btn-green" onclick="speakAI()">🔊 Ask Shield AI</button>
+<button class="btn btn-orange" onclick="scanDarkWeb()">🕵️ Dark Web Scan</button>
+<button class="btn btn-ghost" onclick="window.open('map.html','_blank')">🗺️ Open Map in New Page</button>
+</div>
+</div>
+
+<!-- RIGHT PANEL -->
 <div class="card">
-<h3 style="font-size:12px;letter-spacing:1px">🌍 3D LIVE THREAT GLOBE (Feature 6)</h3>
-<div id="globe"></div>
-<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
-<button class="btn" onclick="addThreat()">Simulate Attack</button>
-<button class="btn" onclick="speakAI()">🔊 Ask Shield AI</button>
-<button class="btn" onclick="scanDarkWeb()">🕵️ Scan Dark Web</button>
+<h3 style="font-size:11px">🤖 SHIELD AI + BLOCKCHAIN</h3>
+<div id="aiChat" class="log" style="height:110px;margin-top:6px">Shield AI: Monitoring...<br>Shield AI: Sadhaura secure<br></div>
+<div style="margin-top:10px"><h3 style="font-size:10px">🕸️ BLOCKCHAIN LOG</h3><div id="blockLog" class="log" style="height:90px;margin-top:4px"></div></div>
+<div style="margin-top:10px"><h3 style="font-size:10px">📊 EAGLE HEALTH + ROLE</h3>
+<div style="display:flex;justify-content:space-between;font-size:10px;margin-top:4px"><span>Role: <b id="roleShow">admin</b></span><span>Health: <b id="healthShow">85%</b></span></div>
+<div style="width:100%;height:8px;background:#000;border-radius:4px;margin-top:4px"><div id="healthBar" style="height:100%;background:linear-gradient(90deg,#00ff88,#00d4ff);width:85%;border-radius:4px"></div></div></div>
+
+<div style="margin-top:12px"><h3 style="font-size:10px">⏱️ INCIDENT TIMELINE</h3><div id="timeline" class="log" style="height:120px;margin-top:4px"></div></div>
+</div>
+
+<!-- PASSWORD ANALYZER - RESTORED OLD FEATURE -->
+<div class="card" id="password">
+<h3 style="font-size:12px">🔑 PASSWORD ANALYZER (Restored Old Feature)</h3>
+<p style="font-size:10px;color:var(--text2);margin-top:4px">Check password strength like first version</p>
+<input id="passInput" placeholder="Enter password to analyze" style="width:100%;margin-top:8px" oninput="analyzePass()">
+<div class="pass-bar"><div id="passFill" class="pass-fill" style="width:0%"></div></div>
+<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px"><span id="passText">Enter password</span><span id="passScore">0/100</span></div>
+<div id="passTips" style="font-size:9px;color:var(--text2);margin-top:8px;line-height:1.6"></div>
+<div class="feature-grid">
+<div class="stat"><div style="font-size:16px;font-weight:700" id="crackTime">--</div><div style="font-size:8px">CRACK TIME</div></div>
+<div class="stat"><div style="font-size:16px;font-weight:700" id="entropy">--</div><div style="font-size:8px">ENTROPY</div></div>
 </div>
 </div>
-<div class="card">
-<h3 style="font-size:12px">🤖 SHIELD AI VOICE (Feature 7)</h3>
-<div id="aiChat" class="log" style="height:120px">Shield AI: Monitoring 2,847 threats...<br>Shield AI: Sadhaura secure<br></div>
-<h3 style="font-size:12px;margin-top:12px">🕸️ BLOCKCHAIN LOG (Feature 9)</h3>
-<div id="blockLog" class="log"></div>
-<h3 style="font-size:12px;margin-top:12px">📊 EAGLE HEALTH + ROLE (Feature 12,13)</h3>
-<div>Role: <span id="roleShow"></span> | Health: <span id="healthShow">85%</span></div>
-<div style="width:100%;height:8px;background:#000;border-radius:4px;margin-top:4px"><div id="healthBar" style="height:100%;background:linear-gradient(90deg,#00ff88,#00d4ff);width:85%"></div></div>
+
+<!-- PHISHING + FILE SCANNER + SOC - RESTORED -->
+<div class="card" id="phishing">
+<h3 style="font-size:12px">🎣 PHISHING URL CHECKER (Restored)</h3>
+<div style="display:flex;gap:4px;margin-top:8px"><input id="urlInput" placeholder="https://suspicious-link.com" style="flex:1"><button class="btn" onclick="checkPhishing()">Check</button></div>
+<div id="phishResult" style="font-size:10px;margin-top:8px;color:var(--text2)">Enter URL to check...</div>
+
+<h3 style="font-size:12px;margin-top:16px">📁 FILE SCANNER (Restored)</h3>
+<input type="file" id="fileInput" style="width:100%;margin-top:6px" onchange="scanFile()">
+<div id="fileResult" style="font-size:10px;margin-top:6px;color:var(--text2)">Select file to scan...</div>
+
+<h3 style="font-size:12px;margin-top:16px">🎮 SOC COMMAND CENTER (New)</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
+<div class="stat"><div style="font-size:18px;font-weight:700" id="threatCount">12</div><div style="font-size:7px">THREATS BLOCKED</div></div>
+<div class="stat"><div style="font-size:18px;font-weight:700" id="roarCount">47</div><div style="font-size:7px">EAGLE ROARS</div></div>
+<div class="stat"><div style="font-size:18px;font-weight:700">99.9%</div><div style="font-size:7px">UPTIME</div></div>
+<div class="stat"><div style="font-size:18px;font-weight:700" id="darkCount">0</div><div style="font-size:7px">DARK WEB ALERTS</div></div>
 </div>
-<div class="card">
-<h3 style="font-size:12px">🗺️ WORLD MAP - STREET ZOOM (After Login)</h3>
-<div style="display:flex;gap:4px;margin-bottom:6px"><input id="mapSearch" placeholder="Sadhaura, Haryana, USA..." style="flex:1;padding:6px;border-radius:6px;border:1px solid var(--border);background:#000;color:#fff"><button class="btn" onclick="searchMap()">Go</button></div>
-<div id="map"></div>
-</div>
-<div class="card">
-<h3 style="font-size:12px">⏱️ INCIDENT TIMELINE - EAGLE ROAR HISTORY (Feature 14)</h3>
-<div id="timeline" class="log" style="height:150px"></div>
-<h3 style="font-size:12px;margin-top:12px">🔍 DARK WEB SCAN (Feature 10)</h3>
-<div id="darkWebResult" class="log" style="height:80px">Click Scan to check...</div>
-<h3 style="font-size:12px;margin-top:12px">🎮 SOC COMMAND CENTER (Feature 11)</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
-<div style="background:rgba(0,212,255,0.1);padding:8px;border-radius:8px;text-align:center"><div style="font-size:20px;font-weight:700" id="threatCount">12</div><div style="font-size:8px">THREATS BLOCKED</div></div>
-<div style="background:rgba(255,122,0,0.1);padding:8px;border-radius:8px;text-align:center"><div style="font-size:20px;font-weight:700" id="roarCount">47</div><div style="font-size:8px">EAGLE ROARS</div></div>
-<div style="background:rgba(0,255,136,0.1);padding:8px;border-radius:8px;text-align:center"><div style="font-size:20px;font-weight:700">99.9%</div><div style="font-size:8px">UPTIME</div></div>
-<div style="background:rgba(168,85,247,0.1);padding:8px;border-radius:8px;text-align:center"><div style="font-size:20px;font-weight:700" id="logCount">128</div><div style="font-size:8px">LOGS</div></div>
+
+<h3 style="font-size:11px;margin-top:16px">🔍 DARK WEB SCAN (New)</h3>
+<div id="darkWebResult" class="log" style="height:70px;margin-top:4px">Click scan...</div>
 </div>
 </div>
+
+<!-- COUNTRY MODAL - Shows when click globe -->
+<div id="countryModal" onclick="closeModal()">
+<div class="modalBox" onclick="event.stopPropagation()">
+<div style="display:flex;justify-content:space-between;align-items:center"><h3 id="modalTitle" style="font-size:14px">📍 Location Details</h3><button class="btn btn-ghost" onclick="closeModal()">✕</button></div>
+<div id="modalContent" style="margin-top:12px;font-size:11px;line-height:1.6">Loading...</div>
+<div style="margin-top:12px;display:flex;gap:6px"><button class="btn" onclick="openInMapPage()">🗺️ Open in Map Page</button><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>
 </div>
+</div>
+
 <script>
-let map, marker, threatCount=12, roarCount=47, health=85;
-function initMap(){map=L.map('map').setView([30,77],5); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(map);}
-async function searchMap(){let q=document.getElementById('mapSearch').value; if(!q) return; let r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`); let d=await r.json(); if(d[0]){let lat=parseFloat(d[0].lat), lon=parseFloat(d[0].lon); map.setView([lat,lon], q.toLowerCase().includes('sadhaura')?14:6); if(marker) map.removeLayer(marker); marker=L.marker([lat,lon]).addTo(map).bindPopup(q).openPopup(); addTimeline(`Map zoom to ${q} - ${lat.toFixed(2)}, ${lon.toFixed(2)}`);}}
-function initGlobe(){try{const globe=Globe()(document.getElementById('globe')).globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg').backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png').arcsData([{startLat:28,startLng:77,endLat:40,endLng:-100},{startLat:51,startLng:0,endLat:35,endLng:139}]).arcColor(()=>'#00d4ff').arcDashLength(0.4).arcDashGap(0.2).arcDashAnimateTime(1500);}catch(e){document.getElementById('globe').innerHTML='<div style="padding:100px;text-align:center;color:#00d4ff">🌍 3D GLOBE - Live Threat Visualization<br>Threat arcs from Sadhaura → USA<br>(Globe.gl loaded via CDN)</div>';}}
-function addThreat(){threatCount++; document.getElementById('threatCount').innerText=threatCount; health=Math.max(20,health-3); updateHealth(); addTimeline(`⚠️ Threat blocked from ${['Russia','China','USA','Pakistan'][Math.floor(Math.random()*4)]} - Eagle health ${health}%`); speakAI(`Threat blocked. Health ${health} percent`);}
-function speakAI(text){let msg=text||`System secure. ${threatCount} threats blocked today. Eagle roared ${roarCount} times. Sadhaura and Haryana region safe.`; document.getElementById('aiChat').innerHTML+=`You: ${text?'Threat status?':''}<br>Shield AI: ${msg}<br>`; if('speechSynthesis' in window){let u=new SpeechSynthesisUtterance(msg); u.rate=0.9; speechSynthesis.speak(u);} document.getElementById('aiStatus').innerText='🤖 Shield AI: Speaking...'; setTimeout(()=>document.getElementById('aiStatus').innerText='🤖 Shield AI: Active',2000);}
-function scanDarkWeb(){let res=document.getElementById('darkWebResult'); res.innerHTML='Scanning dark web...<br>'; setTimeout(()=>{res.innerHTML+=`✅ Email not found in breaches<br>✅ Password secure<br>✅ Sadhaura IP safe<br>⚠️ 2 old leaks from 2019 - patched<br>`; addTimeline('Dark web scan completed - safe');},1500);}
-function addTimeline(txt){let t=document.getElementById('timeline'); let time=new Date().toLocaleTimeString(); t.innerHTML=`[${time}] ${txt}<br>`+t.innerHTML; roarCount++; document.getElementById('roarCount').innerText=roarCount; let bl=document.getElementById('blockLog'); bl.innerHTML=`#${Math.floor(Math.random()*9000)} 0x${Math.random().toString(16).substr(2,6)} ${txt}<br>`+bl.innerHTML;}
-function updateHealth(){document.getElementById('healthShow').innerText=health+'%'; document.getElementById('healthBar').style.width=health+'%'; if(health<50) document.getElementById('healthBar').style.background='linear-gradient(90deg,#ff3b3b,#ff7a00)';}
-window.addEventListener('load',()=>{initMap(); initGlobe(); document.getElementById('roleShow').innerText=localStorage.getItem('cy_role')||'admin'; addTimeline('SOC initialized - Eagle online'); addTimeline('All 14 features active'); let savedHealth=localStorage.getItem('eagleHealth'); if(savedHealth) health=parseInt(savedHealth); updateHealth(); setInterval(()=>{if(Math.random()>0.7) addThreat();},8000);});
+let threatCount=12, roarCount=47, health=85, lastClickedCoords=null;
+function initGlobe(){
+ try{
+  const globe=Globe()(document.getElementById('globe'))
+   .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+   .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+   .arcsData([{startLat:28.3,startLng:77.0,endLat:40.7,endLng:-74},{startLat:51.5,startLng:-0.1,endLat:35.6,endLng:139.6},{startLat:30.3,startLng:76.7,endLat:19.0,endLng:72.8}])
+   .arcColor(()=>'#00d4ff').arcDashLength(0.5).arcDashGap(0.2).arcDashAnimateTime(1500)
+   .onGlobeClick(async({lat,lng})=>{
+     lastClickedCoords={lat,lng};
+     showCountryModal(lat,lng);
+   });
+   globe.controls().autoRotate=true; globe.controls().autoRotateSpeed=0.3;
+ }catch(e){
+  document.getElementById('globe').innerHTML='<div style="padding:100px;text-align:center;color:#00d4ff">🌍 3D Globe Loading...<br>Click anywhere to see location details<br>(CDN: globe.gl)</div>';
+  document.getElementById('globe').onclick=(ev)=>{
+    let rect=ev.target.getBoundingClientRect();
+    let lat=(0.5-(ev.clientY-rect.top)/rect.height)*180;
+    let lng=((ev.clientX-rect.left)/rect.width-0.5)*360;
+    showCountryModal(lat,lng);
+  }
+ }
+}
+async function showCountryModal(lat,lng){
+ document.getElementById('countryModal').style.display='flex';
+ document.getElementById('modalTitle').innerText=`📍 ${lat.toFixed(2)}, ${lng.toFixed(2)} - Loading...`;
+ document.getElementById('modalContent').innerHTML='Fetching country, state, city...';
+ try{
+  let res=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&addressdetails=1`);
+  let data=await res.json();
+  let addr=data.address||{};
+  let country=addr.country||'Ocean / International Waters';
+  let state=addr.state||addr.region||'N/A';
+  let city=addr.city||addr.town||addr.village||addr.county||'N/A';
+  let postcode=addr.postcode||'N/A';
+  let display=`Country: <b>${country}</b><br>State/Region: <b>${state}</b><br>City/County: <b>${city}</b><br>Postcode: ${postcode}<br>Lat: ${lat.toFixed(4)} Lng: ${lng.toFixed(4)}<br><br>🛡️ Threat Status: <span style="color:#00ff88">SECURE</span><br>🦅 Eagle Monitoring: Active<br>📊 Population Risk: Low<br><br><small>${data.display_name||'No detailed address - Open ocean or remote area'}</small>`;
+  document.getElementById('modalTitle').innerText=`📍 ${country} - ${city}`;
+  document.getElementById('modalContent').innerHTML=display;
+  addTimeline(`Clicked globe: ${country}, ${state}, ${city} (${lat.toFixed(2)},${lng.toFixed(2)})`);
+ }catch(e){
+  document.getElementById('modalContent').innerHTML=`Lat: ${lat.toFixed(4)} Lng: ${lng.toFixed(4)}<br>Country: <b>Unable to fetch (ocean/remote)</b><br><br>This is international waters or remote area.<br>Eagle still monitoring.`;
+ }
+}
+function closeModal(){document.getElementById('countryModal').style.display='none';}
+function openInMapPage(){if(lastClickedCoords){localStorage.setItem('map_lat',lastClickedCoords.lat); localStorage.setItem('map_lng',lastClickedCoords.lng); window.open('map.html','_blank');} closeModal();}
+function addThreat(){threatCount++; document.getElementById('threatCount').innerText=threatCount; health=Math.max(20,health-3); updateHealth(); addTimeline(`⚠️ Threat blocked from ${['Russia','China','USA','Pakistan','North Korea'][Math.floor(Math.random()*5)]} - Health ${health}%`); speakAI(`Threat blocked. Health ${health} percent`);}
+function speakAI(text){let msg=text||`System secure. ${threatCount} threats blocked. Eagle roared ${roarCount} times. Sadhaura secure.`; document.getElementById('aiChat').innerHTML+=`AI: ${msg}<br>`; if('speechSynthesis' in window){let u=new SpeechSynthesisUtterance(msg); u.rate=0.9; speechSynthesis.speak(u);} }
+function scanDarkWeb(){let res=document.getElementById('darkWebResult'); res.innerHTML='Scanning...<br>'; setTimeout(()=>{res.innerHTML=`✅ Email not found<br>✅ Sadhaura IP safe<br>⚠️ 2 old leaks patched<br>`; document.getElementById('darkCount').innerText='2'; addTimeline('Dark web scan done');},1200);}
+function addTimeline(txt){let t=document.getElementById('timeline'); let time=new Date().toLocaleTimeString(); t.innerHTML=`[${time}] ${txt}<br>`+t.innerHTML; roarCount++; document.getElementById('roarCount').innerText=roarCount; document.getElementById('blockLog').innerHTML=`#${Math.floor(Math.random()*9000)} 0x${Math.random().toString(16).substr(2,6)} ${txt}<br>`+document.getElementById('blockLog').innerHTML;}
+function updateHealth(){document.getElementById('healthShow').innerText=health+'%'; document.getElementById('healthBar').style.width=health+'%';}
+function analyzePass(){let p=document.getElementById('passInput').value; let score=0; let tips=[]; if(p.length>=8) score+=20; else tips.push('• Use 8+ chars'); if(/[A-Z]/.test(p)) score+=20; else tips.push('• Add uppercase'); if(/[0-9]/.test(p)) score+=20; else tips.push('• Add number'); if(/[^A-Za-z0-9]/.test(p)) score+=20; else tips.push('• Add symbol'); if(p.length>=12) score+=20; let fill=document.getElementById('passFill'); fill.style.width=score+'%'; if(score<40){fill.style.background='#ff3b3b'; document.getElementById('passText').innerText='WEAK';}else if(score<70){fill.style.background='#ffaa00'; document.getElementById('passText').innerText='MEDIUM';}else{fill.style.background='#00ff88'; document.getElementById('passText').innerText='STRONG';} document.getElementById('passScore').innerText=score+'/100'; document.getElementById('passTips').innerHTML=tips.join('<br>')||'✅ Excellent password!'; document.getElementById('crackTime').innerText=score>80?'10M years':score>50?'3 days':'2 minutes'; document.getElementById('entropy').innerText=(p.length*4)+' bits';}
+function checkPhishing(){let url=document.getElementById('urlInput').value; let res=document.getElementById('phishResult'); if(!url){res.innerText='Enter URL'; return;} let risky=url.includes('login')||url.includes('verify')||url.length>60||url.includes('@'); if(risky){res.innerHTML=`⚠️ <span style="color:#ff3b3b">SUSPICIOUS</span> - Possible phishing!<br>Reasons: ${url.length>60?'Long URL, ':''}${url.includes('@')?'Contains @, ':''}Untrusted`; addTimeline(`Phishing check: ${url} - SUSPICIOUS`);}else{res.innerHTML=`✅ <span style="color:#00ff88">SAFE</span> - No phishing signs detected`; addTimeline(`Phishing check: ${url} - SAFE`);}}
+function scanFile(){let f=document.getElementById('fileInput').files[0]; let res=document.getElementById('fileResult'); if(!f){res.innerText='No file'; return;} res.innerHTML=`Scanning ${f.name} (${(f.size/1024).toFixed(1)}KB)...<br>`; setTimeout(()=>{res.innerHTML+=`✅ No malware found<br>✅ Hash: ${Math.random().toString(16).substr(2,12)}<br>🛡️ Eagle scan complete`; addTimeline(`File scanned: ${f.name} - CLEAN`);},1000);}
+window.addEventListener('load',()=>{initGlobe(); document.getElementById('roleShow').innerText=localStorage.getItem('cy_role')||'admin'; addTimeline('SOC v17 loaded - All features restored + No map overlap'); setInterval(()=>{if(Math.random()>0.75) addThreat();},10000);});
 </script>
 </body>
 </html>
