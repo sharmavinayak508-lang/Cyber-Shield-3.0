@@ -1,90 +1,95 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache">
-<title>CYBER SHIELD 3.0 v12 - Roaring Eagle</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<title>CYBER SHIELD 3.0 v14 - Sketch Layout</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050a14;--card:rgba(17,29,50,0.85);--border:rgba(27,47,83,0.6);--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--font:1}
-body.theme-light{--bg:#f4f6fb;--card:#ffffff;--border:#dbe2ef;--text:#1a2332;--text2:#6b7a99;--accent:#0066ff}
-body.theme-hacker{--bg:#020a02;--card:#0a1f0a;--border:#1a4a1a;--text:#7cff7c;--text2:#4a8a4a;--accent:#00ff41}
-body.high-contrast{--bg:#000;--card:#000;--border:#fff;--text:#fff;--text2:#fff;--accent:#ffff00}
+:root{--bg:#050a14;--card:rgba(17,29,50,0.9);--border:rgba(0,212,255,0.25);--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--orange:#ff7a00}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-size:calc(14px * var(--font));background:radial-gradient(900px at 15% 10%, rgba(0,212,255,0.15), transparent),radial-gradient(600px at 90% 80%, rgba(255,120,0,0.12), transparent), linear-gradient(180deg,var(--bg),#080e1d)}
-.container{width:100%;max-width:1080px;display:grid;grid-template-columns:1.15fr 0.85fr;gap:0;background:var(--card);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,0.7);backdrop-filter:blur(20px)}
-.left{padding:28px;position:relative;overflow:hidden}
-.right{padding:32px;background:rgba(5,10,20,0.45);border-left:1px solid var(--border);display:flex;align-items:center}
-.eagle-wrap{position:relative;width:100%;border-radius:18px;overflow:hidden;border:1px solid var(--border);margin:16px 0;background:#000}
-.eagle-wrap img{width:100%;display:block;filter:drop-shadow(0 0 20px rgba(0,212,255,0.5));animation:floatLoop 5s ease-in-out infinite}
-@keyframes floatLoop{0%,100%{transform:translateY(0) scale(1)}10%{transform:translateY(-18px) scale(1.03)}20%{transform:translateY(0) scale(1)}}
-.eagle-wrap.roar{box-shadow:0 0 50px rgba(0,212,255,0.8),0 0 80px rgba(255,140,0,0.5)}
-.eagle-wrap.roar img{animation:roarShake 0.5s ease}
-@keyframes roarShake{0%,100%{transform:translateY(-18px) scale(1.03)}25%{transform:translateY(-20px) scale(1.05) translateX(-3px)}75%{transform:translateY(-16px) scale(1.04) translateX(3px)}}
-.particle{position:absolute;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;opacity:0}
-.particle.fire{background:#ff7a00;box-shadow:0 0 8px #ff7a00}
-.tabs{display:flex;background:rgba(0,0,0,0.3);border-radius:10px;padding:4px;margin:14px 0} .tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;color:var(--text2);font-size:13px} .tab.active{background:var(--accent);color:#000;font-weight:700}
-input{width:100%;padding:12px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;color:var(--text);margin-top:8px;font-family:'JetBrains Mono',monospace;outline:none}
-.btn{width:100%;padding:13px;border-radius:10px;border:none;font-weight:700;cursor:pointer;margin-top:12px} .btn-primary{background:linear-gradient(90deg,var(--accent),#00a2ff);color:#000}
-.controls{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px} .controls select,.controls button{padding:5px 7px;border-radius:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);font-size:11px;cursor:pointer}
-.badge{font-size:10px;padding:5px 10px;border-radius:20px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);color:var(--accent)}
-.roar-indicator{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.7);border:1px solid var(--accent);color:var(--accent);font-size:9px;padding:5px 10px;border-radius:20px;letter-spacing:1px;opacity:0;transition:0.3s}
-.roar-indicator.show{opacity:1}
-@media(max-width:850px){.container{grid-template-columns:1fr} .right{border-left:none;border-top:1px solid var(--border)}}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12px;background:radial-gradient(1000px at 20% 20%, rgba(0,212,255,0.15), transparent),radial-gradient(800px at 80% 80%, rgba(255,122,0,0.12), transparent), #050a14}
+/* OUTER BORDER - Like your sketch */
+.outer{width:100%;max-width:1200px;border:2px solid var(--border);border-radius:20px;padding:12px;background:rgba(5,10,20,0.6);box-shadow:0 0 60px rgba(0,212,255,0.2)}
+.inner{display:grid;grid-template-columns:1.4fr 0.7fr;gap:12px;min-height:78vh}
+/* LOGIN BOX - Like your sketch center box */
+.login-box{border:2px solid var(--text);border-radius:16px;padding:24px;background:var(--card);display:flex;flex-direction:column}
+.eagle-box{border:2px solid var(--border);border-radius:16px;padding:12px;background:rgba(0,0,0,0.5);display:flex;flex-direction:column}
+.eagle-wrap{position:relative;width:100%;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#000;cursor:pointer}
+.eagle-wrap img{width:100%;display:block;animation:floatLoop 5s ease-in-out infinite;filter:drop-shadow(0 0 15px rgba(0,212,255,0.6))}
+@keyframes floatLoop{0%,100%{transform:translateY(0) scale(1)}10%{transform:translateY(-12px) scale(1.02)}}
+.eagle-wrap.roar{box-shadow:0 0 40px var(--accent),0 0 60px var(--orange)}
+.eagle-wrap.roar img{animation:roarShake 0.6s ease}
+@keyframes roarShake{0%,100%{transform:translateY(-12px)}25%{transform:translateY(-18px) translateX(-2px) scale(1.04)}75%{transform:translateY(-10px) translateX(2px) scale(1.03)}}
+.particle{position:absolute;width:6px;height:6px;border-radius:50%;pointer-events:none}
+.particle.cyan{background:var(--accent);box-shadow:0 0 8px var(--accent)} .particle.orange{background:var(--orange);box-shadow:0 0 8px var(--orange)}
+.map-area{margin-top:12px;border:1px solid var(--border);border-radius:12px;padding:8px;background:rgba(0,0,0,0.3)}
+#miniMap{height:170px;width:100%;border-radius:8px;margin-top:6px}
+.tabs{display:flex;background:rgba(0,0,0,0.4);border-radius:10px;padding:3px;margin:12px 0} .tab{flex:1;padding:8px;text-align:center;border-radius:8px;cursor:pointer;color:var(--text2);font-size:12px} .tab.active{background:var(--accent);color:#000;font-weight:700}
+input{width:100%;padding:10px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:8px;color:var(--text);margin-top:6px;font-size:13px;outline:none;font-family:'JetBrains Mono'}
+.btn{width:100%;padding:11px;border-radius:8px;border:none;font-weight:700;cursor:pointer;margin-top:10px} .btn-primary{background:linear-gradient(90deg,var(--accent),#00a2ff);color:#000}
+@media(max-width:800px){.inner{grid-template-columns:1fr} .outer{padding:8px} .login-box{order:1} .eagle-box{order:2}}
 </style></head>
-<body class="theme-dark">
-<div class="container">
-<div class="left">
-<div style="display:flex;gap:10px;align-items:center"><div style="width:42px;height:42px;background:linear-gradient(135deg,#00d4ff,#ff7a00);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">⬡</div><div><b>CYBER SHIELD 3.0</b><div style="font-size:10px;color:var(--text2);letter-spacing:2px">v12 ROARING EAGLE • 5s LOOP</div></div></div>
+<body>
+<div class="outer">
+<div class="inner">
+<!-- LOGIN BOX - As per your sketch -->
+<div class="login-box">
+<div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:8px;align-items:center"><div style="width:36px;height:36px;background:linear-gradient(135deg,#00d4ff,#ff7a00);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">⬡</div><div><b style="font-size:13px">CYBER SHIELD 3.0</b><div style="font-size:8px;color:var(--text2);letter-spacing:1px">v14 SKETCH + FLAME FIX</div></div></div><button id="soundBtn" onclick="toggleSound()" style="padding:4px 8px;border-radius:20px;border:1px solid var(--border);background:rgba(0,0,0,0.4);color:var(--accent);font-size:10px;cursor:pointer">🔊 SOUND ON</button></div>
 
-<div class="eagle-wrap" id="eagleWrap" onclick="triggerRoar()">
-<img src="eagle.png" id="eagleImg" onerror="this.src='https://i.imgur.com/8Km9tLL.png'" alt="Roaring Eagle">
-<div class="roar-indicator" id="indicator">● ROARING EVERY 5s</div>
-</div>
+<h2 style="font-size:22px;margin-top:16px">Login per fun this<br><span style="color:var(--accent);font-size:14px">Your sketch layout</span></h2>
 
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-<span class="badge">● AUTO ROAR 5s</span>
-<span class="badge" style="color:#ff7a00;border-color:rgba(255,122,0,0.3)">● SOUND + HOVER</span>
-<span class="badge">● CLICK TO ROAR</span>
-</div>
-
-<h2 style="font-size:26px;margin-top:12px;line-height:1.1">Eagle that <span style="color:var(--accent)">Roars.</span><br>Every 5 seconds.</h2>
-<p style="font-size:11px;color:var(--text2);margin-top:6px">Industry level hover animation with synthesized roar sound, energy particles, and glow pulse. Map is after login.</p>
-</div>
-
-<div class="right">
-<div style="width:100%">
-<h3>Secure Access</h3>
-<div style="margin-top:10px;padding:10px;background:rgba(0,0,0,0.3);border-radius:10px;border:1px dashed var(--border)"><div style="font-size:9px;color:var(--text2)">CUSTOMIZATION</div><div class="controls"><select id="langS" onchange="changeLang(this.value)"><option value="en">EN</option><option value="hi">HI</option></select><select id="themeS" onchange="changeTheme(this.value)"><option value="dark">Dark</option><option value="light">Light</option><option value="hacker">Hacker</option></select><button onclick="changeFont(-0.1)">A-</button><button onclick="changeFont(0.1)">A+</button><button onclick="toggleContrast()">Contrast</button><button onclick="toggleSound()" id="soundBtn">🔊 Sound ON</button></div></div>
 <div class="tabs"><div class="tab active" id="tL" onclick="switchTab('login')">Login</div><div class="tab" id="tR" onclick="switchTab('register')">Register</div></div>
-<label style="font-size:10px;color:var(--text2)">USERNAME</label><input id="username" placeholder="admin"><label style="font-size:10px;color:var(--text2);margin-top:10px;display:block">PASSWORD</label><input id="password" type="password" placeholder="••••••••"><button class="btn btn-primary" onclick="handleAuth()" id="mainBtn">Authenticate →</button><div id="msg" style="margin-top:12px;font-size:12px;text-align:center;min-height:16px;font-family:'JetBrains Mono',monospace"></div><div style="font-size:10px;color:var(--text2);text-align:center;margin-top:8px">Demo: admin / admin123 • Eagle auto roars every 5s</div>
+<label style="font-size:9px;color:var(--text2)">USERNAME</label><input id="username" placeholder="admin">
+<label style="font-size:9px;color:var(--text2);margin-top:8px;display:block">PASSWORD</label><input id="password" type="password" placeholder="••••••••">
+<button class="btn btn-primary" onclick="handleAuth()" id="mainBtn">Authenticate →</button>
+<div id="msg" style="margin-top:8px;font-size:11px;text-align:center;min-height:14px;font-family:'JetBrains Mono'"></div>
+
+<div class="map-area">
+<div style="font-size:9px;color:var(--accent);letter-spacing:1px">🗺️ MAP INSIDE LOGIN (FIXED)</div>
+<div style="display:flex;gap:4px;margin-top:6px"><input id="mapSearch" placeholder="Sadhaura, Haryana, India..." style="flex:1;padding:6px 8px;font-size:11px"><button onclick="searchMap()" style="padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:#000;font-weight:700;font-size:11px;cursor:pointer">Go</button></div>
+<div id="miniMap"></div>
+</div>
+</div>
+
+<!-- EAGLE BOX - As per your sketch right side -->
+<div class="eagle-box">
+<div style="font-size:10px;color:var(--accent);letter-spacing:2px;text-align:center;margin-bottom:8px">EAGLE • ROAR EVERY 5s • FLAMES FIXED</div>
+<div class="eagle-wrap" id="eagleWrap" onclick="triggerRoar()">
+<img src="eagle.png" onerror="this.src='https://i.imgur.com/8Km9tLL.png'" alt="Roaring Eagle with Flames">
+<div id="flameEffect" style="position:absolute;right:-10px;top:35%;width:60%;height:30%;background:radial-gradient(ellipse at left, rgba(255,122,0,0.8), rgba(255,200,0,0.4), transparent);border-radius:50%;opacity:0;transition:0.3s;filter:blur(8px)"></div>
+</div>
+<div style="margin-top:10px;padding:8px;background:rgba(0,212,255,0.08);border-radius:8px;border:1px dashed var(--border)">
+<div style="font-size:9px;color:var(--accent)">FLAME STATUS</div>
+<div style="font-size:10px;color:var(--text2);margin-top:4px;line-height:1.5">
+🔥 Flames now big & bright<br>
+⚡ Hover repeats every 5 sec<br>
+🔊 Click eagle to roar instantly<br>
+✨ Orange + Cyan particles
+</div>
+</div>
+<div style="margin-top:auto;padding-top:10px;text-align:center;font-size:9px;color:var(--text2)">Demo: admin / admin123<br>Your sketch layout implemented</div>
 </div>
 </div>
 </div>
 <script>
-let mode='login', soundOn=true, audioCtx;
+let mode='login', soundOn=true, audioCtx, miniMap, miniMarker;
 function initAudio(){if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)();}}
-function playRoarSound(){if(!soundOn) return; initAudio(); const ctx=audioCtx; const now=ctx.currentTime;
-let osc=ctx.createOscillator(); let gain=ctx.createGain(); let filter=ctx.createBiquadFilter();
-osc.type='sawtooth'; osc.frequency.setValueAtTime(120,now); osc.frequency.exponentialRampToValueAtTime(60,now+0.4);
-filter.type='bandpass'; filter.frequency.value=800; filter.Q.value=5;
-gain.gain.setValueAtTime(0,now); gain.gain.linearRampToValueAtTime(0.4,now+0.05); gain.gain.exponentialRampToValueAtTime(0.001,now+0.8);
-osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination); osc.start(now); osc.stop(now+0.8);
-let osc2=ctx.createOscillator(); let gain2=ctx.createGain(); osc2.type='triangle'; osc2.frequency.setValueAtTime(300,now); osc2.frequency.linearRampToValueAtTime(1200,now+0.3); gain2.gain.setValueAtTime(0,now); gain2.gain.linearRampToValueAtTime(0.2,now+0.05); gain2.gain.exponentialRampToValueAtTime(0.001,now+0.5); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.start(now); osc2.stop(now+0.5);
-}
-function createParticles(){let wrap=document.getElementById('eagleWrap'); for(let i=0;i<12;i++){let p=document.createElement('div'); p.className=Math.random()>0.5?'particle fire':'particle'; p.style.left='62%'; p.style.top='42%'; wrap.appendChild(p); let angle=Math.random()*0.8-0.4; let dist=80+Math.random()*120; let dur=600+Math.random()*400; p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dist}px, ${angle*80}px) scale(0)`,opacity:0}],{duration:dur,easing:'cubic-bezier(0.25,0.46,0.45,0.94)'}).onfinish=()=>p.remove();}}
-function triggerRoar(){let wrap=document.getElementById('eagleWrap'); let ind=document.getElementById('indicator'); wrap.classList.add('roar'); ind.classList.add('show'); playRoarSound(); createParticles(); setTimeout(()=>{wrap.classList.remove('roar'); ind.classList.remove('show');},800);}
-function startLoop(){triggerRoar(); setInterval(()=>{triggerRoar();},5000);}
-function toggleSound(){soundOn=!soundOn; document.getElementById('soundBtn').innerText=soundOn?'🔊 Sound ON':'🔇 Sound OFF'; if(soundOn){initAudio(); playRoarSound();}}
-let langMap={en:{login:"Login",register:"Register"},hi:{login:"लॉगिन",register:"रजिस्टर"}};
+function playRoarSound(){if(!soundOn) return; initAudio(); const ctx=audioCtx, now=ctx.currentTime;
+let o=ctx.createOscillator(), g=ctx.createGain(), f=ctx.createBiquadFilter(); o.type='sawtooth'; o.frequency.setValueAtTime(140,now); o.frequency.exponentialRampToValueAtTime(50,now+0.5); f.type='bandpass'; f.frequency.value=900; g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(0.5,now+0.06); g.gain.exponentialRampToValueAtTime(0.001,now+0.9); o.connect(f); f.connect(g); g.connect(ctx.destination); o.start(now); o.stop(now+0.9);
+let o2=ctx.createOscillator(), g2=ctx.createGain(); o2.type='triangle'; o2.frequency.setValueAtTime(400,now); o2.frequency.linearRampToValueAtTime(1400,now+0.35); g2.gain.setValueAtTime(0,now); g2.gain.linearRampToValueAtTime(0.25,now+0.05); g2.gain.exponentialRampToValueAtTime(0.001,now+0.6); o2.connect(g2); g2.connect(ctx.destination); o2.start(now); o2.stop(now+0.6);}
+function createParticles(){let w=document.getElementById('eagleWrap'); for(let i=0;i<15;i++){let p=document.createElement('div'); p.className=Math.random()>0.6?'particle orange':'particle cyan'; p.style.left='60%'; p.style.top=(38+Math.random()*10)+'%'; w.appendChild(p); let dist=90+Math.random()*140; p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dist}px, ${(Math.random()-0.5)*100}px) scale(0)`,opacity:0}],{duration:700+Math.random()*400}).onfinish=()=>p.remove();}}
+function triggerRoar(){let w=document.getElementById('eagleWrap'), flame=document.getElementById('flameEffect'); w.classList.add('roar'); flame.style.opacity='1'; flame.style.transform='scaleX(1.4)'; playRoarSound(); createParticles(); setTimeout(()=>{w.classList.remove('roar'); flame.style.opacity='0'; flame.style.transform='scaleX(1)';},900);}
+function startLoop(){triggerRoar(); setInterval(triggerRoar,5000);}
+function toggleSound(){soundOn=!soundOn; document.getElementById('soundBtn').innerText=soundOn?'🔊 SOUND ON':'🔇 OFF'; if(soundOn){initAudio(); playRoarSound();}}
+function initMiniMap(){miniMap=L.map('miniMap',{zoomControl:false}).setView([30.0,77.0],5); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(miniMap); setTimeout(()=>miniMap.invalidateSize(),400);}
+async function searchMap(){let q=document.getElementById('mapSearch').value.trim(); if(!q) return; goTo(q);}
+async function goTo(q){document.getElementById('mapSearch').value=q; try{let r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`); let d=await r.json(); if(d[0]){let lat=parseFloat(d[0].lat), lon=parseFloat(d[0].lon); miniMap.setView([lat,lon], q.toLowerCase().includes('sadhaura')?13:7); if(miniMarker) miniMap.removeLayer(miniMarker); miniMarker=L.marker([lat,lon]).addTo(miniMap).bindPopup(q).openPopup();}}catch(e){}}
 function switchTab(m){mode=m; document.getElementById('tL').classList.toggle('active',m==='login'); document.getElementById('tR').classList.toggle('active',m==='register'); document.getElementById('mainBtn').innerText=m==='login'?'Authenticate →':'Create Account →';}
-function changeLang(l){localStorage.setItem('cy_lang',l); let t=langMap[l]||langMap.en; document.getElementById('tL').innerText=t.login; document.getElementById('tR').innerText=t.register;}
-function changeTheme(t){document.body.className=(document.body.classList.contains('high-contrast')?'high-contrast ':'')+'theme-'+t; localStorage.setItem('cy_theme',t);}
-function changeFont(d){let s=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font'))||1; s=Math.min(1.4,Math.max(0.8,s+d)); document.documentElement.style.setProperty('--font',s); localStorage.setItem('cy_font',s);}
-function toggleContrast(){document.body.classList.toggle('high-contrast');}
 function showMsg(t,c){document.getElementById('msg').style.color=c||'#00d4ff'; document.getElementById('msg').innerText=t;}
 function handleAuth(){mode==='login'?login():register();}
-function register(){let u=username.value.trim(), p=password.value.trim(); if(!u||!p){showMsg("Enter details","#ff5a65");return} let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); users[u]=p; localStorage.setItem('offline_users',JSON.stringify(users)); showMsg("✅ Registered! Now Login","#3dd598"); switchTab('login');}
-function login(){let u=username.value.trim(), p=password.value.trim(); let users=JSON.parse(localStorage.getItem('offline_users')||'{}'); if((users[u]&&users[u]===p)||(u==='admin'&&p==='admin123')){localStorage.setItem('token','offline-'+u); localStorage.setItem('username',u); showMsg("✅ Success! Loading SOC...","#3dd598"); setTimeout(()=>location.href='index.html?v=12',600);}else showMsg("❌ Invalid","#ff5a65");}
-window.addEventListener('load',()=>{changeTheme(localStorage.getItem('cy_theme')||'dark'); if(localStorage.getItem('cy_font')) document.documentElement.style.setProperty('--font',localStorage.getItem('cy_font')); setTimeout(startLoop,1000);});
+function register(){let u=username.value.trim(), p=password.value.trim(); if(!u||!p){showMsg("Enter details","#ff5a65");return} let us=JSON.parse(localStorage.getItem('offline_users')||'{}'); us[u]=p; localStorage.setItem('offline_users',JSON.stringify(us)); showMsg("✅ Registered! Login now","#3dd598"); switchTab('login');}
+function login(){let u=username.value.trim(), p=password.value.trim(); let us=JSON.parse(localStorage.getItem('offline_users')||'{}'); if((us[u]&&us[u]===p)||(u==='admin'&&p==='admin123')){localStorage.setItem('token','offline-'+u); showMsg("✅ Success!","#3dd598"); setTimeout(()=>location.href='index.html?v=14',600);}else showMsg("❌ Invalid","#ff5a65");}
+window.addEventListener('load',()=>{initMiniMap(); setTimeout(startLoop,1000);});
 document.addEventListener('click',()=>{initAudio();},{once:true});
 </script>
 </body>
