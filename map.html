@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBER SHIELD 3.0 - WORLD MAP PAGE</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050a14;--card:#111d32;--border:#1b2f53;--text:#e6edf5;--accent:#00d4ff}
+body{margin:0;font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text)}
+.header{padding:10px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:var(--card)}
+#map{width:100%;height:calc(100vh - 52px)}
+.controls{position:absolute;top:70px;left:10px;z-index:1000;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px;width:280px}
+input{width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:#000;color:#fff;margin-top:6px}
+.btn{padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:#000;font-weight:700;cursor:pointer;margin-top:6px}
+.quick{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.quick button{padding:4px 8px;font-size:10px;border-radius:20px;border:1px solid var(--border);background:rgba(0,212,255,0.1);color:var(--accent);cursor:pointer}
+</style></head>
+<body>
+<div class="header"><div><b>⬡ CYBER SHIELD 3.0 - WORLD MAP PAGE</b> <span style="font-size:9px;color:var(--accent)">Separate from 3D Globe - No Overlap</span></div><div><a href="index.html" style="padding:6px 12px;background:var(--accent);color:#000;border-radius:6px;text-decoration:none;font-size:11px;font-weight:700">← Back to Dashboard</a></div></div>
+<div style="position:relative">
+<div id="map"></div>
+<div class="controls">
+<div style="font-size:10px;letter-spacing:1px;color:var(--accent)">🗺️ SEARCH & CLICK FOR DETAILS</div>
+<input id="search" placeholder="Search Sadhaura, Haryana, India, USA...">
+<button class="btn" style="width:100%" onclick="searchPlace()">Search & Zoom</button>
+<div class="quick">
+<button onclick="goTo('Sadhaura')">Sadhaura</button><button onclick="goTo('Haryana')">Haryana</button><button onclick="goTo('India')">India</button><button onclick="goTo('USA')">USA</button><button onclick="goTo('London')">London</button><button onclick="goTo('Dubai')">Dubai</button>
+</div>
+<div id="details" style="margin-top:10px;font-size:10px;line-height:1.6;background:rgba(0,0,0,0.4);padding:8px;border-radius:8px;max-height:200px;overflow-y:auto">Click on map or search to see State, City, Country details...</div>
+</div>
+</div>
+<script>
+let map, marker;
+function initMap(){
+ map=L.map('map').setView([30,77],4);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(map);
+ map.on('click',async(e)=>{
+   let lat=e.latlng.lat, lng=e.latlng.lng;
+   showDetails(lat,lng);
+   if(marker) map.removeLayer(marker);
+   marker=L.marker([lat,lng]).addTo(map);
+ });
+ let lat=localStorage.getItem('map_lat'), lng=localStorage.getItem('map_lng');
+ if(lat&&lng){map.setView([parseFloat(lat),parseFloat(lng)],8); showDetails(parseFloat(lat),parseFloat(lng)); marker=L.marker([parseFloat(lat),parseFloat(lng)]).addTo(map);}
+}
+async function showDetails(lat,lng){
+ document.getElementById('details').innerHTML=`Loading ${lat.toFixed(4)}, ${lng.toFixed(4)}...`;
+ try{
+  let r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`);
+  let d=await r.json();
+  let a=d.address||{};
+  document.getElementById('details').innerHTML=`<b>Country:</b> ${a.country||'N/A'}<br><b>State:</b> ${a.state||'N/A'}<br><b>City:</b> ${a.city||a.town||a.village||'N/A'}<br><b>County:</b> ${a.county||'N/A'}<br><b>Postcode:</b> ${a.postcode||'N/A'}<br><b>Lat/Lng:</b> ${lat.toFixed(4)}, ${lng.toFixed(4)}<br><br><small>${d.display_name||''}</small><br><br>🛡️ Status: SECURE<br>🦅 Eagle monitoring`;
+ }catch(e){document.getElementById('details').innerHTML=`Lat: ${lat.toFixed(4)} Lng: ${lng.toFixed(4)}<br>Details unavailable (ocean)`;}
+}
+async function searchPlace(){let q=document.getElementById('search').value.trim(); if(!q) return; goTo(q);}
+async function goTo(q){
+ document.getElementById('search').value=q;
+ try{
+  let r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&addressdetails=1`);
+  let d=await r.json();
+  if(d[0]){let lat=parseFloat(d[0].lat), lon=parseFloat(d[0].lon); map.setView([lat,lon], q.toLowerCase().includes('sadhaura')?14:6); if(marker) map.removeLayer(marker); marker=L.marker([lat,lon]).addTo(map).bindPopup(q).openPopup(); showDetails(lat,lon);}
+ }catch(e){}
+}
+window.addEventListener('load',initMap);
+</script>
+</body>
+</html>
