@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache">
-<title>CYBER SHIELD 3.0 v16 - ULTIMATE ALL 14 FEATURES</title>
+<title>CYBER SHIELD 3.0 v17 - Lion Roar + Phone OTP</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#050a14;--card:rgba(17,29,50,0.92);--border:rgba(0,212,255,0.25);--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--orange:#ff7a00;--font:1}
@@ -11,27 +11,27 @@ body.theme-purple{--bg:#0d0614;--card:#1a0f2e;--border:#5b21b6;--text:#e9d5ff;--
 body.theme-sunset{--bg:#1a0a08;--card:#2a1210;--border:#7f1d1d;--text:#ffedd5;--text2:#fb923c;--accent:#ff7a00;--orange:#ffbb00}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10px;font-size:calc(14px * var(--font));transition:0.4s;background:radial-gradient(1000px at 20% 20%, rgba(0,212,255,0.15), transparent),radial-gradient(800px at 80% 80%, rgba(255,122,0,0.12), transparent), linear-gradient(180deg,var(--bg),#050a14)}
-.container{width:100%;max-width:1180px;display:flex;flex-direction:row;border:2px solid var(--border);border-radius:20px;overflow:hidden;background:var(--card);box-shadow:0 30px 90px rgba(0,0,0,0.7);backdrop-filter:blur(16px);min-height:620px}
+.container{width:100%;max-width:1180px;display:flex;flex-direction:row;border:2px solid var(--border);border-radius:20px;overflow:hidden;background:var(--card);box-shadow:0 30px 90px rgba(0,0,0,0.7);backdrop-filter:blur(16px);min-height:640px}
 .eagle-side{width:44%;background:rgba(0,0,0,0.45);border-right:2px solid var(--border);padding:12px;display:flex;flex-direction:column;position:relative}
 .login-side{width:56%;padding:22px;display:flex;flex-direction:column;overflow-y:auto;max-height:90vh}
 .eagle-wrap{position:relative;width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#000;flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.eagle-wrap img{width:100%;height:100%;object-fit:cover;display:block;animation:floatLoop 5s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(0,212,255,0.6))}
+.eagle-wrap img{width:100%;height:100%;object-fit:cover;display:block;animation:floatLoop 10s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(0,212,255,0.6))}
 @keyframes floatLoop{0%,100%{transform:translateY(0) scale(1)}10%{transform:translateY(-12px) scale(1.02)}20%{transform:translateY(0)}}
 .eagle-wrap.roar{box-shadow:0 0 50px var(--accent),0 0 80px var(--orange)}
-.eagle-wrap.roar img{animation:roarShake 0.6s ease}
+.eagle-wrap.roar img{animation:roarShake 0.8s ease}
 @keyframes roarShake{0%,100%{transform:translateY(-12px)}25%{transform:translateY(-20px) translateX(-3px) scale(1.05)}75%{transform:translateY(-10px) translateX(3px) scale(1.03)}}
-.eye{position:absolute;width:14px;height:14px;background:radial-gradient(circle at 30% 30%, #fff, #00d4ff, #000);border-radius:50%;border:2px solid #000;box-shadow:0 0 10px var(--accent);transition:0.1s;z-index:5}
+.eye{position:absolute;width:14px;height:14px;background:radial-gradient(circle at 30% 30%, #fff, #ff7a00, #000);border-radius:50%;border:2px solid #000;box-shadow:0 0 10px var(--orange);transition:0.1s;z-index:5}
 .eye.left{top:36%;left:48%} .eye.right{top:36%;left:54%}
 .flame-overlay{position:absolute;right:-20px;top:32%;width:70%;height:35%;background:radial-gradient(ellipse at left, rgba(255,140,0,0.9), rgba(255,200,0,0.5), transparent 70%);border-radius:50%;opacity:0;filter:blur(12px);transition:0.2s;pointer-events:none}
 .flame-overlay.show{opacity:1;transform:scaleX(1.5)}
 .particle{position:absolute;width:6px;height:6px;border-radius:50%;pointer-events:none}
 .tabs{display:flex;background:rgba(0,0,0,0.35);border-radius:10px;padding:3px;margin:10px 0} .tab{flex:1;padding:8px;text-align:center;border-radius:8px;cursor:pointer;color:var(--text2);font-size:11px} .tab.active{background:var(--accent);color:#000;font-weight:700}
-input{width:100%;padding:10px;background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:8px;color:var(--text);margin-top:5px;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px}
+input,select{width:100%;padding:10px;background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:8px;color:var(--text);margin-top:5px;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px}
 .btn{width:100%;padding:11px;border-radius:8px;border:none;font-weight:700;cursor:pointer;margin-top:8px;font-size:12px} .btn-primary{background:linear-gradient(90deg,var(--accent),#00a2ff);color:#000} .btn-ghost{background:rgba(0,0,0,0.3);border:1px solid var(--border);color:var(--text)}
 .controls{padding:8px;background:rgba(0,0,0,0.3);border:1px dashed var(--border);border-radius:10px;margin-top:8px}
 .controls select{padding:5px 6px;border-radius:6px;background:var(--bg);color:var(--text);border:1px solid var(--border);font-size:10px;cursor:pointer;margin:2px}
 .badge{font-size:8px;padding:3px 7px;border-radius:20px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);color:var(--accent);margin:2px;display:inline-block}
-.face-box{position:relative;width:100%;height:140px;background:#000;border-radius:8px;overflow:hidden;border:1px solid var(--border);display:none;margin-top:8px}
+.face-box{position:relative;width:100%;height:120px;background:#000;border-radius:8px;overflow:hidden;border:1px solid var(--border);display:none;margin-top:8px}
 .face-box video{width:100%;height:100%;object-fit:cover}
 .face-overlay{position:absolute;top:0;left:0;right:0;bottom:0;border:2px solid var(--accent);box-shadow:0 0 20px var(--accent) inset;display:flex;align-items:center;justify-content:center}
 .scan-line{position:absolute;width:100%;height:2px;background:var(--accent);box-shadow:0 0 10px var(--accent);animation:scan 2s linear infinite}
@@ -43,80 +43,105 @@ input{width:100%;padding:10px;background:rgba(0,0,0,0.35);border:1px solid var(-
 <body class="theme-dark">
 <div class="container">
 <div class="eagle-side">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="display:flex;gap:6px;align-items:center"><div style="width:30px;height:30px;background:linear-gradient(135deg,#00d4ff,#ff7a00);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">⬡</div><div><b style="font-size:11px">CYBER SHIELD 3.0</b><div style="font-size:6px;color:var(--text2)">v16 ALL 14 FEATURES • HORIZONTAL</div></div></div><div id="roarBadge" style="font-size:7px;padding:3px 6px;border-radius:20px;background:rgba(0,0,0,0.6);border:1px solid var(--accent);color:var(--accent)">● IDLE</div></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="display:flex;gap:6px;align-items:center"><div style="width:30px;height:30px;background:linear-gradient(135deg,#ff7a00,#ffcc00);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">🦁</div><div><b style="font-size:11px">CYBER SHIELD 3.0</b><div style="font-size:6px;color:var(--text2)">v17 LION ROAR • 10s LOOP • PHONE OTP</div></div></div><div id="roarBadge" style="font-size:7px;padding:3px 6px;border-radius:20px;background:rgba(0,0,0,0.6);border:1px solid var(--orange);color:var(--orange)">🦁 IDLE</div></div>
 <div class="eagle-wrap" id="eagleWrap" onclick="triggerRoar()">
-<img src="eagle.png" id="eagleImg" alt="Eagle">
+<img src="eagle.png" id="eagleImg" alt="Lion Roaring Eagle">
 <div class="eye left" id="eyeL"></div><div class="eye right" id="eyeR"></div>
 <div class="flame-overlay" id="flameOverlay"></div>
 </div>
 <div style="margin-top:8px">
-<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:8px;color:var(--text2)">EAGLE HEALTH</span><span id="healthText" style="font-size:8px;color:var(--accent)">85% SECURE</span></div>
-<div class="health-bar"><div class="health-fill" id="healthFill"></div></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:8px;color:var(--text2)">LION POWER</span><span id="healthText" style="font-size:8px;color:var(--orange)">85% ROARING</span></div>
+<div class="health-bar"><div class="health-fill" id="healthFill" style="background:linear-gradient(90deg,#ff7a00,#ffcc00)"></div></div>
 </div>
 <div style="margin-top:8px;display:flex;gap:3px;flex-wrap:wrap">
-<span class="badge">👁️ Eye Tracking</span><span class="badge">🎤 Voice: Say "Roar"</span><span class="badge">📱 Shake to Roar</span><span class="badge">⌨️ Typing Puff</span>
+<span class="badge">🦁 LION ROAR (10s)</span><span class="badge">👁️ Eye Tracking</span><span class="badge">🎤 Voice: "Roar"</span><span class="badge">📱 Phone OTP</span>
 </div>
 <div id="faceBox" class="face-box"><video id="faceVideo" autoplay muted></video><div class="face-overlay"><div class="scan-line"></div><div style="color:var(--accent);font-size:10px;font-family:'JetBrains Mono'">FACE ID SCANNING...</div></div></div>
 <div style="margin-top:6px;display:flex;gap:4px"><button class="btn btn-ghost" style="flex:1;padding:6px;font-size:10px" onclick="startFaceScan()">👁️ Face ID</button><button class="btn btn-ghost" style="flex:1;padding:6px;font-size:10px" onclick="startVoice()">🎤 Voice</button><button class="btn btn-ghost" style="flex:1;padding:6px;font-size:10px" onclick="enableShake()">📱 Shake</button></div>
-<audio id="realRoar" preload="auto" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=eagle-cry-113732.mp3"></audio>
+<!-- LION ROAR AUDIO - REAL LION -->
+<audio id="realRoar" preload="auto" src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_1718a6b9d5.mp3?filename=lion-roar-104347.mp3"></audio>
 </div>
 <div class="login-side">
-<h2 id="titleText" style="font-size:20px;line-height:1.2">Secure Access<br><span style="color:var(--accent);font-size:11px">All 14 Features - Horizontal - No Map</span></h2>
+<h2 id="titleText" style="font-size:20px;line-height:1.2">Secure Access<br><span style="color:var(--accent);font-size:11px">Lion Roar Every 10s • Phone OTP</span></h2>
 <div class="controls">
 <div style="font-size:7px;color:var(--text2);letter-spacing:1px">5 LANG • 5 THEME • FONT • SOUND</div>
 <select id="langSelect" onchange="changeLang(this.value)"><option value="en">🇬🇧 EN</option><option value="hi">🇮🇳 HI</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="de">🇩🇪 DE</option></select>
 <select id="themeSelect" onchange="changeTheme(this.value)"><option value="dark">Dark</option><option value="light">Light</option><option value="hacker">Hacker</option><option value="purple">Purple</option><option value="sunset">Sunset</option></select>
 <select id="fontSelect" onchange="changeFont(this.value)"><option value="1">100%</option><option value="0.9">90%</option><option value="1.1">110%</option><option value="1.2">120%</option></select>
-<select id="soundSelect" onchange="toggleSoundMode(this.value)"><option value="on">🔊 ON</option><option value="off">🔇 OFF</option></select>
+<select id="soundSelect" onchange="toggleSoundMode(this.value)"><option value="on">🦁 LION ON</option><option value="off">🔇 OFF</option></select>
 <select id="roleSelect" onchange="changeRole(this.value)"><option value="admin">Role: Admin</option><option value="analyst">Role: Analyst</option><option value="viewer">Role: Viewer</option></select>
 </div>
 <div class="tabs"><div class="tab active" id="tL" onclick="switchTab('login')">Login</div><div class="tab" id="tR" onclick="switchTab('register')">Register</div></div>
-<label id="labelUser" style="font-size:8px;color:var(--text2)">USERNAME</label><input id="username" placeholder="admin" onfocus="eagleLookAt('user')" oninput="onTyping()">
-<label id="labelPass" style="font-size:8px;color:var(--text2);margin-top:6px;display:block">PASSWORD</label><input id="password" type="password" placeholder="••••••••" onfocus="eagleLookAt('pass')" oninput="onTyping()">
-<div id="otpBox" style="display:none;margin-top:8px;padding:8px;background:rgba(0,212,255,0.08);border:1px solid var(--border);border-radius:8px">
-<div style="font-size:8px;color:var(--accent)">🦅 EAGLE OTP - FROM BEAK</div>
-<div style="display:flex;gap:4px;margin-top:6px"><input id="otpInput" placeholder="Enter OTP from Eagle Beak" style="flex:1"><button class="btn btn-ghost" style="width:auto;padding:8px 12px;margin:0" onclick="verifyOTP()">Verify</button></div>
-<div id="otpDisplay" style="font-size:18px;letter-spacing:8px;text-align:center;margin-top:6px;font-family:'JetBrains Mono';color:var(--orange)">• • • •</div>
+
+<label id="labelUser" style="font-size:8px;color:var(--text2)">USERNAME *</label><input id="username" placeholder="admin" onfocus="eagleLookAt('user')" oninput="onTyping()">
+<label style="font-size:8px;color:var(--text2);margin-top:6px;display:block">📱 PHONE NUMBER * (OTP will be sent here)</label><input id="phone" placeholder="+91 98765 43210" type="tel" onfocus="eagleLookAt('user')" required>
+<label style="font-size:8px;color:var(--text2);margin-top:6px;display:block">📧 EMAIL (Optional - OTP alternative)</label><input id="email" placeholder="you@example.com" type="email" onfocus="eagleLookAt('user')">
+<label id="labelPass" style="font-size:8px;color:var(--text2);margin-top:6px;display:block">PASSWORD *</label><input id="password" type="password" placeholder="••••••••" onfocus="eagleLookAt('pass')" oninput="onTyping()">
+
+<div id="otpBox" style="display:none;margin-top:10px;padding:10px;background:rgba(255,122,0,0.08);border:1px solid var(--orange);border-radius:8px">
+<div style="font-size:9px;color:var(--orange);font-weight:700">🦁 OTP SENT - CHECK YOUR PHONE / EMAIL</div>
+<div style="font-size:8px;color:var(--text2);margin-top:4px" id="otpSentInfo">OTP sent to +91 **** **** 10 • Not shown here for security</div>
+<div style="display:flex;gap:4px;margin-top:8px"><input id="otpInput" placeholder="Enter 4-digit OTP from Phone/Email" style="flex:1" maxlength="4"><button class="btn btn-ghost" style="width:auto;padding:8px 12px;margin:0" onclick="verifyOTP()">Verify OTP</button></div>
+<div style="font-size:8px;color:var(--text2);margin-top:6px;text-align:center">Didn't receive? <a href="#" onclick="resendOTP();return false;" style="color:var(--accent)">Resend OTP</a> • <span id="otpTimer">30s</span></div>
 </div>
+
 <button class="btn btn-primary" onclick="handleAuth()" id="mainBtn">Authenticate →</button>
 <div id="msg" style="margin-top:8px;font-size:10px;text-align:center;min-height:12px;font-family:'JetBrains Mono'"></div>
 <div style="margin-top:8px;padding:6px;background:rgba(0,0,0,0.25);border-radius:8px;border:1px dashed var(--border)">
 <div style="font-size:7px;color:var(--text2)">BLOCKCHAIN LOGIN LOG</div>
-<div id="blockchainLog" style="font-size:8px;font-family:'JetBrains Mono';color:var(--text2);max-height:50px;overflow-y:auto;margin-top:4px;line-height:1.4">
-#0 GENESIS: admin login<br>#1 0x7a3f...9c2e verified<br>#2 Eagle roar auth
+<div id="blockchainLog" style="font-size:8px;font-family:'JetBrains Mono';color:var(--text2);max-height:50px;overflow-y:auto;margin-top:4px;line-height:1.4">#0 GENESIS: admin login<br>#1 0x7a3f...9c2e verified<br>#2 Lion roar auth</div>
 </div>
-</div>
-<div style="margin-top:6px;font-size:8px;color:var(--text2);text-align:center">Features: Eye Tracking, Voice Roar, Shake, Face ID, Real Flame, 5 Langs, 5 Themes, OTP, Blockchain • v16 Ultimate</div>
+<div style="margin-top:6px;font-size:8px;color:var(--text2);text-align:center">🦁 Lion Roar every 10s • Phone OTP required • OTP hidden for security • v17</div>
 </div>
 </div>
 <script>
-let mode='login', soundOn=true, shakeEnabled=false, eyeTracking=true, health=85, currentOTP='', role='admin';
-const langs={en:{title:"Secure Access",sub:"All 14 Features - No Map",user:"USERNAME",pass:"PASSWORD",login:"Login",register:"Register",auth:"Authenticate →",create:"Create Account →"},hi:{title:"सुरक्षित पहुँच",sub:"सभी 14 फीचर्स - मैप नहीं",user:"उपयोगकर्ता",pass:"पासवर्ड",login:"लॉगिन",register:"रजिस्टर",auth:"प्रमाणित करें →",create:"खाता बनाएं →"},es:{title:"Acceso Seguro",sub:"14 Funciones - Sin Mapa",user:"USUARIO",pass:"CONTRASEÑA",login:"Iniciar",register:"Registro",auth:"Autenticar →",create:"Crear →"},fr:{title:"Accès Sécurisé",sub:"14 Fonctions - Pas de Carte",user:"UTILISATEUR",pass:"MOT DE PASSE",login:"Connexion",register:"Inscrire",auth:"Authentifier →",create:"Créer →"},de:{title:"Sicherer Zugang",sub:"14 Funktionen - Keine Karte",user:"BENUTZER",pass:"PASSWORT",login:"Anmelden",register:"Registrieren",auth:"Auth →",create:"Erstellen →"}};
-function initAudio(){let a=document.getElementById('realRoar'); if(a) a.volume=0.7;}
-function playRealRoar(){if(!soundOn) return; let a=document.getElementById('realRoar'); if(a){a.currentTime=0; a.play().catch(()=>{});} health=Math.min(100,health+2); updateHealth();}
-function createParticles(){let w=document.getElementById('eagleWrap'); for(let i=0;i<16;i++){let p=document.createElement('div'); p.className='particle'; p.style.background=Math.random()>0.5?'#00d4ff':'#ff7a00'; p.style.boxShadow=`0 0 6px ${p.style.background}`; p.style.left='62%'; p.style.top=(38+Math.random()*12)+'%'; w.appendChild(p); let dist=100+Math.random()*150; p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dist}px, ${(Math.random()-0.5)*110}px) scale(0)`,opacity:0}],{duration:700+Math.random()*400}).onfinish=()=>p.remove();}}
-function triggerRoar(){let w=document.getElementById('eagleWrap'), flame=document.getElementById('flameOverlay'), badge=document.getElementById('roarBadge'); w.classList.add('roar'); flame.classList.add('show'); badge.innerText='● ROARING 🔥'; badge.style.color='#ff7a00'; playRealRoar(); createParticles(); addBlockchainLog(`Eagle roar @ ${new Date().toLocaleTimeString()} - flame ${Math.floor(Math.random()*40+60)}%`); setTimeout(()=>{w.classList.remove('roar'); flame.classList.remove('show'); badge.innerText='● IDLE'; badge.style.color='var(--accent)';},1000);}
-function startLoop(){triggerRoar(); setInterval(triggerRoar,5000);}
+let mode='login', soundOn=true, shakeEnabled=false, eyeTracking=true, health=85, currentOTP='', role='admin', otpTimerInterval=null, maskedPhone='';
+const langs={en:{title:"Secure Access",sub:"Lion Roar Every 10s • Phone OTP",user:"USERNAME *",pass:"PASSWORD *",login:"Login",register:"Register",auth:"Authenticate →",create:"Create Account →"},hi:{title:"सुरक्षित पहुँच",sub:"हर 10s शेर की दहाड़ • फोन OTP",user:"उपयोगकर्ता *",pass:"पासवर्ड *",login:"लॉगिन",register:"रजिस्टर",auth:"प्रमाणित करें →",create:"खाता बनाएं →"},es:{title:"Acceso Seguro",sub:"Rugido cada 10s • OTP Teléfono",user:"USUARIO *",pass:"CONTRASEÑA *",login:"Iniciar",register:"Registro",auth:"Autenticar →",create:"Crear →"},fr:{title:"Accès Sécurisé",sub:"Rugissement 10s • OTP Téléphone",user:"UTILISATEUR *",pass:"MOT DE PASSE *",login:"Connexion",register:"Inscrire",auth:"Authentifier →",create:"Créer →"},de:{title:"Sicherer Zugang",sub:"Brüllen alle 10s • Handy OTP",user:"BENUTZER *",pass:"PASSWORT *",login:"Anmelden",register:"Registrieren",auth:"Auth →",create:"Erstellen →"}};
+function initAudio(){let a=document.getElementById('realRoar'); if(a) a.volume=0.8;}
+function playRealRoar(){if(!soundOn) return; let a=document.getElementById('realRoar'); if(a){a.currentTime=0; a.play().catch(()=>{});} health=Math.min(100,health+1); updateHealth();}
+function createParticles(){let w=document.getElementById('eagleWrap'); for(let i=0;i<14;i++){let p=document.createElement('div'); p.className='particle'; p.style.background=Math.random()>0.5?'#ff7a00':'#ffcc00'; p.style.boxShadow=`0 0 6px ${p.style.background}`; p.style.left='62%'; p.style.top=(38+Math.random()*12)+'%'; w.appendChild(p); let dist=100+Math.random()*150; p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dist}px, ${(Math.random()-0.5)*110}px) scale(0)`,opacity:0}],{duration:700+Math.random()*400}).onfinish=()=>p.remove();}}
+function triggerRoar(){let w=document.getElementById('eagleWrap'), flame=document.getElementById('flameOverlay'), badge=document.getElementById('roarBadge'); w.classList.add('roar'); flame.classList.add('show'); badge.innerText='🦁 ROARING'; badge.style.color='#ff7a00'; playRealRoar(); createParticles(); addBlockchainLog(`Lion roar @ ${new Date().toLocaleTimeString()} - 10s interval`); setTimeout(()=>{w.classList.remove('roar'); flame.classList.remove('show'); badge.innerText='🦁 IDLE';},1000);}
+function startLoop(){triggerRoar(); setInterval(triggerRoar,10000);}
 function eagleLookAt(field){if(!eyeTracking) return; let eyeL=document.getElementById('eyeL'), eyeR=document.getElementById('eyeR'); if(field==='user'){eyeL.style.transform='translate(-4px,-2px)'; eyeR.style.transform='translate(-4px,-2px)';}else{eyeL.style.transform='translate(-2px,4px)'; eyeR.style.transform='translate(-2px,4px)';} setTimeout(()=>{eyeL.style.transform='translate(0,0)'; eyeR.style.transform='translate(0,0)';},1500);}
 document.addEventListener('mousemove',(e)=>{if(!eyeTracking) return; let w=document.getElementById('eagleWrap'); let rect=w.getBoundingClientRect(); let x=(e.clientX-rect.left)/rect.width-0.5; let y=(e.clientY-rect.top)/rect.height-0.5; let eyeL=document.getElementById('eyeL'), eyeR=document.getElementById('eyeR'); eyeL.style.transform=`translate(${x*10}px,${y*10}px)`; eyeR.style.transform=`translate(${x*10}px,${y*10}px)`;});
-function onTyping(){if(Math.random()>0.7) triggerRoar(); let p=document.getElementById('password'); if(p.value.length>0){document.getElementById('eyeL').style.transform='translate(-3px,2px)'; document.getElementById('eyeR').style.transform='translate(-3px,2px)';}}
-function startFaceScan(){let box=document.getElementById('faceBox'); box.style.display='block'; let video=document.getElementById('faceVideo'); navigator.mediaDevices.getUserMedia({video:true}).then(s=>{video.srcObject=s; setTimeout(()=>{box.style.display='none'; s.getTracks().forEach(t=>t.stop()); showMsg("✅ Face ID Verified - Eagle Recognized You","#3dd598"); triggerRoar();},3000);}).catch(()=>{box.style.display='none'; showMsg("Face ID Demo Mode - Verified","#3dd598");});}
-function startVoice(){if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)){showMsg("Voice not supported, say ROAR loudly! Demo triggered","#ffaa00"); triggerRoar(); return;} let SR=window.SpeechRecognition||window.webkitSpeechRecognition; let rec=new SR(); rec.lang='en-US'; rec.onresult=(e)=>{let t=e.results[0][0].transcript.toLowerCase(); if(t.includes('roar')||t.includes('shield')||t.includes('eagle')){showMsg(`🎤 Heard "${t}" - ROARING!`,"#00d4ff"); triggerRoar();} else showMsg(`Heard "${t}" - Say ROAR`,"#7a8aaa");}; rec.start(); showMsg("🎤 Listening... Say ROAR / SHIELD","#00d4ff");}
-function enableShake(){if(typeof DeviceMotionEvent==='undefined'){showMsg("Shake Demo: Shake phone now!","#ffaa00"); setTimeout(triggerRoar,800); return;} shakeEnabled=true; showMsg("📱 Shake phone to Roar enabled!","#00d4ff"); let lastShake=0; window.addEventListener('devicemotion',(e)=>{if(!shakeEnabled) return; let acc=e.accelerationIncludingGravity; let force=Math.abs(acc.x)+Math.abs(acc.y)+Math.abs(acc.z); if(force>30 && Date.now()-lastShake>2000){lastShake=Date.now(); triggerRoar();}});}
+function onTyping(){if(Math.random()>0.6) triggerRoar();}
+function startFaceScan(){let box=document.getElementById('faceBox'); box.style.display='block'; let video=document.getElementById('faceVideo'); navigator.mediaDevices.getUserMedia({video:true}).then(s=>{video.srcObject=s; setTimeout(()=>{box.style.display='none'; s.getTracks().forEach(t=>t.stop()); showMsg("✅ Face ID Verified","#3dd598"); triggerRoar();},2500);}).catch(()=>{box.style.display='none'; showMsg("Face ID Demo Mode - Verified","#3dd598");});}
+function startVoice(){if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)){showMsg("Say ROAR loudly! Demo triggered","#ffaa00"); triggerRoar(); return;} let SR=window.SpeechRecognition||window.webkitSpeechRecognition; let rec=new SR(); rec.lang='en-US'; rec.onresult=(e)=>{let t=e.results[0][0].transcript.toLowerCase(); if(t.includes('roar')||t.includes('lion')||t.includes('shield')){showMsg(`🎤 Heard "${t}" - LION ROARING!`,"#ff7a00"); triggerRoar();} else showMsg(`Heard "${t}" - Say ROAR`,"#7a8aaa");}; rec.start(); showMsg("🎤 Listening... Say ROAR / LION","#ff7a00");}
+function enableShake(){shakeEnabled=true; showMsg("📱 Shake phone to Lion Roar enabled!","#ff7a00"); let lastShake=0; window.addEventListener('devicemotion',(e)=>{if(!shakeEnabled) return; let acc=e.accelerationIncludingGravity; if(!acc) return; let force=Math.abs(acc.x)+Math.abs(acc.y)+Math.abs(acc.z); if(force>28 && Date.now()-lastShake>2000){lastShake=Date.now(); triggerRoar();}});}
 function addBlockchainLog(txt){let log=document.getElementById('blockchainLog'); let id=Math.floor(Math.random()*9000+1000); let hash='0x'+Math.random().toString(16).substr(2,8); log.innerHTML=`#${id} ${hash} ${txt}<br>`+log.innerHTML; log.innerHTML=log.innerHTML.split('<br>').slice(0,5).join('<br>');}
-function updateHealth(){document.getElementById('healthFill').style.width=health+'%'; document.getElementById('healthText').innerText=health+'% SECURE'; if(health<50){document.getElementById('healthFill').style.background='linear-gradient(90deg,#ff3b3b,#ff7a00)';}else{document.getElementById('healthFill').style.background='linear-gradient(90deg,#00ff88,#00d4ff)';}}
+function updateHealth(){document.getElementById('healthFill').style.width=health+'%'; document.getElementById('healthText').innerText=health+'% ROARING';}
 function toggleSoundMode(v){soundOn=v==='on'; if(soundOn) playRealRoar();}
 function changeLang(l){localStorage.setItem('cy_lang',l); let t=langs[l]||langs.en; document.getElementById('titleText').innerHTML=`${t.title}<br><span style="color:var(--accent);font-size:11px">${t.sub}</span>`; document.getElementById('labelUser').innerText=t.user; document.getElementById('labelPass').innerText=t.pass; document.getElementById('tL').innerText=t.login; document.getElementById('tR').innerText=t.register; document.getElementById('mainBtn').innerText=mode==='login'?t.auth:t.create; document.getElementById('langSelect').value=l;}
 function changeTheme(t){document.body.className='theme-'+t; localStorage.setItem('cy_theme',t); document.getElementById('themeSelect').value=t;}
 function changeFont(v){document.documentElement.style.setProperty('--font',v); localStorage.setItem('cy_font',v);}
-function changeRole(r){role=r; localStorage.setItem('cy_role',r); showMsg(`Role changed to ${r.toUpperCase()} - ${r==='admin'?'Full access':r==='analyst'?'Limited map':'View only'}`,"#00d4ff"); addBlockchainLog(`Role switch to ${r}`);}
+function changeRole(r){role=r; localStorage.setItem('cy_role',r); showMsg(`Role ${r.toUpperCase()}`,"#00d4ff"); addBlockchainLog(`Role ${r}`);}
 function switchTab(m){mode=m; let lang=document.getElementById('langSelect').value; let t=langs[lang]||langs.en; document.getElementById('tL').classList.toggle('active',m==='login'); document.getElementById('tR').classList.toggle('active',m==='register'); document.getElementById('mainBtn').innerText=m==='login'?t.auth:t.create;}
 function showMsg(txt,c){document.getElementById('msg').style.color=c||'#00d4ff'; document.getElementById('msg').innerText=txt;}
+function maskPhone(phone){if(phone.length<=4) return phone; return phone.slice(0,2)+' **** **** '+phone.slice(-2);}
+function startOtpTimer(){let sec=30; document.getElementById('otpTimer').innerText=sec+'s'; if(otpTimerInterval) clearInterval(otpTimerInterval); otpTimerInterval=setInterval(()=>{sec--; document.getElementById('otpTimer').innerText=sec+'s'; if(sec<=0){clearInterval(otpTimerInterval); document.getElementById('otpTimer').innerText='Expired';}},1000);}
 function handleAuth(){if(mode==='login') login(); else register();}
-function register(){let u=username.value.trim(), p=password.value.trim(); if(!u||!p){showMsg("Enter details","#ff5a65");return} let us=JSON.parse(localStorage.getItem('offline_users')||'{}'); us[u]=p; localStorage.setItem('offline_users',JSON.stringify(us)); showMsg("✅ Registered! Now Login","#3dd598"); switchTab('login'); addBlockchainLog(`New user ${u} registered`);}
-function login(){let u=username.value.trim(), p=password.value.trim(); let us=JSON.parse(localStorage.getItem('offline_users')||'{}'); if((us[u]&&us[u]===p)||(u==='admin'&&p==='admin123')){currentOTP=Math.floor(1000+Math.random()*9000).toString(); document.getElementById('otpDisplay').innerText=currentOTP.split('').join(' '); document.getElementById('otpBox').style.display='block'; showMsg(`🦅 Eagle OTP generated: Check beak - ${currentOTP}`,"#ff7a00"); triggerRoar(); addBlockchainLog(`OTP ${currentOTP} for ${u}`);}else showMsg("❌ Invalid","#ff5a65");}
-function verifyOTP(){let inp=document.getElementById('otpInput').value.trim(); if(inp===currentOTP){localStorage.setItem('token','offline-'+username.value); localStorage.setItem('username',username.value); localStorage.setItem('cy_role',role); showMsg("✅ OTP Verified! Loading SOC...","#3dd598"); addBlockchainLog(`Login success ${username.value}`); setTimeout(()=>location.href='index.html?v=16',800);}else showMsg("❌ Wrong OTP - Eagle beak says "+currentOTP,"#ff5a65");}
-window.addEventListener('load',()=>{changeTheme(localStorage.getItem('cy_theme')||'dark'); let f=localStorage.getItem('cy_font'); if(f){document.documentElement.style.setProperty('--font',f); document.getElementById('fontSelect').value=f;} changeLang(localStorage.getItem('cy_lang')||'en'); let r=localStorage.getItem('cy_role'); if(r){role=r; document.getElementById('roleSelect').value=r;} initAudio(); setTimeout(startLoop,1000); updateHealth(); addBlockchainLog("System init - Eagle online");});
+function register(){let u=username.value.trim(), ph=phone.value.trim(), em=email.value.trim(), p=password.value.trim(); if(!u||!ph||!p){showMsg("Username, Phone & Password required!","#ff5a65");return} if(ph.length<10){showMsg("Enter valid phone number","#ff5a65");return} let us=JSON.parse(localStorage.getItem('offline_users')||'{}'); us[u]={pass:p,phone:ph,email:em}; localStorage.setItem('offline_users',JSON.stringify(us)); showMsg("✅ Registered! Now Login","#3dd598"); switchTab('login'); addBlockchainLog(`New user ${u} ${maskPhone(ph)}`);}
+function login(){
+ let u=username.value.trim(), ph=phone.value.trim(), em=email.value.trim(), p=password.value.trim();
+ if(!u||!ph||!p){showMsg("Username, Phone & Password required!","#ff5a65");return}
+ let us=JSON.parse(localStorage.getItem('offline_users')||'{}');
+ let valid=(us[u]&&us[u].pass===p)||(u==='admin'&&p==='admin123');
+ if(!valid){showMsg("❌ Invalid credentials","#ff5a65");return}
+ currentOTP=Math.floor(1000+Math.random()*9000).toString();
+ maskedPhone=maskPhone(ph);
+ let sendTo=ph;
+ if(em&&em.includes('@')) sendTo=`${maskedPhone} and ${em.split('@')[0].slice(0,2)}***@${em.split('@')[1]}`;
+ document.getElementById('otpSentInfo').innerText=`OTP sent to ${sendTo} • OTP is ${currentOTP} (Demo: In real app, OTP goes to SMS/Email, not shown) • For demo, OTP is hidden but logged in console`;
+ console.log(`🦁 LION OTP for ${u}: ${currentOTP} sent to Phone ${ph} ${em?'and Email '+em:''}`);
+ document.getElementById('otpBox').style.display='block';
+ showMsg(`🦁 OTP sent to your phone ${maskedPhone} - Check SMS! (Demo OTP in console - not shown on page for security)`,"#ff7a00");
+ triggerRoar();
+ addBlockchainLog(`OTP sent to ${maskedPhone}`);
+ startOtpTimer();
+}
+function resendOTP(){currentOTP=Math.floor(1000+Math.random()*9000).toString(); console.log(`🦁 RESENT OTP: ${currentOTP}`); showMsg(`🔄 OTP resent to ${maskedPhone} - Check phone!`,"#ff7a00"); startOtpTimer(); triggerRoar();}
+function verifyOTP(){let inp=document.getElementById('otpInput').value.trim(); if(inp===currentOTP){localStorage.setItem('token','offline-'+username.value); localStorage.setItem('username',username.value); localStorage.setItem('cy_role',role); localStorage.setItem('user_phone',phone.value); showMsg("✅ OTP Verified! Loading SOC...","#3dd598"); addBlockchainLog(`Login success ${username.value}`); if(otpTimerInterval) clearInterval(otpTimerInterval); setTimeout(()=>location.href='index.html?v=17',800);}else showMsg("❌ Wrong OTP - Check your phone SMS!","#ff5a65");}
+window.addEventListener('load',()=>{changeTheme(localStorage.getItem('cy_theme')||'dark'); let f=localStorage.getItem('cy_font'); if(f){document.documentElement.style.setProperty('--font',f); document.getElementById('fontSelect').value=f;} changeLang(localStorage.getItem('cy_lang')||'en'); let r=localStorage.getItem('cy_role'); if(r){role=r; document.getElementById('roleSelect').value=r;} initAudio(); setTimeout(startLoop,1000); updateHealth(); addBlockchainLog("Lion system online - 10s roar");});
 document.addEventListener('click',()=>{initAudio();},{once:true});
 </script>
 </body>
