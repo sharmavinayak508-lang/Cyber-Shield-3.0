@@ -21,89 +21,89 @@
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
 </style><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>USER DASHBOARD - Limited Access - CYBER SHIELD 3.0</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>USER PANEL - Tier 1 Analyst / End-User - Cyber Shield SOC</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-:root{--bg:#050a14;--card:rgba(17,29,50,0.92);--border:rgba(0,212,255,0.25);--text:#e6edf5;--text2:#7a8aaa;--accent:#00d4ff;--orange:#ff7a00;--green:#00ff88}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.header{padding:12px 16px;border-bottom:2px solid var(--border);background:rgba(0,0,0,0.4);display:flex;justify-content:space-between;align-items:center}
-.badge{font-size:8px;padding:4px 8px;border-radius:20px;background:rgba(0,212,255,0.1);border:1px solid var(--border);color:var(--accent)}
-.sidebar{width:220px;background:rgba(0,0,0,0.3);border-right:2px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:6px;min-height:calc(100vh - 60px)}
-.side-btn{padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(17,29,50,0.6);color:var(--text2);cursor:pointer;text-align:left;font-size:11px}
-.side-btn.active{background:var(--accent);color:#000;font-weight:700}
-.main{display:flex}
-.content{flex:1;padding:14px;overflow-y:auto;max-height:calc(100vh - 60px)}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px}
+:root{--bg:#050a14;--card:#111d32;--border:#00d4ff;--text:#e6edf5;--green:#00ff88;--red:#ff3b3b;--orange:#ff7a00}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:var(--bg);color:var(--text)}
+.header{padding:10px;background:linear-gradient(90deg,#00d4ff,#0080ff);color:#000;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.sidebar{width:260px;background:#000;float:left;min-height:100vh;padding:10px}
+.side-btn{width:100%;padding:10px;margin:4px 0;background:#111;color:#fff;border:1px solid var(--border);cursor:pointer;text-align:left;border-radius:6px;display:block}
+.side-btn.active{background:var(--border);color:#000;font-weight:700}
+.content{margin-left:270px;padding:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn{padding:8px 12px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:11px}
-.btn-primary{background:linear-gradient(90deg,var(--accent),#00a2ff);color:#000}
-.btn-ghost{background:rgba(0,0,0,0.3);border:1px solid var(--border);color:var(--text)}
-input{width:100%;padding:10px;background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:8px;color:var(--text);margin-top:6px;font-size:12px}
-@media(max-width:900px){.main{flex-direction:column} .sidebar{width:100%;flex-direction:row;overflow-x:auto} .grid2{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.badge{font-size:8px;padding:4px 8px;border-radius:20px;background:rgba(0,212,255,0.15);border:1px solid var(--border);color:var(--border)}
+#map{width:100%;height:300px;border-radius:10px;border:1px solid var(--border)}
+.btn{padding:8px 12px;border-radius:6px;border:none;font-weight:700;cursor:pointer}
+.btn-p{background:var(--border);color:#000}.btn-g{background:#222;color:#fff;border:1px solid var(--border)}.btn-red{background:var(--red);color:#fff}
+input,select,textarea{width:100%;padding:10px;margin:5px 0;background:#000;border:1px solid var(--border);border-radius:6px;color:#fff;box-sizing:border-box}
+@media(max-width:800px){.sidebar{width:100%;float:none;min-height:auto;display:flex;flex-wrap:wrap;gap:5px}.side-btn{width:auto;flex:1;min-width:140px}.content{margin-left:0}.grid2,.grid3{grid-template-columns:1fr}}
 </style></head>
 <body>
-<div class="header">
-<div style="display:flex;gap:10px;align-items:center"><div style="width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#00ff88);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">👤</div><div><b>USER DASHBOARD - Limited Access</b><div style="font-size:8px;color:var(--text2)">Role: User • Can only see own data, use security tools</div></div></div>
-<div style="display:flex;gap:6px"><span class="badge">👤 USER</span><span class="badge" id="userName">user</span><button class="btn btn-ghost" style="padding:6px 10px" onclick="logout()">Logout</button></div>
-</div>
-<div class="main">
+<div class="header"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b data-i18n="title">👤 USER PANEL - Tier 1 Analyst / End-User</b>
+<select id="langSelect" onchange="changeLang()" style="padding:4px 8px;border-radius:6px;background:#000;color:var(--border);border:1px solid var(--border);font-size:11px">
+<option value="en">🇺🇸 EN</option><option value="hi">🇮🇳 हिंदी</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="de">🇩🇪 DE</option>
+</select>
+</div><div><span id="userName">user</span> <span class="badge">TIER 1</span> <button onclick="location.href='login.html'" class="btn-g">Logout</button></div></div>
 <div class="sidebar">
-<button class="side-btn active" onclick="showTab('profile')">👤 My Profile - Only Own</button>
-<button class="side-btn" onclick="showTab('tools')">🔧 Security Tools - Allowed</button>
-<button class="side-btn" onclick="showTab('mylocation')">📍 My Location - Only Own</button>
-<button class="side-btn" onclick="showTab('threats')">🛡️ Threats - View Only</button>
-<button class="side-btn" style="opacity:0.4" onclick="alert('❌ Access Denied - Admin Only! You cannot see other users locations')">🗺️ All Users Map - ❌ Admin Only</button>
-<button class="side-btn" style="opacity:0.4" onclick="alert('❌ Access Denied - Admin Only! You cannot see all users data')">👥 All Users - ❌ Admin Only</button>
-<button class="side-btn" onclick="window.location.href='admin_dashboard.html'">👑 Request Admin Access</button>
+<button class="side-btn active" id="b-health" onclick="showTab('health','b-health')" data-i18n="health">💚 Personal Security Health</button>
+<button class="side-btn" id="b-session" onclick="showTab('session','b-session')" data-i18n="session">📍 Identity & Session Monitor</button>
+<button class="side-btn" id="b-mfa" onclick="showTab('mfa','b-mfa')" data-i18n="mfa">🔐 Password & MFA Hygiene</button>
+<button class="side-btn" id="b-phish" onclick="showTab('phish','b-phish')" data-i18n="phish">🎣 Phishing & Email Submission</button>
+<button class="side-btn" id="b-incident" onclick="showTab('incident','b-incident')" data-i18n="incident">🚨 Security Incident Reporting</button>
+<button class="side-btn" id="b-ticket" onclick="showTab('ticket','b-ticket')" data-i18n="ticket">🎫 Ticket Status & Feedback</button>
+<button class="side-btn" id="b-bulletin" onclick="showTab('bulletin','b-bulletin')" data-i18n="bulletin">📢 Threat Bulletins</button>
+<button class="side-btn" id="b-training" onclick="showTab('training','b-training')" data-i18n="training">🎓 Simulated Training</button>
+<button class="side-btn" id="b-score" onclick="showTab('score','b-score')" data-i18n="score">📊 Executive Scorecard</button>
+<button class="side-btn" onclick="location.href='admin_dashboard.html'">👑 Switch to Admin Panel</button>
 </div>
 <div class="content">
-<div id="tab-profile" class="tabContent">
-<div class="card"><h3>👤 My Profile - You Can Only See Your Own Data</h3><div id="myProfile" style="margin-top:10px"></div></div>
-<div class="card" style="background:rgba(255,59,59,0.05);border-color:rgba(255,59,59,0.2)"><h3>❌ What User CANNOT Do (Admin Only)</h3><div style="font-size:11px;margin-top:8px;line-height:1.8">
-❌ Cannot see other users' locations<br>
-❌ Cannot see other users' phone, face data<br>
-❌ Cannot delete users<br>
-❌ Cannot see all login logs<br>
-❌ Cannot export all users CSV<br>
-✅ Can only: See own profile, own location, use security tools
-</div></div>
+<div id="tab-health" class="tab">
+<div class="grid3">
+<div class="card"><div style="font-size:10px">DEVICE HEALTH</div><div style="font-size:22px;color:var(--green)">✅ Healthy</div><div style="font-size:11px">OS Patched: Yes<br>EDR Agent: Active<br>Firewall: ON<br>Disk Encrypted: Yes</div></div>
+<div class="card"><div style="font-size:10px">COMPLIANCE SCORE</div><div style="font-size:28px;color:var(--border)">92%</div><div style="font-size:11px">ISO 27001: Pass<br>NIST: 90%<br>GDPR: Compliant</div></div>
+<div class="card"><div style="font-size:10px">RISK LEVEL</div><div style="font-size:22px;color:var(--green)">Low</div><div style="font-size:11px">Last Scan: Today<br>Threats Blocked: 3<br>Next Scan: Tomorrow</div></div>
 </div>
-<div id="tab-tools" class="tabContent" style="display:none">
-<div class="grid2">
-<div class="card"><h3>🔑 Password Analyzer</h3><input id="passInput" placeholder="Enter password" oninput="analyzePass()"><div id="passResult" style="margin-top:8px;font-size:11px"></div></div>
-<div class="card"><h3>🎣 Phishing Checker</h3><input id="phishInput" placeholder="Enter URL"><button class="btn btn-primary" style="margin-top:6px" onclick="checkPhish()">Check</button><div id="phishResult" style="margin-top:8px;font-size:11px"></div></div>
+<div class="card"><h3 data-i18n="deviceHealth">💻 Device & Asset Health - Real-time</h3><div style="margin-top:10px;font-size:12px">Your endpoint: <b id="deviceInfo">Windows 11 - Patched - EDR Active</b><br>IP: 192.168.1.105 | Location: Delhi | Last Check-in: <span id="lastCheck">Now</span></div></div>
 </div>
-<div class="card"><h3>📁 File Scanner</h3><input type="file" id="fileInput" onchange="scanFile()"><div id="fileResult" style="margin-top:8px;font-size:11px"></div></div>
+<div id="tab-session" class="tab" style="display:none">
+<div class="card"><h3 data-i18n="sessionTitle">📍 Identity & Session Monitor - Geographic Map</h3><div id="map"></div><div style="margin-top:10px"><button class="btn-red" onclick="terminateSessions()" data-i18n="terminate">Terminate All Other Sessions</button> <span id="sessionInfo" style="font-size:11px;margin-left:10px"></span></div><div id="sessionList" style="margin-top:10px;font-size:11px"></div></div>
 </div>
-<div id="tab-mylocation" class="tabContent" style="display:none">
-<div class="card"><h3>📍 My Location - Only Your Location (Admin sees all)</h3><div id="myLoc" style="margin-top:10px"></div></div>
+<div id="tab-mfa" class="tab" style="display:none">
+<div class="card"><h3 data-i18n="mfaTitle">🔐 Password & MFA Hygiene</h3><div class="grid2" style="margin-top:10px"><div><label>Check Breach (HaveIBeenPwned API)</label><input id="emailCheck" placeholder="your@email.com"><button class="btn-p" onclick="checkBreach()">Check Breach</button><div id="breachResult" style="margin-top:8px;font-size:11px"></div></div><div><label>MFA Status</label><div style="padding:10px;background:rgba(0,255,136,0.1);border-radius:8px">MFA: ✅ Enabled (Authenticator App)<br>Passkey: ✅ Configured<br>Expires: 90 days</div><button class="btn-g" style="margin-top:8px" onclick="alert('MFA Management - Redirect to authenticator setup')">Manage MFA / Passkeys</button></div></div></div>
 </div>
-<div id="tab-threats" class="tabContent" style="display:none">
-<div class="card"><h3>🛡️ Threats - View Only</h3><canvas id="chart1" height="150"></canvas></div>
+<div id="tab-phish" class="tab" style="display:none">
+<div class="card"><h3 data-i18n="phishTitle">🎣 Phishing & Suspicious Email Submission - One-click</h3><div style="margin-top:10px"><label>Paste Suspicious Email / URL / Header</label><textarea id="phishInput" rows="4" placeholder="Paste email header, sender, suspicious link..."></textarea><button class="btn-p" onclick="submitPhish()">Submit for Analysis - Auto Parse</button><div id="phishResult" style="margin-top:10px;font-size:11px"></div></div></div>
 </div>
+<div id="tab-incident" class="tab" style="display:none">
+<div class="card"><h3 data-i18n="incidentTitle">🚨 Security Incident Reporting Portal</h3><div class="grid2" style="margin-top:10px"><div><label>Incident Type</label><select id="incidentType"><option>Lost Device</option><option>Suspicious Login</option><option>Unauthorized Access</option><option>Malware Alert</option><option>Data Loss</option></select><label>Description</label><textarea id="incidentDesc" rows="3" placeholder="Describe incident..."></textarea><button class="btn-p" onclick="reportIncident()">Submit Incident Ticket</button></div><div><div style="padding:10px;background:rgba(255,122,0,0.1);border-radius:8px;font-size:11px"><b>SLA:</b> P1 Critical: 1h response<br>P2 High: 4h<br>P3 Medium: 24h<br>P4 Low: 72h<br><br>Your reports go to SOC queue</div></div></div></div>
 </div>
+<div id="tab-ticket" class="tab" style="display:none"><div class="card"><h3 data-i18n="ticketTitle">🎫 Ticket Status & Remediation Feedback</h3><div id="ticketList" style="margin-top:10px"></div></div></div>
+<div id="tab-bulletin" class="tab" style="display:none"><div class="card"><h3 data-i18n="bulletinTitle">📢 Targeted Threat Bulletins - Read Only</h3><div style="margin-top:10px"><div style="padding:10px;border-left:4px solid var(--red);background:rgba(255,59,59,0.1);margin-bottom:8px"><b>[CRITICAL] Active Credential Stuffing Campaign</b><br>Target: O365 logins - Use MFA - Relevant to your role</div><div style="padding:10px;border-left:4px solid var(--orange);background:rgba(255,122,0,0.1);margin-bottom:8px"><b>[HIGH] Ransomware Group - LockBit 3.0</b><br>Advisory: Patch CVE-2023-28252 immediately</div><div style="padding:10px;border-left:4px solid var(--border);background:rgba(0,212,255,0.1)"><b>[MEDIUM] Phishing - Fake Invoice</b><br>Subject: Invoice #INV-2024 - Do not click</div></div></div></div>
+<div id="tab-training" class="tab" style="display:none"><div class="card"><h3 data-i18n="trainingTitle">🎓 Simulated Training Feedback</h3><div class="grid2" style="margin-top:10px"><div class="card" style="margin:0"><div>Phishing Simulation Drills</div><div style="font-size:24px;color:var(--green)">85% Pass</div><div style="font-size:11px">Clicked: 1/6 simulations<br>Last: 2024-12-01 - You reported correctly</div></div><div class="card" style="margin:0"><div>Micro-Learning Modules</div><div style="font-size:11px">Assigned: MFA Best Practices (Due: 3 days)<br>Completed: Password Hygiene - 100%<br>Next: Social Engineering</div></div></div></div></div>
+<div id="tab-score" class="tab" style="display:none"><div class="card"><h3 data-i18n="scoreTitle">📊 Client Executive View - B2B / MSSP - Read Only Scorecard</h3><div class="grid3" style="margin-top:10px"><div class="card" style="margin:0"><div>Security Score</div><div style="font-size:28px;color:var(--green)">A- (92%)</div></div><div class="card" style="margin:0"><div>SLA Tracking</div><div style="font-size:12px">MTTD: 12 min<br>MTTR: 45 min<br>Uptime: 99.9%</div></div><div class="card" style="margin:0"><div>Compliance</div><div style="font-size:12px">ISO 27001: ✅<br>NIST: ✅<br>GDPR: ✅</div></div></div><button class="btn-g" onclick="alert('Monthly PDF Report - ISO 27001, NIST, GDPR - Download')">Download Monthly Compliance Summary (PDF)</button></div></div>
 </div>
 <script>
-function showTab(t){ document.querySelectorAll('.tabContent').forEach(e=>e.style.display='none'); document.getElementById('tab-'+t).style.display='block'; document.querySelectorAll('.side-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); if(t==='profile') loadProfile(); if(t==='mylocation') loadMyLoc(); if(t==='threats') initChart(); }
-function logout(){ localStorage.removeItem('token'); localStorage.removeItem('username'); location.href='login.html'; }
-function loadProfile(){
-  let username=localStorage.getItem('username')||'user';
-  let loc=JSON.parse(localStorage.getItem(`user_location_${username}`)||localStorage.getItem(`registered_user_${username}`)||'{}');
-  let face=localStorage.getItem(`face_data_${username}`)?'✅ Registered':'❌ Not registered';
-  document.getElementById('myProfile').innerHTML=`<b>Username:</b> ${username}<br><b>Phone:</b> ${loc.phone||'N/A'}<br><b>City:</b> ${loc.city||'Unknown'}<br><b>Face Biometric:</b> ${face}<br><b>Role:</b> User (Limited)<br><br><div style="padding:8px;background:rgba(0,212,255,0.1);border-radius:6px">You can only see YOUR data. Admin can see ALL users data.</div>`;
-}
-function loadMyLoc(){
-  let username=localStorage.getItem('username')||'user';
-  let loc=JSON.parse(localStorage.getItem(`user_location_${username}`)||'{}');
-  document.getElementById('myLoc').innerHTML= loc.lat ? `<b>Your Location:</b><br>📍 ${loc.city}<br>Lat: ${loc.lat}<br>Lng: ${loc.lng}<br>Time: ${loc.time}<br><br><span style="color:var(--text2);font-size:10px">Admin can see this location + all other users locations on admin map. You see only yours.</span>` : "No location captured - Allow location on registration";
-}
-function analyzePass(){ let v=document.getElementById('passInput').value; let s=0; if(v.length>8) s++; if(/[A-Z]/.test(v)) s++; if(/[0-9]/.test(v)) s++; if(/[^A-Za-z0-9]/.test(v)) s++; document.getElementById('passResult').innerHTML=s<2?'🔴 Weak':s<3?'🟠 Medium':'🟢 Strong'; }
-function checkPhish(){ let u=document.getElementById('phishInput').value; document.getElementById('phishResult').innerHTML=u.includes('phish')?'🔴 Phishing!':'🟢 Safe'; }
-function scanFile(){ let f=document.getElementById('fileInput').files[0]; if(f) document.getElementById('fileResult').innerHTML=`File: ${f.name} - 🟢 No malware`; }
-function initChart(){ let c=document.getElementById('chart1'); if(c && !c.chart){ new Chart(c,{type:'line',data:{labels:['00','08','12','16','20'],datasets:[{label:'Threats',data:[5,12,8,15,10],borderColor:'#00d4ff'}]}}); } }
-window.addEventListener('load',()=>{ document.getElementById('userName').innerText=localStorage.getItem('username')||'user'; loadProfile(); });
+const trans={
+en:{title:"USER PANEL - Tier 1 Analyst / End-User",logout:"Logout",health:"Personal Security Health",session:"Identity & Session Monitor",mfa:"Password & MFA Hygiene",phish:"Phishing & Email Submission",incident:"Security Incident Reporting",ticket:"Ticket Status & Feedback",bulletin:"Threat Bulletins",training:"Simulated Training",score:"Executive Scorecard",deviceHealth:"Device & Asset Health - Real-time",sessionTitle:"Identity & Session Monitor - Geographic Map",terminate:"Terminate All Other Sessions",mfaTitle:"Password & MFA Hygiene",phishTitle:"Phishing & Suspicious Email Submission - One-click",incidentTitle:"Security Incident Reporting Portal",ticketTitle:"Ticket Status & Remediation Feedback",bulletinTitle:"Targeted Threat Bulletins - Read Only",trainingTitle:"Simulated Training Feedback",scoreTitle:"Client Executive View - B2B / MSSP - Read Only Scorecard"},
+hi:{title:"यूजर पैनल - Tier 1 विश्लेषक",health:"व्यक्तिगत सुरक्षा स्वास्थ्य",session:"पहचान और सत्र मॉनिटर",mfa:"पासवर्ड और MFA स्वच्छता",phish:"फ़िशिंग और ईमेल सबमिशन",incident:"सुरक्षा घटना रिपोर्टिंग",ticket:"टिकट स्थिति",bulletin:"खतरा बुलेटिन",training:"प्रशिक्षण",score:"कार्यकारी स्कोरकार्ड",deviceHealth:"डिवाइस स्वास्थ्य",sessionTitle:"पहचान और सत्र मॉनिटर",terminate:"अन्य सभी सत्र समाप्त करें",mfaTitle:"पासवर्ड और MFA",phishTitle:"फ़िशिंग सबमिशन",incidentTitle:"सुरक्षा घटना पोर्टल",ticketTitle:"टिकट स्थिति",bulletinTitle:"खतरा बुलेटिन",trainingTitle:"प्रशिक्षण प्रतिक्रिया",scoreTitle:"कार्यकारी स्कोरकार्ड"},
+es:{title:"PANEL USUARIO - Analista Tier 1",health:"Salud Seguridad Personal",session:"Monitor Identidad y Sesión",mfa:"Higiene Contraseña y MFA",phish:"Envío Phishing y Email",incident:"Reporte Incidentes Seguridad",ticket:"Estado Tickets",bulletin:"Boletines Amenazas",training:"Entrenamiento Simulado",score:"Cuadro Mando Ejecutivo",deviceHealth:"Salud Dispositivo",sessionTitle:"Monitor Identidad y Sesión",terminate:"Terminar Otras Sesiones",mfaTitle:"Higiene Contraseña y MFA",phishTitle:"Envío Phishing",incidentTitle:"Portal Reporte Incidentes",ticketTitle:"Estado Tickets",bulletinTitle:"Boletines Amenazas",trainingTitle:"Feedback Entrenamiento",scoreTitle:"Vista Ejecutiva Cliente"},
+fr:{title:"PANEL UTILISATEUR - Analyste Tier 1",health:"Santé Sécurité Personnelle",session:"Moniteur Identité et Session",mfa:"Hygiène Mot de passe et MFA",phish:"Soumission Phishing et Email",incident:"Signalement Incident Sécurité",ticket:"Statut Tickets",bulletin:"Bulletins Menaces",training:"Formation Simulée",score:"Tableau Bord Exécutif",deviceHealth:"Santé Appareil",sessionTitle:"Moniteur Identité",terminate:"Terminer Autres Sessions",mfaTitle:"Hygiène Mot de passe",phishTitle:"Soumission Phishing",incidentTitle:"Portail Signalement",ticketTitle:"Statut Tickets",bulletinTitle:"Bulletins Menaces",trainingTitle:"Feedback Formation",scoreTitle:"Vue Exécutive Client"},
+de:{title:"BENUTZER PANEL - Tier 1 Analyst",health:"Persönliche Sicherheitsgesundheit",session:"Identität und Sitzungsmonitor",mfa:"Passwort und MFA Hygiene",phish:"Phishing und E-Mail Einreichung",incident:"Sicherheitsvorfall Meldung",ticket:"Ticket Status",bulletin:"Bedrohungsbulletins",training:"Simuliertes Training",score:"Executive Scorecard",deviceHealth:"Gerätezustand",sessionTitle:"Identität und Sitzungsmonitor",terminate:"Andere Sitzungen beenden",mfaTitle:"Passwort und MFA",phishTitle:"Phishing Einreichung",incidentTitle:"Sicherheitsvorfall Portal",ticketTitle:"Ticket Status",bulletinTitle:"Bedrohungsbulletins",trainingTitle:"Trainingsfeedback",scoreTitle:"Executive Scorecard"}
+};
+function changeLang(){let l=document.getElementById('langSelect').value;localStorage.setItem('user_lang',l);let t=trans[l]||trans.en;document.querySelectorAll('[data-i18n]').forEach(el=>{let k=el.getAttribute('data-i18n');if(t[k]) el.innerText=t[k];});}
+let map, markers=[];
+function showTab(id,btnId){document.querySelectorAll('.tab').forEach(t=>t.style.display='none');document.getElementById('tab-'+id).style.display='block';document.querySelectorAll('.side-btn').forEach(b=>b.classList.remove('active'));let b=document.getElementById(btnId);if(b) b.classList.add('active');if(id==='session') setTimeout(initMap,300);if(id==='ticket') loadTickets();}
+function initMap(){if(map) return;map=L.map('map').setView([20.59,78.96],4);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'OSM'}).addTo(map);let sessions=[{lat:28.61,lng:77.20,city:'Delhi - Current',time:'Now'},{lat:19.07,lng:72.87,city:'Mumbai - 2h ago',time:'2h ago'},{lat:12.97,lng:77.59,city:'Bangalore - Yesterday',time:'Yesterday'}];sessions.forEach(s=>{let m=L.marker([s.lat,s.lng]).addTo(map);m.bindPopup(s.city+'<br>'+s.time);markers.push(m);});let list=document.getElementById('sessionList');list.innerHTML=sessions.map(s=>'📍 '+s.city+' - '+s.time+' - IP: 192.168.1.'+Math.floor(Math.random()*100)).join('<br>');}
+function terminateSessions(){if(!confirm('Terminate all other sessions?')) return;document.getElementById('sessionInfo').innerText='✅ All other sessions terminated - Refresh tokens revoked';}
+function checkBreach(){let e=document.getElementById('emailCheck').value;if(!e){alert('Enter email');return;}document.getElementById('breachResult').innerHTML='Checking HaveIBeenPwned API for '+e+'...<br>Simulated: Found in 0 breaches - Safe (Demo - Connect real API: https://haveibeenpwned.com/API/v3/breachedaccount/'+e+')';}
+function submitPhish(){let v=document.getElementById('phishInput').value;if(!v){alert('Paste email/URL');return;}let parsed='Sender: '+ (v.match(/From:\s*(.+)/i)?.[1]||'suspicious@fake.com') +'<br>Links found: '+(v.match(/https?:\/\/[^\s]+/g)||['http://phishing-secure-login.com']).length+'<br>Headers: SPF fail detected';document.getElementById('phishResult').innerHTML='✅ Submitted - Ticket #INC'+Math.floor(Math.random()*10000)+'<br>'+parsed+'<br>Status: Queued for Tier 2 Analyst';saveTicket('Phishing: '+v.substring(0,30));}
+function reportIncident(){let t=document.getElementById('incidentType').value;let d=document.getElementById('incidentDesc').value;if(!d){alert('Enter description');return;}saveTicket(t+': '+d);alert('Incident reported - Ticket created - SOC notified - SLA: P2 High - 4h response');document.getElementById('incidentDesc').value='';}
+function saveTicket(desc){let tickets=JSON.parse(localStorage.getItem('user_tickets')||'[]');tickets.unshift({id:'INC'+Math.floor(Math.random()*10000),desc:desc,status:'New',time:new Date().toLocaleString(),analystNote:'Queued'});localStorage.setItem('user_tickets',JSON.stringify(tickets));}
+function loadTickets(){let tickets=JSON.parse(localStorage.getItem('user_tickets')||'[]');let el=document.getElementById('ticketList');if(tickets.length===0){el.innerHTML='No tickets - Submit phishing or incident to see status here';return;}el.innerHTML='<table border=1 style="width:100%;border-collapse:collapse;font-size:11px"><tr><th>ID</th><th>Description</th><th>Status</th><th>Analyst Note</th><th>Time</th></tr>'+tickets.map(t=>'<tr><td>'+t.id+'</td><td>'+t.desc+'</td><td>'+t.status+'</td><td>'+t.analystNote+'</td><td>'+t.time+'</td></tr>').join('')+'</table>';}
+window.addEventListener('load',function(){let u=localStorage.getItem('username')||'user';document.getElementById('userName').innerText=u;let lang=localStorage.getItem('user_lang')||'en';document.getElementById('langSelect').value=lang;changeLang();document.getElementById('deviceInfo').innerText=navigator.platform+' - Patched - EDR Active';document.getElementById('lastCheck').innerText=new Date().toLocaleString();});
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
