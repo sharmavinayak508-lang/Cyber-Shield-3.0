@@ -37,17 +37,17 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 </style></head>
 <body>
 <div class="header">
-<div style="display:flex;gap:8px;align-items:center"><div style="width:32px;height:32px;background:linear-gradient(135deg,#ff7a00,#ffcc00);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">👑</div><div><b>ADMIN DASHBOARD v3 - 3D GLOBE + CYBER</b><div style="font-size:7px;color:var(--text2)">Admin Only - See all phone locations on 2D Map + 3D Globe + Full Cyber Features</div></div></div>
-<div style="display:flex;gap:4px;flex-wrap:wrap"><span class="badge">👑 ADMIN</span><span class="badge">🌍 3D GLOBE + 🗺️ MAP</span><span class="badge" id="userCount">0 Users</span><span class="badge" id="adminName">admin</span><button class="btn btn-ghost" style="padding:5px 8px" onclick="logout()">Logout</button></div>
+<div style="display:flex;gap:8px;align-items:center"><div style="width:32px;height:32px;background:linear-gradient(135deg,#ff7a00,#ffcc00);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">👑</div><div><b>ADMIN DASHBOARD v3 - OLD MAP + 3D GLOBE + CYBER</b><div style="font-size:7px;color:var(--text2)">Old 2D World Map + New 3D Globe - Phone Locations on Both + Full Cyber Features</div></div></div>
+<div style="display:flex;gap:4px;flex-wrap:wrap"><span class="badge">👑 ADMIN</span><span class="badge">🗺️ OLD MAP + 🌍 3D GLOBE</span><span class="badge" id="userCount">0 Users</span><span class="badge" id="adminName">admin</span><button class="btn btn-ghost" style="padding:5px 8px" onclick="logout()">Logout</button></div>
 </div>
 <div class="main">
 <div class="sidebar">
 <button class="side-btn active" onclick="showTab('overview')">📊 Overview</button>
-<button class="side-btn admin" onclick="showTab('locations')">🗺️ Locations - 2D Map + 3D Globe</button>
+<button class="side-btn admin" onclick="showTab('locations')">🗺️ Locations - OLD Map + 3D Globe</button>
 <div style="display:flex;flex-direction:column;gap:3px;margin-top:2px">
-<button class="side-btn sub-btn" onclick="showTab('locations'); setMapMode('2d')">📍 Sub: 2D Map - Phone Locations</button>
-<button class="side-btn sub-btn" onclick="showTab('locations'); setMapMode('3d')">🌍 Sub: 3D Globe - Phone Locations</button>
-<button class="side-btn sub-btn" onclick="showTab('locations'); setMapMode('both')">🗺️+🌍 Sub: Both - Split View</button>
+<button class="side-btn sub-btn" onclick="showTab('locations'); setMapMode('2d')">📍 Sub: OLD 2D Map - Phone Locations</button>
+<button class="side-btn sub-btn" onclick="showTab('locations'); setMapMode('3d')">🌍 Sub: NEW 3D Globe - Phone Locations</button>
+<button class="side-btn sub-btn" onclick="showTab('locations'); setMapMode('both')">🗺️+🌍 Sub: Both - OLD + NEW Split View</button>
 </div>
 <button class="side-btn admin" onclick="showTab('users')">👥 All Users - Full Data</button>
 <button class="side-btn admin" onclick="showTab('faces')">👁️ Face Biometrics DB</button>
@@ -63,106 +63,97 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 <div id="tab-overview" class="tabContent">
 <div class="grid3">
 <div class="card"><div style="font-size:9px;color:var(--text2)">TOTAL USERS / PHONES</div><div style="font-size:24px;font-weight:700;color:var(--accent)" id="totalUsers">0</div><div style="font-size:7px;color:var(--text2)" id="todayReg">+0 today - All phones tracked</div></div>
-<div class="card"><div style="font-size:9px;color:var(--text2)">LOCATIONS ON 3D GLOBE</div><div style="font-size:24px;font-weight:700;color:var(--blue)" id="locTracked">0</div><div style="font-size:7px;color:var(--text2)">2D Map + 3D Globe pins</div></div>
+<div class="card"><div style="font-size:9px;color:var(--text2)">LOCATIONS ON OLD MAP + 3D GLOBE</div><div style="font-size:24px;font-weight:700;color:var(--blue)" id="locTracked">0</div><div style="font-size:7px;color:var(--text2)">2D Map + 3D Globe pins</div></div>
 <div class="card"><div style="font-size:9px;color:var(--text2)">CYBER THREATS BLOCKED</div><div style="font-size:24px;font-weight:700;color:var(--green)" id="threatsBlocked">1,247</div><div style="font-size:7px;color:var(--text2)">SOC Active</div></div>
 </div>
-<div class="card"><h3>👑 Admin Powers - NEW in v3</h3><div style="font-size:10px;margin-top:6px;line-height:1.7">
-✅ <b>3D Globe + 2D Map</b> - See phone locations on both - Sub-options: 2D Map only, 3D Globe only, Both split<br>
-✅ <b>Phone Location Tracking</b> - Every registered phone shows on globe with lat/lng/city<br>
-✅ <b>Cyber Dashboards:</b> SOC, Live Threat Map, Network Traffic, MITRE ATT&CK<br>
-✅ <b>Switch to User Panel</b> - Admin can see how user sees system<br>
-✅ <b>All Users Data</b> - Phone, face, location, delete users<br>
-❌ User cannot see 3D globe of all users, only own location
+<div class="card"><h3>👑 Admin Powers - OLD MAP + NEW 3D GLOBE</h3><div style="font-size:10px;margin-top:6px;line-height:1.7">
+✅ <b>OLD 2D World Map</b> - Leaflet OpenStreetMap - Shows phone locations with pins (your old map)<br>
+✅ <b>NEW 3D Globe</b> - Three.js rotating Earth - Orange dots for each phone (new feature)<br>
+✅ <b>Sub-options:</b> 2D Map only (OLD), 3D Globe only (NEW), Both split view (OLD + NEW together)<br>
+✅ <b>Cyber Dashboards:</b> SOC, Live Threat Map, Network Traffic, MITRE ATT&CK (OLD + NEW)<br>
+✅ <b>Phone Location Tracking</b> - Every registered phone shows on both maps
 </div></div>
 <div class="grid2"><div class="card"><h3>Threats Last 24h</h3><canvas id="chart1" height="140"></canvas></div><div class="card"><h3>Phone Locations by City</h3><canvas id="chart2" height="140"></canvas></div></div>
 </div>
 <div id="tab-locations" class="tabContent" style="display:none">
 <div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><h3>🗺️ + 🌍 Phone Locations - Admin Only (2D Map + 3D Globe)</h3><div class="toggle-group"><button class="toggle-btn active" id="btn2d" onclick="setMapMode('2d')">🗺️ 2D Map</button><button class="toggle-btn" id="btn3d" onclick="setMapMode('3d')">🌍 3D Globe</button><button class="toggle-btn" id="btnBoth" onclick="setMapMode('both')">Both</button></div></div>
-<p style="font-size:9px;color:var(--text2);margin-top:4px">Sub-options: See registered phone locations on 2D Map (OpenStreetMap) or 3D Globe (Three.js) - Admin only, User sees only own location</p>
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><h3>🗺️ OLD Map + 🌍 NEW 3D Globe - Phone Locations</h3><div class="toggle-group"><button class="toggle-btn active" id="btn2d" onclick="setMapMode('2d')">🗺️ OLD 2D Map</button><button class="toggle-btn" id="btn3d" onclick="setMapMode('3d')">🌍 NEW 3D Globe</button><button class="toggle-btn" id="btnBoth" onclick="setMapMode('both')">OLD + NEW Both</button></div></div>
+<p style="font-size:9px;color:var(--text2);margin-top:4px">OLD: 2D World Map (Leaflet) + NEW: 3D Globe (globe.gl) - Both show same phone locations - Admin only</p>
 <div id="mapContainer" style="margin-top:10px"><div id="map"></div></div>
 <div id="globeContainer" style="margin-top:10px;display:none"><div id="globe"></div></div>
-<div id="bothContainer" style="display:none;margin-top:10px" class="grid2"><div><h4 style="font-size:10px">🗺️ 2D Map View</h4><div id="map2" style="width:100%;height:400px;border-radius:12px;border:1px solid var(--border)"></div></div><div><h4 style="font-size:10px">🌍 3D Globe View</h4><div id="globe2" style="width:100%;height:400px;border-radius:12px;border:1px solid var(--border);background:#000"></div></div></div>
+<div id="bothContainer" style="display:none;margin-top:10px" class="grid2"><div><h4 style="font-size:10px">🗺️ OLD 2D Map View</h4><div id="map2" style="width:100%;height:400px;border-radius:12px;border:1px solid var(--border)"></div></div><div><h4 style="font-size:10px">🌍 NEW 3D Globe View</h4><div id="globe2" style="width:100%;height:400px;border-radius:12px;border:1px solid var(--border);background:#000"></div></div></div>
 <div id="locationList" style="margin-top:10px;font-size:9px;max-height:180px;overflow-y:auto"></div>
 </div>
 </div>
 <div id="tab-users" class="tabContent" style="display:none">
-<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>👥 All Users - Phone Locations Database</h3><div><button class="btn btn-primary" onclick="loadAllUsers()">🔄 Refresh</button><button class="btn btn-ghost" onclick="exportCSV()">📥 Export CSV</button></div></div><div id="allUsersTable" style="margin-top:10px;font-size:9px;overflow-x:auto"></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>👥 All Users - Phone Locations Database (OLD + NEW)</h3><div><button class="btn btn-primary" onclick="loadAllUsers()">🔄 Refresh</button><button class="btn btn-ghost" onclick="exportCSV()">📥 Export CSV</button></div></div><div id="allUsersTable" style="margin-top:10px;font-size:9px;overflow-x:auto"></div></div>
 </div>
-<div id="tab-faces" class="tabContent" style="display:none"><div class="card"><h3>👁️ Face Biometrics - Admin Only</h3><div id="faceList" style="margin-top:10px" class="grid2"></div></div></div>
+<div id="tab-faces" class="tabContent" style="display:none"><div class="card"><h3>👁️ Face Biometrics - OLD FEATURE</h3><div id="faceList" style="margin-top:10px" class="grid2"></div></div></div>
 <div id="tab-soc" class="tabContent" style="display:none">
 <div class="grid3"><div class="card"><div style="font-size:9px;color:var(--text2)">ACTIVE ALERTS</div><div style="font-size:20px;font-weight:700;color:var(--red)">23</div></div><div class="card"><div style="font-size:9px;color:var(--text2)">INCIDENTS TODAY</div><div style="font-size:20px;font-weight:700;color:var(--accent)">7</div></div><div class="card"><div style="font-size:9px;color:var(--text2)">PHONES PROTECTED</div><div style="font-size:20px;font-weight:700;color:var(--green)" id="phonesProtected">0</div></div></div>
-<div class="card"><h3>🛡️ SOC - Security Operations Center - Live</h3><div id="socLogs" style="font-family:JetBrains Mono;font-size:8px;max-height:300px;overflow-y:auto;margin-top:8px"></div></div>
+<div class="card"><h3>🛡️ SOC - Security Operations Center</h3><div id="socLogs" style="font-family:monospace;font-size:8px;max-height:300px;overflow-y:auto;margin-top:8px"></div></div>
 </div>
 <div id="tab-threats" class="tabContent" style="display:none">
-<div class="card"><h3>🚨 Live Cyber Threat Map - 3D Globe Attack View</h3><p style="font-size:9px;color:var(--text2)">Shows live attacks from world - Different from phone locations - Cyber industry feature</p><div id="threatGlobe" style="width:100%;height:450px;border-radius:12px;background:#000;border:1px solid var(--border);margin-top:8px"></div></div>
+<div class="card"><h3>🚨 Live Cyber Threat Map - 3D Globe Attack View (NEW)</h3><div id="threatGlobe" style="width:100%;height:450px;border-radius:12px;background:#000;border:1px solid var(--border);margin-top:8px"></div></div>
 </div>
 <div id="tab-network" class="tabContent" style="display:none">
-<div class="grid2"><div class="card"><h3>🌐 Network Traffic - Real-time</h3><canvas id="netChart1" height="150"></canvas></div><div class="card"><h3>🔒 Blocked Connections</h3><canvas id="netChart2" height="150"></canvas></div></div>
-<div class="card"><h3>📡 Live Connections - Phones in Database</h3><div id="networkList" style="font-size:9px;margin-top:8px"></div></div>
+<div class="grid2"><div class="card"><h3>🌐 Network Traffic</h3><canvas id="netChart1" height="150"></canvas></div><div class="card"><h3>🔒 Blocked Connections</h3><canvas id="netChart2" height="150"></canvas></div></div>
+<div class="card"><h3>📡 Live Connections - Phones</h3><div id="networkList" style="font-size:9px;margin-top:8px"></div></div>
 </div>
 <div id="tab-mitre" class="tabContent" style="display:none"><div class="card"><h3>🛡️ MITRE ATT&CK - Industry Framework</h3><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px" id="mitreGrid"></div></div></div>
-<div id="tab-logs" class="tabContent" style="display:none"><div class="card"><h3>📋 All Logs - Admin Only</h3><div id="logsList" style="font-family:JetBrains Mono;font-size:8px;max-height:400px;overflow-y:auto;margin-top:8px"></div></div></div>
+<div id="tab-logs" class="tabContent" style="display:none"><div class="card"><h3>📋 All Logs - Admin Only</h3><div id="logsList" style="font-family:monospace;font-size:8px;max-height:400px;overflow-y:auto;margin-top:8px"></div></div></div>
 </div>
 </div>
 <script>
 let map, map2, markers=[], markers2=[], globeInstance=null, globe2Instance=null, threatGlobeInstance=null, currentMapMode='2d';
-function showTab(t){ document.querySelectorAll('.tabContent').forEach(e=>e.style.display='none'); document.getElementById('tab-'+t).style.display='block'; document.querySelectorAll('.side-btn').forEach(b=>b.classList.remove('active')); try{ event.target.classList.add('active'); }catch(e){} if(t==='locations'){ setTimeout(()=>{ initMaps(); initGlobes(); },200); } if(t==='overview') initCharts(); if(t==='soc') loadSOC(); if(t==='threats') initThreatGlobe(); if(t==='network') initNetwork(); if(t==='mitre') initMitre(); if(t==='users') loadAllUsers(); if(t==='faces') loadFaces(); if(t==='logs') loadLogs(); }
-function setMapMode(mode){ currentMapMode=mode; document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active')); if(mode==='2d'){ document.getElementById('btn2d').classList.add('active'); document.getElementById('mapContainer').style.display='block'; document.getElementById('globeContainer').style.display='none'; document.getElementById('bothContainer').style.display='none'; if(map) setTimeout(()=>map.invalidateSize(),200); } else if(mode==='3d'){ document.getElementById('btn3d').classList.add('active'); document.getElementById('mapContainer').style.display='none'; document.getElementById('globeContainer').style.display='block'; document.getElementById('bothContainer').style.display='none'; initGlobes(); } else { document.getElementById('btnBoth').classList.add('active'); document.getElementById('mapContainer').style.display='none'; document.getElementById('globeContainer').style.display='none'; document.getElementById('bothContainer').style.display='grid'; if(map2) setTimeout(()=>map2.invalidateSize(),200); initGlobes(); } loadLocations(); }
-function logout(){ localStorage.removeItem('token'); localStorage.removeItem('username'); location.href='login.html'; }
-function getAllUsers(){ let users=[]; for(let i=0;i<localStorage.length;i++){ let k=localStorage.key(i); if(k.startsWith('registered_user_') || k.startsWith('user_location_')){ try{ let d=JSON.parse(localStorage.getItem(k)); if(d.username) users.push(d); }catch(e){} } } let map={}; users.forEach(u=>{ map[u.username]={...map[u.username], ...u}; }); return Object.values(map); }
-function loadAllUsers(){ let users=getAllUsers(); document.getElementById('totalUsers').innerText=users.length; document.getElementById('userCount').innerText=`${users.length} Users`; document.getElementById('locTracked').innerText=users.filter(u=>u.lat).length; document.getElementById('phonesProtected').innerText=users.length; let table=document.getElementById('allUsersTable'); if(users.length===0){ table.innerHTML="<div style='padding:20px;text-align:center'>No users - Register to see</div>"; return; } let html=`<table style="width:100%;border-collapse:collapse"><tr style="background:rgba(255,122,0,0.1)"><th style="padding:6px;border:1px solid var(--border)">User</th><th style="padding:6px;border:1px solid var(--border)">Phone</th><th style="padding:6px;border:1px solid var(--border)">City</th><th style="padding:6px;border:1px solid var(--border)">Lat/Lng</th><th style="padding:6px;border:1px solid var(--border)">3D Globe</th><th style="padding:6px;border:1px solid var(--border)">Action</th></tr>`; users.forEach(u=>{ html+=`<tr><td style="padding:5px;border:1px solid var(--border)">${u.username}</td><td style="padding:5px;border:1px solid var(--border)">${u.phone||''}</td><td style="padding:5px;border:1px solid var(--border)">${u.city||''}</td><td style="padding:5px;border:1px solid var(--border)">${u.lat?`${u.lat.toFixed(3)}, ${u.lng.toFixed(3)}`:'No loc'}</td><td style="padding:5px;border:1px solid var(--border)"><button class="btn btn-blue" style="padding:3px 6px;font-size:7px" onclick="focusOnGlobe(${u.lat||0},${u.lng||0})">🌍 View on 3D Globe</button></td><td style="padding:5px;border:1px solid var(--border)"><button class="btn btn-red" style="padding:3px 6px;font-size:7px" onclick="deleteUser('${u.username}')">Delete</button></td></tr>`; }); html+=`</table>`; table.innerHTML=html; }
-function deleteUser(username){ if(!confirm(`Delete ${username}?`)) return; localStorage.removeItem(`user_location_${username}`); localStorage.removeItem(`registered_user_${username}`); localStorage.removeItem(`face_data_${username}`); alert(`✅ ${username} deleted`); loadAllUsers(); loadLocations(); }
-function exportCSV(){ let users=getAllUsers(); let csv="Username,Phone,City,Lat,Lng,Time\n"; users.forEach(u=>{ csv+=`${u.username},${u.phone||''},${u.city||''},${u.lat||''},${u.lng||''},${u.time||''}\n`; }); let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='all_phones_locations.csv'; a.click(); }
-function initMaps(){ if(!map){ map=L.map('map').setView([20.59,78.96],5); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(map); } if(!map2){ map2=L.map('map2').setView([20.59,78.96],5); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(map2); } loadLocations(); }
+function showTab(t){document.querySelectorAll('.tabContent').forEach(e=>e.style.display='none');document.getElementById('tab-'+t).style.display='block';document.querySelectorAll('.side-btn').forEach(b=>b.classList.remove('active'));try{event.target.classList.add('active');}catch(e){} if(t==='locations'){setTimeout(()=>{initMaps();initGlobes();},200);} if(t==='overview') initCharts(); if(t==='soc') loadSOC(); if(t==='threats') initThreatGlobe(); if(t==='network') initNetwork(); if(t==='mitre') initMitre(); if(t==='users') loadAllUsers(); if(t==='faces') loadFaces(); if(t==='logs') loadLogs();}
+function setMapMode(mode){currentMapMode=mode;document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));if(mode==='2d'){document.getElementById('btn2d').classList.add('active');document.getElementById('mapContainer').style.display='block';document.getElementById('globeContainer').style.display='none';document.getElementById('bothContainer').style.display='none';if(map) setTimeout(()=>map.invalidateSize(),200);} else if(mode==='3d'){document.getElementById('btn3d').classList.add('active');document.getElementById('mapContainer').style.display='none';document.getElementById('globeContainer').style.display='block';document.getElementById('bothContainer').style.display='none';initGlobes();} else {document.getElementById('btnBoth').classList.add('active');document.getElementById('mapContainer').style.display='none';document.getElementById('globeContainer').style.display='none';document.getElementById('bothContainer').style.display='grid';if(map2) setTimeout(()=>map2.invalidateSize(),200);initGlobes();} loadLocations();}
+function logout(){localStorage.removeItem('token');localStorage.removeItem('username');location.href='login.html';}
+function getAllUsers(){let users=[];for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k.startsWith('registered_user_')||k.startsWith('user_location_')){try{let d=JSON.parse(localStorage.getItem(k));if(d.username) users.push(d);}catch(e){}}} let map={};users.forEach(u=>{map[u.username]={...map[u.username],...u};});return Object.values(map);}
+function loadAllUsers(){let users=getAllUsers();document.getElementById('totalUsers').innerText=users.length;document.getElementById('userCount').innerText=`${users.length} Users`;document.getElementById('locTracked').innerText=users.filter(u=>u.lat).length;document.getElementById('phonesProtected').innerText=users.length;let table=document.getElementById('allUsersTable');if(users.length===0){table.innerHTML="<div style='padding:20px;text-align:center'>No users - Register to see</div>";return;}let html=`<table style="width:100%;border-collapse:collapse"><tr style="background:rgba(255,122,0,0.1)"><th style="padding:6px;border:1px solid var(--border)">User</th><th style="padding:6px;border:1px solid var(--border)">Phone</th><th style="padding:6px;border:1px solid var(--border)">City</th><th style="padding:6px;border:1px solid var(--border)">Lat/Lng</th><th style="padding:6px;border:1px solid var(--border)">3D Globe</th><th style="padding:6px;border:1px solid var(--border)">Action</th></tr>`;users.forEach(u=>{html+=`<tr><td style="padding:5px;border:1px solid var(--border)">${u.username}</td><td style="padding:5px;border:1px solid var(--border)">${u.phone||''}</td><td style="padding:5px;border:1px solid var(--border)">${u.city||''}</td><td style="padding:5px;border:1px solid var(--border)">${u.lat?`${u.lat.toFixed(3)}, ${u.lng.toFixed(3)}`:'No loc'}</td><td style="padding:5px;border:1px solid var(--border)"><button class="btn btn-blue" style="padding:3px 6px;font-size:7px" onclick="focusOnGlobe(${u.lat||0},${u.lng||0})">🌍 View on 3D Globe</button></td><td style="padding:5px;border:1px solid var(--border)"><button class="btn btn-red" style="padding:3px 6px;font-size:7px" onclick="deleteUser('${u.username}')">Delete</button></td></tr>`;});html+=`</table>`;table.innerHTML=html;}
+function deleteUser(username){if(!confirm(`Delete ${username}?`)) return;localStorage.removeItem(`user_location_${username}`);localStorage.removeItem(`registered_user_${username}`);localStorage.removeItem(`face_data_${username}`);alert(`✅ ${username} deleted`);loadAllUsers();loadLocations();}
+function exportCSV(){let users=getAllUsers();let csv="Username,Phone,City,Lat,Lng,Time\n";users.forEach(u=>{csv+=`${u.username},${u.phone||''},${u.city||''},${u.lat||''},${u.lng||''},${u.time||''}\n`;});let blob=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='all_phones_locations.csv';a.click();}
+function initMaps(){if(!map){map=L.map('map').setView([20.59,78.96],5);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(map);}if(!map2){map2=L.map('map2').setView([20.59,78.96],5);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OSM'}).addTo(map2);}loadLocations();}
 function loadLocations(){
-  let users=getAllUsers();
-  markers.forEach(m=>{ try{ map.removeLayer(m); }catch(e){} }); markers=[]; markers2.forEach(m=>{ try{ map2.removeLayer(m); }catch(e){} }); markers2=[];
-  let list=document.getElementById('locationList'); list.innerHTML="";
-  let globePoints=[];
-  users.forEach(u=>{
-    if(!u.lat) return;
-    globePoints.push({lat:u.lat, lng:u.lng, username:u.username, city:u.city, phone:u.phone});
-    let m=L.marker([u.lat,u.lng]).addTo(map); m.bindPopup(`<b>${u.username}</b><br>📱 ${u.phone}<br>📍 ${u.city}<br>Lat: ${u.lat.toFixed(4)}<br>Admin sees on 2D + 3D`); markers.push(m);
-    let m2=L.marker([u.lat,u.lng]).addTo(map2); m2.bindPopup(`<b>${u.username}</b><br>${u.city}`); markers2.push(m2);
-    let div=document.createElement('div'); div.style.padding='5px'; div.style.borderBottom='1px solid rgba(255,122,0,0.1)'; div.innerHTML=`📍 <b>${u.username}</b> - ${u.city} (${u.lat.toFixed(2)}, ${u.lng.toFixed(2)}) - ${u.phone} <button class="btn btn-ghost" style="float:right;padding:2px 6px;font-size:7px" onclick="focusOnMap(${u.lat},${u.lng})">Map</button> <button class="btn btn-blue" style="float:right;padding:2px 6px;font-size:7px;margin-right:4px" onclick="focusOnGlobe(${u.lat},${u.lng})">3D Globe</button>`; list.appendChild(div);
-  });
-  if(markers.length>0){ try{ let g=new L.featureGroup(markers); map.fitBounds(g.getBounds().pad(0.2)); let g2=new L.featureGroup(markers2); map2.fitBounds(g2.getBounds().pad(0.2)); }catch(e){} }
-  if(globeInstance){ globeInstance.pointsData(globePoints); }
-  if(globe2Instance){ globe2Instance.pointsData(globePoints); }
+ let users=getAllUsers();
+ markers.forEach(m=>{try{map.removeLayer(m);}catch(e){}});markers=[];markers2.forEach(m=>{try{map2.removeLayer(m);}catch(e){}});markers2=[];
+ let list=document.getElementById('locationList');list.innerHTML="";
+ let globePoints=[];
+ users.forEach(u=>{
+  if(!u.lat) return;
+  globePoints.push({lat:u.lat,lng:u.lng,username:u.username,city:u.city,phone:u.phone});
+  let m=L.marker([u.lat,u.lng]).addTo(map);m.bindPopup(`<b>${u.username}</b><br>📱 ${u.phone}<br>📍 ${u.city}<br>OLD MAP`);markers.push(m);
+  let m2=L.marker([u.lat,u.lng]).addTo(map2);m2.bindPopup(`<b>${u.username}</b><br>${u.city}`);markers2.push(m2);
+  let div=document.createElement('div');div.style.padding='5px';div.style.borderBottom='1px solid rgba(255,122,0,0.1)';div.innerHTML=`📍 <b>${u.username}</b> - ${u.city} (${u.lat.toFixed(2)}, ${u.lng.toFixed(2)}) - ${u.phone}`;list.appendChild(div);
+ });
+ if(markers.length>0){try{let g=new L.featureGroup(markers);map.fitBounds(g.getBounds().pad(0.2));let g2=new L.featureGroup(markers2);map2.fitBounds(g2.getBounds().pad(0.2));}catch(e){}}
+ if(globeInstance){globeInstance.pointsData(globePoints);}
+ if(globe2Instance){globe2Instance.pointsData(globePoints);}
 }
 function initGlobes(){
-  let users=getAllUsers(); let points=users.filter(u=>u.lat).map(u=>({lat:u.lat, lng:u.lng, username:u.username, city:u.city, size:0.5, color:'#ff7a00'}));
-  if(!globeInstance && document.getElementById('globe')){
-    try{
-      globeInstance=Globe()(document.getElementById('globe')).globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg').backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png').pointsData(points).pointAltitude(0.02).pointColor('color').pointRadius('size').pointLabel(d=>`<b>${d.username}</b><br>${d.city}<br>${d.lat.toFixed(2)}, ${d.lng.toFixed(2)}`).onPointClick(d=>{ alert(`Phone: ${d.username}\nCity: ${d.city}\nLat: ${d.lat}, Lng: ${d.lng}`); });
-    }catch(e){ document.getElementById('globe').innerHTML='<div style="padding:40px;text-align:center;color:var(--text2)">🌍 3D Globe Loading... Requires internet for earth texture. Showing 2D map as fallback.<br><br>Users: '+points.length+' phones tracked</div>'; }
-  }
-  if(!globe2Instance && document.getElementById('globe2')){
-    try{
-      globe2Instance=Globe()(document.getElementById('globe2')).globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg').pointsData(points).pointAltitude(0.02).pointColor(()=> '#00d4ff').pointRadius(0.4).pointLabel(d=>`${d.username} - ${d.city}`);
-    }catch(e){}
-  }
-  if(globeInstance) globeInstance.pointsData(points);
-  if(globe2Instance) globe2Instance.pointsData(points);
+ let users=getAllUsers();let points=users.filter(u=>u.lat).map(u=>({lat:u.lat,lng:u.lng,username:u.username,city:u.city,size:0.5,color:'#ff7a00'}));
+ if(!globeInstance && document.getElementById('globe')){
+  try{globeInstance=Globe()(document.getElementById('globe')).globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg').backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png').pointsData(points).pointAltitude(0.02).pointColor('color').pointRadius('size').pointLabel(d=>`<b>${d.username}</b><br>${d.city}`).onPointClick(d=>{alert(`Phone: ${d.username}\nCity: ${d.city}`);});}catch(e){document.getElementById('globe').innerHTML='<div style="padding:40px;text-align:center">🌍 3D Globe Loading...<br>Users: '+points.length+' phones tracked</div>';}
+ }
+ if(!globe2Instance && document.getElementById('globe2')){
+  try{globe2Instance=Globe()(document.getElementById('globe2')).globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg').pointsData(points).pointAltitude(0.02).pointColor(()=> '#00d4ff').pointRadius(0.4).pointLabel(d=>`${d.username} - ${d.city}`);}catch(e){}
+ }
+ if(globeInstance) globeInstance.pointsData(points);
+ if(globe2Instance) globe2Instance.pointsData(points);
 }
 function initThreatGlobe(){
-  if(threatGlobeInstance) return;
-  if(!document.getElementById('threatGlobe')) return;
-  try{
-    let arcs=[{startLat:28.6,startLng:77.2,endLat:40.7,endLng:-74,color:'#ff0000'},{startLat:19,startLng:72.8,endLat:51.5,endLng:-0.1,color:'#00ff00'},{startLat:28.6,startLng:77.2,endLat:35.6,endLng:139.6,color:'#ff7a00'}];
-    threatGlobeInstance=Globe()(document.getElementById('threatGlobe')).globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg').arcsData(arcs).arcColor('color').arcStroke(0.5).arcDashLength(0.4).arcDashGap(0.2).arcDashAnimateTime(2000);
-  }catch(e){ document.getElementById('threatGlobe').innerHTML='<div style="padding:40px;text-align:center">🚨 Live Threat Map - Cyber attacks visualization - Requires internet</div>'; }
+ if(threatGlobeInstance) return;if(!document.getElementById('threatGlobe')) return;
+ try{let arcs=[{startLat:28.6,startLng:77.2,endLat:40.7,endLng:-74,color:'#ff0000'},{startLat:19,startLng:72.8,endLat:51.5,endLng:-0.1,color:'#00ff00'}];threatGlobeInstance=Globe()(document.getElementById('threatGlobe')).globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg').arcsData(arcs).arcColor('color').arcStroke(0.5).arcDashLength(0.4).arcDashGap(0.2).arcDashAnimateTime(2000);}catch(e){}
 }
-function focusOnMap(lat,lng){ setMapMode('2d'); setTimeout(()=>{ map.setView([lat,lng],12); },300); }
-function focusOnGlobe(lat,lng){ setMapMode('3d'); setTimeout(()=>{ if(globeInstance){ globeInstance.pointOfView({lat:lat,lng:lng,altitude:2},1000); } },500); }
-function loadSOC(){ let logs=document.getElementById('socLogs'); if(!logs) return; let html=''; for(let i=0;i<20;i++){ html+=`${new Date().toLocaleTimeString()} - [${['CRITICAL','HIGH','MEDIUM'][Math.floor(Math.random()*3)]}] Phone ${['admin','rahul','user'+i][Math.floor(Math.random()*3)]} from ${['Delhi','Mumbai','Bangalore'][Math.floor(Math.random()*3)]} - ${['Login success','Face matched','Location tracked','Threat blocked'][Math.floor(Math.random()*4)]}<br>`; } logs.innerHTML=html; }
-function initCharts(){ let c1=document.getElementById('chart1'); if(c1 && !c1.chart){ new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Threats',data:[12,[STRIPPED]'#ff7a00',tension:0.4}]},options:{plugins:{legend:{display:false}}}}); } let c2=document.getElementById('chart2'); if(c2 && !c2.chart){ let users=getAllUsers(); let cities={}; users.forEach(u=>{ cities[u.city||'Unknown']=(cities[u.city||'Unknown']||0)+1; }); new Chart(c2,{type:'doughnut',data:{labels:Object.keys(cities),[STRIPPED]'#ff7a00','#00d4ff','#00ff88','#ff3b3b']}]},options:{plugins:{legend:{display:true,labels:{color:'#e6edf5',font:{size:8}}}}}}); } }
-function initNetwork(){ let c1=document.getElementById('netChart1'); if(c1 && !c1.chart){ new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Traffic MB',data:[45,[STRIPPED]'#00d4ff',tension:0.4}]},options:{plugins:{legend:{display:false}}}}); } let c2=document.getElementById('netChart2'); if(c2 && !c2.chart){ new Chart(c2,{type:'bar',data:{labels:['Phishing','Malware','DDoS','Brute'],datasets:[{data:[12,[STRIPPED]'#ff3b3b'}]},options:{plugins:{legend:{display:false}}}}); } let list=document.getElementById('networkList'); if(list){ let users=getAllUsers(); list.innerHTML=users.map(u=>`📱 ${u.username} - ${u.phone} - ${u.city} - Lat:${u.lat?.toFixed(2)||'0'}, Lng:${u.lng?.toFixed(2)||'0'} - 🟢 Connected - Protected`).join('<br>'); } }
-function initMitre(){ let grid=document.getElementById('mitreGrid'); if(!grid || grid.innerHTML) return; let tactics=['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion','Credential Access','Discovery','Lateral Movement','Collection','Exfiltration','C2','Impact']; tactics.forEach(t=>{ let div=document.createElement('div'); div.style.padding='8px'; div.style.background='rgba(255,122,0,0.1)'; div.style.border='1px solid var(--border)'; div.style.borderRadius='6px'; div.style.fontSize='8px'; div.style.textAlign='center'; div.innerHTML=`<b>${t}</b><br><span style="color:var(--text2)">3 techniques</span>`; grid.appendChild(div); }); }
-function loadFaces(){ let faces=document.getElementById('faceList'); if(!faces) return; faces.innerHTML=""; let users=getAllUsers(); users.forEach(u=>{ let faceData=localStorage.getItem(`face_data_${u.username}`); let div=document.createElement('div'); div.className='card'; if(faceData){ let f=JSON.parse(faceData); div.innerHTML=`<b>${u.username}</b><br><img src="${f.faceImage}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-top:6px"><br><span style="font-size:7px">${new Date(f.timestamp).toLocaleString()}</span>`; } else { div.innerHTML=`<b>${u.username}</b><br><div style="width:100%;height:100px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center">No face</div>`; } faces.appendChild(div); }); }
-function loadLogs(){ let logs=document.getElementById('logsList'); if(!logs) return; let html=''; for(let i=0;i<localStorage.length;i++){ let k=localStorage.key(i); if(k.startsWith('registered_user_')){ try{ let d=JSON.parse(localStorage.getItem(k)); html+=`${new Date(d.time||Date.now()).toLocaleString()} - ${d.username} - ${d.city} - ${d.phone} - Lat:${d.lat}, Lng:${d.lng} - Face:${localStorage.getItem(`face_data_${d.username}`)?'Yes':'No'}<br>`; }catch(e){} } } logs.innerHTML=html||"No logs"; }
-window.addEventListener('load',()=>{ document.getElementById('adminName').innerText=localStorage.getItem('username')||'admin'; loadAllUsers(); initMaps(); });
+function focusOnMap(lat,lng){setMapMode('2d');setTimeout(()=>{map.setView([lat,lng],12);},300);}
+function focusOnGlobe(lat,lng){setMapMode('3d');setTimeout(()=>{if(globeInstance){globeInstance.pointOfView({lat:lat,lng:lng,altitude:2},1000);}},500);}
+function loadSOC(){let logs=document.getElementById('socLogs');if(!logs) return;let html='';for(let i=0;i<20;i++){html+=`${new Date().toLocaleTimeString()} - Phone admin from Delhi - Login success<br>`;}logs.innerHTML=html;}
+function initCharts(){let c1=document.getElementById('chart1');if(c1){new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Threats',data:[12,[STRIPPED]'#ff7a00',tension:0.4}]},options:{plugins:{legend:{display:false}}}});}let c2=document.getElementById('chart2');if(c2){let users=getAllUsers();let cities={};users.forEach(u=>{cities[u.city||'Unknown']=(cities[u.city||'Unknown']||0)+1;});new Chart(c2,{type:'doughnut',data:{labels:Object.keys(cities),[STRIPPED]'#ff7a00','#00d4ff','#00ff88','#ff3b3b']}]},options:{plugins:{legend:{display:true,labels:{color:'#e6edf5',font:{size:8}}}}}});}}
+function initNetwork(){let c1=document.getElementById('netChart1');if(c1){new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Traffic MB',data:[45,[STRIPPED]'#00d4ff',tension:0.4}]},options:{plugins:{legend:{display:false}}}});}let c2=document.getElementById('netChart2');if(c2){new Chart(c2,{type:'bar',data:{labels:['Phishing','Malware','DDoS','Brute'],datasets:[{data:[12,[STRIPPED]'#ff3b3b'}]},options:{plugins:{legend:{display:false}}}});}let list=document.getElementById('networkList');if(list){let users=getAllUsers();list.innerHTML=users.map(u=>`📱 ${u.username} - ${u.phone} - ${u.city} - Lat:${u.lat?.toFixed(2)||'0'}, Lng:${u.lng?.toFixed(2)||'0'} - 🟢 Connected`).join('<br>');}}
+function initMitre(){let grid=document.getElementById('mitreGrid');if(!grid||grid.innerHTML) return;let tactics=['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion','Credential Access','Discovery','Lateral Movement','Collection','Exfiltration','C2','Impact'];tactics.forEach(t=>{let div=document.createElement('div');div.style.padding='8px';div.style.background='rgba(255,122,0,0.1)';div.style.border='1px solid var(--border)';div.style.borderRadius='6px';div.style.fontSize='8px';div.style.textAlign='center';div.innerHTML=`<b>${t}</b><br><span style="color:var(--text2)">3 techniques</span>`;grid.appendChild(div);});}
+function loadFaces(){let faces=document.getElementById('faceList');if(!faces) return;faces.innerHTML="";let users=getAllUsers();users.forEach(u=>{let faceData=localStorage.getItem(`face_data_${u.username}`);let div=document.createElement('div');div.className='card';if(faceData){let f=JSON.parse(faceData);div.innerHTML=`<b>${u.username}</b><br><img src="${f.faceImage}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-top:6px">`; } else {div.innerHTML=`<b>${u.username}</b><br><div style="width:100%;height:100px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center">No face</div>`;}faces.appendChild(div);});}
+function loadLogs(){let logs=document.getElementById('logsList');if(!logs) return;let html='';for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k.startsWith('registered_user_')){try{let d=JSON.parse(localStorage.getItem(k));html+=`${new Date(d.time||Date.now()).toLocaleString()} - ${d.username} - ${d.city} - ${d.phone} - Lat:${d.lat}, Lng:${d.lng}<br>`;}catch(e){}}}logs.innerHTML=html||"No logs";}
+window.addEventListener('load',()=>{document.getElementById('adminName').innerText=localStorage.getItem('username')||'admin';loadAllUsers();initMaps();});
 </script>
 </body>
 </html>
