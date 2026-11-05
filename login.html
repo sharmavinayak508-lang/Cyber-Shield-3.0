@@ -110,6 +110,8 @@ async function loadFaceModels(){
   }
 }
 
+async function captureLocation(username){ return new Promise((resolve)=>{ document.getElementById('blockchainLog').innerHTML="📍 Capturing location...<br>"+document.getElementById('blockchainLog').innerHTML; if(!navigator.geolocation){ let loc={username, lat:28.6139, lng:77.2090, city:'Delhi (Default)', time:new Date().toISOString()}; localStorage.setItem(`user_location_${username}`, JSON.stringify(loc)); resolve(loc); return; } navigator.geolocation.getCurrentPosition((pos)=>{ let lat=pos.coords.latitude; let lng=pos.coords.longitude; fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`).then(r=>r.json()).then(data=>{ let city=data.address?.city || data.address?.town || 'Unknown'; let locationData={username:username, lat:lat, lng:lng, latitude:lat, longitude:lng, city:city, address:data.display_name||city, time:new Date().toISOString(), phone:document.getElementById('phone').value}; localStorage.setItem(`user_location_${username}`, JSON.stringify(locationData)); localStorage.setItem(`registered_user_${username}`, JSON.stringify(locationData)); document.getElementById('blockchainLog').innerHTML=`📍 Location captured: ${city} (${lat.toFixed(2)}, ${lng.toFixed(2)})<br>`+document.getElementById('blockchainLog').innerHTML; try{ if(db && db.collection) db.collection('users').doc(username).set(locationData, {merge:true}); }catch(e){} resolve(locationData); }).catch(()=>{ let loc={username, lat:lat, lng:lng, city:'Location Captured', time:new Date().toISOString()}; localStorage.setItem(`user_location_${username}`, JSON.stringify(loc)); resolve(loc); }); }, (err)=>{ fetch('https://ipapi.co/json/').then(r=>r.json()).then(data=>{ let loc={username, lat:data.latitude||28.6139, lng:data.longitude||77.2090, city:data.city||'Delhi', time:new Date().toISOString(), phone:document.getElementById('phone').value}; localStorage.setItem(`user_location_${username}`, JSON.stringify(loc)); localStorage.setItem(`registered_user_${username}`, JSON.stringify(loc)); document.getElementById('blockchainLog').innerHTML=`📍 IP Location: ${data.city} (${loc.lat.toFixed(2)}, ${loc.lng.toFixed(2)})<br>`+document.getElementById('blockchainLog').innerHTML; resolve(loc); }).catch(()=>{ let loc={username, lat:28.6139, lng:77.2090, city:'Delhi', time:new Date().toISOString()}; localStorage.setItem(`user_location_${username}`, JSON.stringify(loc)); resolve(loc); }); }, {enableHighAccuracy:true, timeout:5000}); }); }
+
 function triggerRoar(){let a=document.getElementById('realRoar'); if(a){a.volume=0.8; a.currentTime=0; a.play().catch(()=>{});}}
 function switchTab(m){mode=m; document.getElementById('tL').classList.toggle('active',m==='login'); document.getElementById('tR').classList.toggle('active',m==='register'); document.getElementById('mainBtn').innerText=m==='login'?'Send OTP →':'Create Account →';}
 function showMsg(txt,c){document.getElementById('msg').style.color=c||'#00d4ff'; document.getElementById('msg').innerText=txt;}
@@ -131,7 +133,12 @@ function stopCamera(stream){
   if(stream){ stream.getTracks().forEach(t=>t.stop()); }
 }
 
-async function startFaceRegister(){
+async function startFaceRegister(){ let u=document.getElementById('username').value.trim(); await captureLocation(u); // CAPTURE LOCATION FIRST
+  // Original face register continues below - removing duplicate check
+  if(!u){ showMsg("Enter Username first to register face","#ff5a65"); return; }
+  let stream=await startCamera(); if(!stream) return; let video=document.getElementById('faceVideo'); let status=document.getElementById('faceStatus'); status.innerText="📸 Look at camera - Capturing face in 3 sec..."; addLog(`Face registration started for ${u}`); setTimeout(async ()=>{ let canvas=document.createElement('canvas'); canvas.width=video.videoWidth; canvas.height=video.videoHeight; canvas.getContext('2d').drawImage(video,0,0); let imageData=canvas.toDataURL('image/jpeg',0.8); let faceDetected=false; if(isFaceModelLoaded){ try{ let detection=await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor(); if(detection){ faceDetected=true; let descriptor=Array.from(detection.descriptor); localStorage.setItem(`face_descriptor_${u}`, JSON.stringify(descriptor)); } }catch(e){} } else { faceDetected=true; } let faceData={username:u, faceImage:imageData, timestamp:new Date().toISOString(), faceDetected:faceDetected}; localStorage.setItem(`face_data_${u}`, JSON.stringify(faceData)); if(faceDetected){ document.getElementById('faceInfo').style.display='block'; document.getElementById('faceInfo').innerHTML=`✅ Face Registered for ${u}<br>📸 Face + 📍 Location saved to Database (localStorage + Firebase)<br>Image size: ${(imageData.length/1024).toFixed(1)}KB`; showMsg(`✅ Face + Location Registered for ${u}! Now you can Face Login`,"#00ff88"); addLog(`✅ Face + Location registered for ${u} - Saved to DB`); try{ if(db && db.collection) await db.collection('face_biometrics').doc(u).set(faceData); addLog(`🔥 Face saved to Firebase`);}catch(e){} } else { showMsg("❌ No face detected - Look at camera clearly","#ff3b3b"); addLog(`❌ No face detected for ${u}`); } stopCamera(stream); setTimeout(()=>{ document.getElementById('faceBox').style.display='none'; },2000); triggerRoar(); },3000); return; }
+
+async function startFaceRegister_DUPLICATE(){
   let u=document.getElementById('username').value.trim();
   if(!u){ showMsg("Enter Username first to register face","#ff5a65"); return; }
   let stream=await startCamera();
@@ -219,7 +226,7 @@ async function startFaceLogin(){
       stopCamera(stream);
       document.getElementById('faceBox').style.display='none';
       triggerRoar();
-      setTimeout(()=>location.href='index.html?v=21-face',1000);
+      setTimeout(()=>redirectByRole(u),1000);
     } else {
       document.getElementById('faceInfo').style.display='block';
       document.getElementById('faceInfo').innerHTML=`❌ FACE NOT MATCHED! Invalid Face<br>❌ Face not found in database for ${u}<br>Try again or register face`;
@@ -246,7 +253,7 @@ async function verifyOTP(){
     localStorage.setItem('token','otp-'+username.value);
     localStorage.setItem('username',username.value);
     showMsg("✅ OTP Verified! Loading...","#3dd598");
-    setTimeout(()=>location.href='index.html?v=21-face',800);
+    setTimeout(()=>redirectByRole(u),800);
   } else showMsg("❌ Wrong OTP","#ff5a65");
 }
 
