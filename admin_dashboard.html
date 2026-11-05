@@ -1,26 +1,5 @@
 <!DOCTYPE html>
-<html><head><style>
-@font-face {
-  font-family: "Optimistic";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Optimistic Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
-}
-:where(html) {
-  font-family: "Optimistic", system-ui, sans-serif;
-}
-:where(code, pre, kbd, samp) {
-  font-family: "Optimistic Mono", ui-monospace, monospace;
-}
-</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ADMIN DASHBOARD v3 - 3D Globe + 2D Map + Cyber Features</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -97,7 +76,6 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 </div></div>
 <div class="grid2"><div class="card"><h3>Threats Last 24h</h3><canvas id="chart1" height="140"></canvas></div><div class="card"><h3>Phone Locations by City</h3><canvas id="chart2" height="140"></canvas></div></div>
 </div>
-
 <div id="tab-locations" class="tabContent" style="display:none">
 <div class="card">
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><h3>🗺️ + 🌍 Phone Locations - Admin Only (2D Map + 3D Globe)</h3><div class="toggle-group"><button class="toggle-btn active" id="btn2d" onclick="setMapMode('2d')">🗺️ 2D Map</button><button class="toggle-btn" id="btn3d" onclick="setMapMode('3d')">🌍 3D Globe</button><button class="toggle-btn" id="btnBoth" onclick="setMapMode('both')">Both</button></div></div>
@@ -108,31 +86,23 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 <div id="locationList" style="margin-top:10px;font-size:9px;max-height:180px;overflow-y:auto"></div>
 </div>
 </div>
-
 <div id="tab-users" class="tabContent" style="display:none">
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>👥 All Users - Phone Locations Database</h3><div><button class="btn btn-primary" onclick="loadAllUsers()">🔄 Refresh</button><button class="btn btn-ghost" onclick="exportCSV()">📥 Export CSV</button></div></div><div id="allUsersTable" style="margin-top:10px;font-size:9px;overflow-x:auto"></div></div>
 </div>
-
 <div id="tab-faces" class="tabContent" style="display:none"><div class="card"><h3>👁️ Face Biometrics - Admin Only</h3><div id="faceList" style="margin-top:10px" class="grid2"></div></div></div>
-
 <div id="tab-soc" class="tabContent" style="display:none">
 <div class="grid3"><div class="card"><div style="font-size:9px;color:var(--text2)">ACTIVE ALERTS</div><div style="font-size:20px;font-weight:700;color:var(--red)">23</div></div><div class="card"><div style="font-size:9px;color:var(--text2)">INCIDENTS TODAY</div><div style="font-size:20px;font-weight:700;color:var(--accent)">7</div></div><div class="card"><div style="font-size:9px;color:var(--text2)">PHONES PROTECTED</div><div style="font-size:20px;font-weight:700;color:var(--green)" id="phonesProtected">0</div></div></div>
 <div class="card"><h3>🛡️ SOC - Security Operations Center - Live</h3><div id="socLogs" style="font-family:JetBrains Mono;font-size:8px;max-height:300px;overflow-y:auto;margin-top:8px"></div></div>
 </div>
-
 <div id="tab-threats" class="tabContent" style="display:none">
 <div class="card"><h3>🚨 Live Cyber Threat Map - 3D Globe Attack View</h3><p style="font-size:9px;color:var(--text2)">Shows live attacks from world - Different from phone locations - Cyber industry feature</p><div id="threatGlobe" style="width:100%;height:450px;border-radius:12px;background:#000;border:1px solid var(--border);margin-top:8px"></div></div>
 </div>
-
 <div id="tab-network" class="tabContent" style="display:none">
 <div class="grid2"><div class="card"><h3>🌐 Network Traffic - Real-time</h3><canvas id="netChart1" height="150"></canvas></div><div class="card"><h3>🔒 Blocked Connections</h3><canvas id="netChart2" height="150"></canvas></div></div>
 <div class="card"><h3>📡 Live Connections - Phones in Database</h3><div id="networkList" style="font-size:9px;margin-top:8px"></div></div>
 </div>
-
 <div id="tab-mitre" class="tabContent" style="display:none"><div class="card"><h3>🛡️ MITRE ATT&CK - Industry Framework</h3><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px" id="mitreGrid"></div></div></div>
-
 <div id="tab-logs" class="tabContent" style="display:none"><div class="card"><h3>📋 All Logs - Admin Only</h3><div id="logsList" style="font-family:JetBrains Mono;font-size:8px;max-height:400px;overflow-y:auto;margin-top:8px"></div></div></div>
-
 </div>
 </div>
 <script>
@@ -158,7 +128,6 @@ function loadLocations(){
     let div=document.createElement('div'); div.style.padding='5px'; div.style.borderBottom='1px solid rgba(255,122,0,0.1)'; div.innerHTML=`📍 <b>${u.username}</b> - ${u.city} (${u.lat.toFixed(2)}, ${u.lng.toFixed(2)}) - ${u.phone} <button class="btn btn-ghost" style="float:right;padding:2px 6px;font-size:7px" onclick="focusOnMap(${u.lat},${u.lng})">Map</button> <button class="btn btn-blue" style="float:right;padding:2px 6px;font-size:7px;margin-right:4px" onclick="focusOnGlobe(${u.lat},${u.lng})">3D Globe</button>`; list.appendChild(div);
   });
   if(markers.length>0){ try{ let g=new L.featureGroup(markers); map.fitBounds(g.getBounds().pad(0.2)); let g2=new L.featureGroup(markers2); map2.fitBounds(g2.getBounds().pad(0.2)); }catch(e){} }
-  // Update globes with points
   if(globeInstance){ globeInstance.pointsData(globePoints); }
   if(globe2Instance){ globe2Instance.pointsData(globePoints); }
 }
@@ -188,12 +157,12 @@ function initThreatGlobe(){
 function focusOnMap(lat,lng){ setMapMode('2d'); setTimeout(()=>{ map.setView([lat,lng],12); },300); }
 function focusOnGlobe(lat,lng){ setMapMode('3d'); setTimeout(()=>{ if(globeInstance){ globeInstance.pointOfView({lat:lat,lng:lng,altitude:2},1000); } },500); }
 function loadSOC(){ let logs=document.getElementById('socLogs'); if(!logs) return; let html=''; for(let i=0;i<20;i++){ html+=`${new Date().toLocaleTimeString()} - [${['CRITICAL','HIGH','MEDIUM'][Math.floor(Math.random()*3)]}] Phone ${['admin','rahul','user'+i][Math.floor(Math.random()*3)]} from ${['Delhi','Mumbai','Bangalore'][Math.floor(Math.random()*3)]} - ${['Login success','Face matched','Location tracked','Threat blocked'][Math.floor(Math.random()*4)]}<br>`; } logs.innerHTML=html; }
-function initCharts(){ let c1=document.getElementById('chart1'); if(c1 && !c1.chart){ new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Threats',data:[12,19,8,15,22,17],borderColor:'#ff7a00',tension:0.4}]},options:{plugins:{legend:{display:false}}}}); } let c2=document.getElementById('chart2'); if(c2 && !c2.chart){ let users=getAllUsers(); let cities={}; users.forEach(u=>{ cities[u.city||'Unknown']=(cities[u.city||'Unknown']||0)+1; }); new Chart(c2,{type:'doughnut',data:{labels:Object.keys(cities),datasets:[{data:Object.values(cities),backgroundColor:['#ff7a00','#00d4ff','#00ff88','#ff3b3b']}]},options:{plugins:{legend:{display:true,labels:{color:'#e6edf5',font:{size:8}}}}}}); } }
-function initNetwork(){ let c1=document.getElementById('netChart1'); if(c1 && !c1.chart){ new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Traffic MB',data:[45,67,34,89,56,78],borderColor:'#00d4ff',tension:0.4}]},options:{plugins:{legend:{display:false}}}}); } let c2=document.getElementById('netChart2'); if(c2 && !c2.chart){ new Chart(c2,{type:'bar',data:{labels:['Phishing','Malware','DDoS','Brute'],datasets:[{data:[12,8,15,6],backgroundColor:'#ff3b3b'}]},options:{plugins:{legend:{display:false}}}}); } let list=document.getElementById('networkList'); if(list){ let users=getAllUsers(); list.innerHTML=users.map(u=>`📱 ${u.username} - ${u.phone} - ${u.city} - Lat:${u.lat?.toFixed(2)||'0'}, Lng:${u.lng?.toFixed(2)||'0'} - 🟢 Connected - Protected`).join('<br>'); } }
+function initCharts(){ let c1=document.getElementById('chart1'); if(c1 && !c1.chart){ new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Threats',data:[12,[STRIPPED]'#ff7a00',tension:0.4}]},options:{plugins:{legend:{display:false}}}}); } let c2=document.getElementById('chart2'); if(c2 && !c2.chart){ let users=getAllUsers(); let cities={}; users.forEach(u=>{ cities[u.city||'Unknown']=(cities[u.city||'Unknown']||0)+1; }); new Chart(c2,{type:'doughnut',data:{labels:Object.keys(cities),[STRIPPED]'#ff7a00','#00d4ff','#00ff88','#ff3b3b']}]},options:{plugins:{legend:{display:true,labels:{color:'#e6edf5',font:{size:8}}}}}}); } }
+function initNetwork(){ let c1=document.getElementById('netChart1'); if(c1 && !c1.chart){ new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Traffic MB',data:[45,[STRIPPED]'#00d4ff',tension:0.4}]},options:{plugins:{legend:{display:false}}}}); } let c2=document.getElementById('netChart2'); if(c2 && !c2.chart){ new Chart(c2,{type:'bar',data:{labels:['Phishing','Malware','DDoS','Brute'],datasets:[{data:[12,[STRIPPED]'#ff3b3b'}]},options:{plugins:{legend:{display:false}}}}); } let list=document.getElementById('networkList'); if(list){ let users=getAllUsers(); list.innerHTML=users.map(u=>`📱 ${u.username} - ${u.phone} - ${u.city} - Lat:${u.lat?.toFixed(2)||'0'}, Lng:${u.lng?.toFixed(2)||'0'} - 🟢 Connected - Protected`).join('<br>'); } }
 function initMitre(){ let grid=document.getElementById('mitreGrid'); if(!grid || grid.innerHTML) return; let tactics=['Initial Access','Execution','Persistence','Privilege Escalation','Defense Evasion','Credential Access','Discovery','Lateral Movement','Collection','Exfiltration','C2','Impact']; tactics.forEach(t=>{ let div=document.createElement('div'); div.style.padding='8px'; div.style.background='rgba(255,122,0,0.1)'; div.style.border='1px solid var(--border)'; div.style.borderRadius='6px'; div.style.fontSize='8px'; div.style.textAlign='center'; div.innerHTML=`<b>${t}</b><br><span style="color:var(--text2)">3 techniques</span>`; grid.appendChild(div); }); }
 function loadFaces(){ let faces=document.getElementById('faceList'); if(!faces) return; faces.innerHTML=""; let users=getAllUsers(); users.forEach(u=>{ let faceData=localStorage.getItem(`face_data_${u.username}`); let div=document.createElement('div'); div.className='card'; if(faceData){ let f=JSON.parse(faceData); div.innerHTML=`<b>${u.username}</b><br><img src="${f.faceImage}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-top:6px"><br><span style="font-size:7px">${new Date(f.timestamp).toLocaleString()}</span>`; } else { div.innerHTML=`<b>${u.username}</b><br><div style="width:100%;height:100px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center">No face</div>`; } faces.appendChild(div); }); }
 function loadLogs(){ let logs=document.getElementById('logsList'); if(!logs) return; let html=''; for(let i=0;i<localStorage.length;i++){ let k=localStorage.key(i); if(k.startsWith('registered_user_')){ try{ let d=JSON.parse(localStorage.getItem(k)); html+=`${new Date(d.time||Date.now()).toLocaleString()} - ${d.username} - ${d.city} - ${d.phone} - Lat:${d.lat}, Lng:${d.lng} - Face:${localStorage.getItem(`face_data_${d.username}`)?'Yes':'No'}<br>`; }catch(e){} } } logs.innerHTML=html||"No logs"; }
 window.addEventListener('load',()=>{ document.getElementById('adminName').innerText=localStorage.getItem('username')||'admin'; loadAllUsers(); initMaps(); });
 </script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</body>
 </html>
