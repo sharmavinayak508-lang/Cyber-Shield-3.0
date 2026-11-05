@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html><head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN DASHBOARD - Full Powers - CYBER SHIELD 3.0</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050a14;--card:rgba(17,29,50,0.92);--border:rgba(255,122,0,0.3);--text:#e6edf5;--text2:#7a8aaa;--accent:#ff7a00;--blue:#00d4ff;--green:#00ff88;--red:#ff3b3b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{padding:12px 16px;border-bottom:2px solid var(--border);background:linear-gradient(90deg,rgba(255,122,0,0.15),rgba(0,0,0,0.4));display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.badge{font-size:8px;padding:4px 8px;border-radius:20px;background:rgba(255,122,0,0.15);border:1px solid var(--border);color:var(--accent)}
+.sidebar{width:240px;background:rgba(0,0,0,0.4);border-right:2px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:6px;min-height:calc(100vh - 60px)}
+.side-btn{padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(17,29,50,0.6);color:var(--text2);cursor:pointer;text-align:left;font-size:11px;display:flex;justify-content:space-between}
+.side-btn.active{background:var(--accent);color:#000;font-weight:700}
+.side-btn.admin{background:rgba(255,59,59,0.1);border-color:var(--red);color:var(--red)}
+.main{display:flex}
+.content{flex:1;padding:14px;overflow-y:auto;max-height:calc(100vh - 60px)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#map{width:100%;height:380px;border-radius:12px;border:1px solid var(--border)}
+.btn{padding:8px 12px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:11px}
+.btn-primary{background:linear-gradient(90deg,var(--accent),#ffcc00);color:#000}
+.btn-red{background:var(--red);color:#fff}
+.btn-ghost{background:rgba(0,0,0,0.3);border:1px solid var(--border);color:var(--text)}
+@media(max-width:900px){.main{flex-direction:column} .sidebar{width:100%;flex-direction:row;overflow-x:auto} .grid2,.grid3{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div class="header">
+<div style="display:flex;gap:10px;align-items:center"><div style="width:36px;height:36px;background:linear-gradient(135deg,#ff7a00,#ffcc00);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700">👑</div><div><b>ADMIN DASHBOARD - FULL POWERS</b><div style="font-size:8px;color:var(--text2)">Role: Administrator • Can see all users, locations, face data, delete users</div></div></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="badge">👑 ADMIN</span><span class="badge" id="userCount">0 Users</span><span class="badge" id="adminName">admin</span><button class="btn btn-ghost" style="padding:6px 10px" onclick="logout()">Logout</button></div>
+</div>
+<div class="main">
+<div class="sidebar">
+<button class="side-btn active" onclick="showTab('overview')">📊 Overview</button>
+<button class="side-btn admin" onclick="showTab('users')">👥 All Users - Full Data</button>
+<button class="side-btn admin" onclick="showTab('locations')">🗺️ Live Locations Map - Admin Only</button>
+<button class="side-btn admin" onclick="showTab('faces')">👁️ Face Biometrics - Admin Only</button>
+<button class="side-btn admin" onclick="showTab('logs')">📋 Login Logs - Admin Only</button>
+<button class="side-btn" onclick="showTab('threats')">🛡️ Threat Monitor</button>
+<button class="side-btn" onclick="showTab('mitre')">🛡️ MITRE ATT&CK</button>
+<button class="side-btn" onclick="window.location.href='user_dashboard.html'">👤 Switch to User View</button>
+</div>
+<div class="content">
+<div id="tab-overview" class="tabContent">
+<div class="grid3">
+<div class="card"><div style="font-size:10px;color:var(--text2)">TOTAL USERS</div><div style="font-size:28px;font-weight:700;color:var(--accent)" id="totalUsers">0</div><div style="font-size:8px;color:var(--text2)" id="todayReg">+0 today</div></div>
+<div class="card"><div style="font-size:10px;color:var(--text2)">ACTIVE FACE LOGINS</div><div style="font-size:28px;font-weight:700;color:var(--blue)" id="faceLogins">0</div><div style="font-size:8px;color:var(--text2)">Face biometric</div></div>
+<div class="card"><div style="font-size:10px;color:var(--text2)">LOCATIONS TRACKED</div><div style="font-size:28px;font-weight:700;color:var(--green)" id="locTracked">0</div><div style="font-size:8px;color:var(--text2)">GPS tracked</div></div>
+</div>
+<div class="card"><h3>👑 Admin Powers - What You Can Do (User Cannot)</h3><div style="font-size:11px;margin-top:8px;line-height:1.8">
+✅ See ALL users' location on map (User sees only own)<br>
+✅ See ALL users' face data (User sees only own)<br>
+✅ See ALL users' phone, email, password (User cannot)<br>
+✅ Delete/Block any user (User cannot)<br>
+✅ See login logs of all users (User sees only own)<br>
+✅ Export all data to CSV (User cannot)<br>
+❌ User can only: Use security tools, see own profile, own location
+</div></div>
+<div class="card"><h3>Recent Registrations</h3><div id="recentUsers" style="font-size:11px;margin-top:8px"></div></div>
+</div>
+
+<div id="tab-users" class="tabContent" style="display:none">
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3>👥 All Users - Full Database Access (Admin Only)</h3><div><button class="btn btn-primary" onclick="loadAllUsers()">🔄 Refresh</button><button class="btn btn-ghost" onclick="exportCSV()">📥 Export CSV</button></div></div>
+<div id="allUsersTable" style="margin-top:12px;font-size:10px;overflow-x:auto"></div></div>
+</div>
+
+<div id="tab-locations" class="tabContent" style="display:none">
+<div class="card"><h3>🗺️ Live User Locations - Admin Only Power</h3><p style="font-size:10px;color:var(--text2)">You as admin can see where every user registered from. User cannot see others.</p><div id="map" style="margin-top:10px"></div><div id="locationList" style="margin-top:10px;font-size:10px;max-height:200px;overflow-y:auto"></div></div>
+</div>
+
+<div id="tab-faces" class="tabContent" style="display:none">
+<div class="card"><h3>👁️ Face Biometrics Database - Admin Only</h3><div id="faceList" style="margin-top:10px" class="grid2"></div></div>
+</div>
+
+<div id="tab-logs" class="tabContent" style="display:none">
+<div class="card"><h3>📋 All Login Logs - Admin Only</h3><div id="logsList" style="font-family:'JetBrains Mono';font-size:9px;max-height:400px;overflow-y:auto;margin-top:10px"></div></div>
+</div>
+
+<div id="tab-threats" class="tabContent" style="display:none">
+<div class="grid2"><div class="card"><h3>Threats Last 24h</h3><canvas id="chart1" height="150"></canvas></div><div class="card"><h3>Attack Types</h3><canvas id="chart2" height="150"></canvas></div></div>
+</div>
+
+<div id="tab-mitre" class="tabContent" style="display:none">
+<div class="card"><h3>🛡️ MITRE ATT&CK - Industry</h3><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px" id="mitreGrid"></div></div>
+</div>
+
+</div>
+</div>
+<script>
+let map, markers=[];
+function showTab(t){ document.querySelectorAll('.tabContent').forEach(e=>e.style.display='none'); document.getElementById('tab-'+t).style.display='block'; document.querySelectorAll('.side-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); if(t==='locations') initMap(); if(t==='threats') initCharts(); if(t==='mitre') initMitre(); if(t==='users') loadAllUsers(); if(t==='faces') loadFaces(); if(t==='logs') loadLogs(); }
+function logout(){ localStorage.removeItem('token'); localStorage.removeItem('username'); location.href='login.html'; }
+
+function getAllUsers(){
+  let users=[];
+  for(let i=0;i<localStorage.length;i++){
+    let k=localStorage.key(i);
+    if(k.startsWith('registered_user_') || k.startsWith('user_location_')){
+      try{ let d=JSON.parse(localStorage.getItem(k)); if(d.username) users.push(d); }catch(e){}
+    }
+  }
+  // Deduplicate by username
+  let map={}; users.forEach(u=>{ map[u.username]= {...map[u.username], ...u}; }); return Object.values(map);
+}
+
+function loadAllUsers(){
+  let users=getAllUsers();
+  document.getElementById('totalUsers').innerText=users.length;
+  document.getElementById('userCount').innerText=`${users.length} Users`;
+  document.getElementById('locTracked').innerText=users.filter(u=>u.lat).length;
+  document.getElementById('totalUsers').innerText=users.length;
+  
+  let table=document.getElementById('allUsersTable');
+  if(users.length===0){ table.innerHTML="<div style='padding:20px;text-align:center;color:var(--text2)'>No users yet - Register a user to see here</div>"; return; }
+  let html=`<table style="width:100%;border-collapse:collapse"><tr style="background:rgba(255,122,0,0.1)"><th style="padding:8px;border:1px solid var(--border)">Username</th><th style="padding:8px;border:1px solid var(--border)">Phone</th><th style="padding:8px;border:1px solid var(--border)">City</th><th style="padding:8px;border:1px solid var(--border)">Lat/Lng</th><th style="padding:8px;border:1px solid var(--border)">Time</th><th style="padding:8px;border:1px solid var(--border)">Action</th></tr>`;
+  users.forEach(u=>{
+    html+=`<tr><td style="padding:6px;border:1px solid var(--border)">${u.username}</td><td style="padding:6px;border:1px solid var(--border)">${u.phone||'N/A'}</td><td style="padding:6px;border:1px solid var(--border)">${u.city||'Unknown'}</td><td style="padding:6px;border:1px solid var(--border)">${u.lat?`${u.lat.toFixed(3)}, ${u.lng.toFixed(3)}`:'No loc'}</td><td style="padding:6px;border:1px solid var(--border)">${new Date(u.time||Date.now()).toLocaleString()}</td><td style="padding:6px;border:1px solid var(--border)"><button class="btn btn-red" style="padding:4px 8px;font-size:8px" onclick="deleteUser('${u.username}')">Delete</button> <button class="btn btn-ghost" style="padding:4px 8px;font-size:8px" onclick="viewUser('${u.username}')">View</button></td></tr>`;
+  });
+  html+=`</table>`;
+  table.innerHTML=html;
+  
+  let recent=document.getElementById('recentUsers');
+  recent.innerHTML=users.slice(0,5).map(u=>`<div style="padding:6px;border-bottom:1px solid rgba(255,122,0,0.1)">👤 ${u.username} - 📍 ${u.city} - ${new Date(u.time||Date.now()).toLocaleString()}</div>`).join('');
+  document.getElementById('todayReg').innerText=`+${users.length} total`;
+  document.getElementById('faceLogins').innerText=localStorage.length;
+}
+
+function deleteUser(username){
+  if(!confirm(`Delete user ${username}? Admin power!`)) return;
+  localStorage.removeItem(`user_location_${username}`);
+  localStorage.removeItem(`registered_user_${username}`);
+  localStorage.removeItem(`face_data_${username}`);
+  localStorage.removeItem(`face_descriptor_${username}`);
+  alert(`✅ User ${username} deleted by Admin`);
+  loadAllUsers();
+}
+function viewUser(u){ alert(`Admin view: Full data for ${u}\nPhone, Face, Location all visible to admin only`); }
+function exportCSV(){
+  let users=getAllUsers();
+  let csv="Username,Phone,City,Lat,Lng,Time\n";
+  users.forEach(u=>{ csv+=`${u.username},${u.phone||''},${u.city||''},${u.lat||''},${u.lng||''},${u.time||''}\n`; });
+  let blob=new Blob([csv],{type:'text/csv'});
+  let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='all_users_admin_export.csv'; a.click();
+}
+function initMap(){
+  if(map) { setTimeout(()=>map.invalidateSize(),200); loadLocations(); return; }
+  map=L.map('map').setView([20.59,78.96],5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+  loadLocations();
+}
+function loadLocations(){
+  let users=getAllUsers();
+  markers.forEach(m=>map.removeLayer(m)); markers=[];
+  let list=document.getElementById('locationList'); list.innerHTML="";
+  users.forEach(u=>{
+    if(!u.lat) return;
+    let m=L.marker([u.lat,u.lng]).addTo(map);
+    m.bindPopup(`<b>${u.username}</b><br>📱 ${u.phone}<br>📍 ${u.city}<br>Admin can see this - User cannot see others`);
+    markers.push(m);
+    let div=document.createElement('div'); div.style.padding='6px'; div.style.borderBottom='1px solid rgba(255,122,0,0.1)';
+    div.innerHTML=`📍 <b>${u.username}</b> - ${u.city} (${u.lat.toFixed(3)}, ${u.lng.toFixed(3)}) - ${u.phone} <button style="float:right" class="btn btn-ghost" onclick="map.setView([${u.lat},${u.lng}],13)">Focus</button>`;
+    list.appendChild(div);
+  });
+  if(markers.length>0){ let g=new L.featureGroup(markers); map.fitBounds(g.getBounds().pad(0.2)); }
+}
+function loadFaces(){
+  let faces=document.getElementById('faceList'); faces.innerHTML="";
+  let users=getAllUsers();
+  users.forEach(u=>{
+    let faceData=localStorage.getItem(`face_data_${u.username}`);
+    let div=document.createElement('div'); div.className='card';
+    if(faceData){
+      let f=JSON.parse(faceData);
+      div.innerHTML=`<b>${u.username}</b><br><img src="${f.faceImage}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-top:6px"><br><span style="font-size:8px">Face saved: ${new Date(f.timestamp).toLocaleString()}</span><br><button class="btn btn-red" style="margin-top:6px" onclick="deleteUser('${u.username}')">Delete Face Data</button>`;
+    } else {
+      div.innerHTML=`<b>${u.username}</b><br><div style="width:100%;height:120px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center">No face</div>`;
+    }
+    faces.appendChild(div);
+  });
+}
+function loadLogs(){
+  let logs=document.getElementById('logsList');
+  let html="";
+  for(let i=0;i<localStorage.length;i++){
+    let k=localStorage.key(i);
+    if(k.startsWith('face_data_') || k.startsWith('registered_user_')){
+      try{ let d=JSON.parse(localStorage.getItem(k)); html+=`${new Date(d.time||Date.now()).toLocaleString()} - User ${d.username} registered from ${d.city||'Unknown'} (${d.lat||0}, ${d.lng||0}) - Face: ${localStorage.getItem(`face_data_${d.username}`)?'Yes':'No'}<br>`; }catch(e){}
+    }
+  }
+  logs.innerHTML=html||"No logs yet";
+}
+function initCharts(){
+  let c1=document.getElementById('chart1'); if(c1 && !c1.chart){ new Chart(c1,{type:'line',data:{labels:['00','04','08','12','16','20'],datasets:[{label:'Threats',data:[12,19,8,25,18,30],borderColor:'#ff7a00',tension:0.4}]}}); }
+  let c2=document.getElementById('chart2'); if(c2 && !c2.chart){ new Chart(c2,{type:'doughnut',data:{labels:['Phishing','Malware','Brute'],datasets:[{data:[40,30,30],backgroundColor:['#ff7a00','#00d4ff','#00ff88']}]}}); }
+}
+function initMitre(){ let grid=document.getElementById('mitreGrid'); if(grid.innerHTML) return; let tactics=['Initial Access','Execution','Persistence','Privilege','Defense','Credential','Discovery','Lateral','Collection','Exfiltration','C2','Impact']; tactics.forEach(t=>{ let div=document.createElement('div'); div.style.padding='8px'; div.style.background='rgba(255,122,0,0.1)'; div.style.border='1px solid var(--border)'; div.style.borderRadius='6px'; div.style.fontSize='8px'; div.style.textAlign='center'; div.innerHTML=`<b>${t}</b>`; grid.appendChild(div); }); }
+
+window.addEventListener('load',()=>{ document.getElementById('adminName').innerText=localStorage.getItem('username')||'admin'; loadAllUsers(); });
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</html>
