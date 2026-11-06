@@ -21,128 +21,289 @@
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
 </style><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADMIN PANEL - SecOps Lead - Cyber Shield SOC - RBAC v4</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<title>ADMIN - Cyber Shield SOC - Pro UI - 6 Themes - Real 3D Globe</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://unpkg.com/globe.gl@2.32.0/dist/globe.gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050a14;--card:#111d32;--border:#ff7a00;--text:#e6edf5;--blue:#00d4ff;--green:#00ff88;--red:#ff3b3b}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:var(--bg);color:var(--text)}
-.header{padding:10px;background:linear-gradient(90deg,#ff7a00,#ffcc00);color:#000;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.sidebar{width:280px;background:#000;float:left;min-height:100vh;padding:10px}
-.side-btn{width:100%;padding:9px;margin:3px 0;background:#111;color:#fff;border:1px solid var(--border);cursor:pointer;text-align:left;border-radius:6px;display:block;font-size:11px}
-.side-btn.active{background:var(--border);color:#000;font-weight:700}
-.side-btn.admin{background:rgba(255,59,59,0.15);border-color:var(--red);color:#ff8a8a}
-.side-btn.cyber{background:rgba(0,212,255,0.15);border-color:var(--blue);color:#7ad4ff}
-.sub-btn{margin-left:14px;font-size:10px;padding:7px}
-.content{margin-left:290px;padding:12px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.badge{font-size:8px;padding:4px 8px;border-radius:20px;background:rgba(255,122,0,0.15);border:1px solid var(--border);color:var(--border)}
-#map,#map2{width:100%;height:380px;border-radius:12px;border:1px solid var(--border);background:#222}
-.globe{width:100%;height:380px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #1a4d8f, #000);border:3px solid var(--border);margin:10px auto;position:relative;max-width:380px}
-.dot{position:absolute;width:12px;height:12px;background:#ff7a00;border-radius:50%;border:2px solid #fff;cursor:pointer}
-.btn{padding:7px 12px;border-radius:6px;border:none;font-weight:700;cursor:pointer;font-size:11px}
-.btn-p{background:var(--border);color:#000}.btn-g{background:#222;color:#fff;border:1px solid var(--border)}.btn-red{background:var(--red);color:#fff}.btn-blue{background:var(--blue);color:#000}
-input,select,textarea{width:100%;padding:8px;margin:4px 0;background:#000;border:1px solid var(--border);border-radius:6px;color:#fff;box-sizing:border-box;font-size:11px}
-@media(max-width:900px){.sidebar{width:100%;float:none;min-height:auto;display:flex;flex-wrap:wrap;gap:5px}.side-btn{width:auto;flex:1;min-width:140px}.content{margin-left:0}.grid2,.grid3{grid-template-columns:1fr}}
+:root{
+--bg:#050a14;--card:rgba(17,29,50,0.85);--card2:rgba(10,20,40,0.9);--border:rgba(0,212,255,0.2);--text:#e6edf5;--text2:#8a9bb5;--accent:#00d4ff;--accent2:#7c3aed;--green:#00ff88;--red:#ff3b4a;--orange:#ff7a00;--shadow:0 20px 60px rgba(0,0,0,0.5)
+}
+.theme-light{--bg:#f5f7fb;--card:rgba(255,255,255,0.9);--card2:rgba(250,252,255,0.95);--border:rgba(0,0,0,0.08);--text:#0f172a;--text2:#64748b;--accent:#0ea5e9;--accent2:#7c3aed;--shadow:0 20px 60px rgba(0,0,0,0.08)}
+.theme-neon{--bg:#04020a;--card:rgba(20,10,40,0.85);--card2:rgba(30,15,60,0.9);--border:rgba(168,85,247,0.3);--text:#e9d5ff;--text2:#a78bfa;--accent:#a855f7;--accent2:#ec4899;--shadow:0 20px 60px rgba(168,85,247,0.2)}
+.theme-orange{--bg:#0f0600;--card:rgba(40,15,0,0.85);--card2:rgba(50,20,5,0.9);--border:rgba(255,122,0,0.3);--text:#ffedd5;--text2:#fdba74;--accent:#ff7a00;--accent2:#ffcc00}
+.theme-matrix{--bg:#000a00;--card:rgba(0,30,0,0.85);--card2:rgba(0,20,0,0.9);--border:rgba(0,255,100,0.2);--text:#bbf7d0;--text2:#4ade80;--accent:#00ff88;--accent2:#22c55e}
+.theme-ocean{--bg:#020a14;--card:rgba(5,25,50,0.85);--card2:rgba(10,35,70,0.9);--border:rgba(56,189,248,0.25);--text:#e0f2fe;--text2:#7dd3fc;--accent:#38bdf8;--accent2:#0ea5e9}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:all 0.4s ease}
+.header{height:64px;padding:0 20px;background:var(--card2);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.logo{display:flex;gap:12px;align-items:center}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#000}
+.logo-text b{font-size:16px;letter-spacing:-0.5px} .logo-text div{font-size:10px;color:var(--text2);font-family:'JetBrains Mono'}
+.header-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.select{padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:11px;outline:none;cursor:pointer}
+.badge{font-size:10px;padding:6px 10px;border-radius:20px;background:var(--card);border:1px solid var(--border);color:var(--text2);font-family:'JetBrains Mono';font-weight:500}
+.badge.live{background:rgba(0,255,136,0.1);border-color:var(--green);color:var(--green)}
+.badge.admin{background:linear-gradient(135deg,var(--orange),#ffcc00);color:#000;font-weight:700;border:none}
+.main{display:flex;min-height:calc(100vh - 64px)}
+.sidebar{width:280px;background:var(--card2);backdrop-filter:blur(20px);border-right:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+.side-section{font-size:10px;color:var(--text2);font-weight:600;letter-spacing:1px;margin:16px 0 8px 8px;font-family:'JetBrains Mono'}
+.side-btn{width:100%;padding:12px 14px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--text2);cursor:pointer;text-align:left;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transition:all 0.2s}
+.side-btn:hover{background:var(--card);border-color:var(--border);color:var(--text);transform:translateX(2px)}
+.side-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;font-weight:700;border-color:transparent;box-shadow:0 8px 20px rgba(0,212,255,0.3)}
+.side-btn.admin{color:#ff8a8a}.side-btn.admin.active{background:linear-gradient(135deg,#ff3b4a,#ff7a00);color:#fff}
+.side-btn.cyber{color:#7dd3fc}.side-btn.cyber.active{background:linear-gradient(135deg,#00d4ff,#7c3aed);color:#fff}
+.sub-btn{margin-left:16px;font-size:12px;padding:10px 14px;opacity:0.85}
+.content{flex:1;padding:20px;overflow-y:auto;background:radial-gradient(ellipse at top, rgba(0,212,255,0.08) 0%, transparent 50%)}
+.card{background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow);transition:all 0.3s}
+.card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.card h3{font-size:15px;font-weight:600;margin-bottom:4px;letter-spacing:-0.3px}
+.card p{font-size:12px;color:var(--text2);line-height:1.5}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat{font-size:11px;color:var(--text2);font-family:'JetBrains Mono';letter-spacing:0.5px;margin-bottom:6px}
+.stat-value{font-size:32px;font-weight:700;letter-spacing:-1px;margin:4px 0}
+.stat-trend{font-size:11px;color:var(--green);font-family:'JetBrains Mono'}
+#map,#map2{width:100%;height:480px;border-radius:16px;border:1px solid var(--border);overflow:hidden}
+#globe,#globe2,#threatGlobe{width:100%;height:520px;border-radius:20px;border:1px solid var(--border);background:#000;overflow:hidden;position:relative}
+.btn{padding:10px 16px;border-radius:12px;border:none;font-weight:600;cursor:pointer;font-size:12px;transition:all 0.2s;font-family:'Space Grotesk'}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;box-shadow:0 8px 20px rgba(0,212,255,0.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(0,212,255,0.35)}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--text)}
+.btn-red{background:linear-gradient(135deg,#ff3b4a,#ff7a00);color:#fff}
+.toggle-group{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:4px;gap:4px}
+.toggle-btn{flex:1;padding:10px 16px;border-radius:10px;border:none;background:transparent;color:var(--text2);cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s}
+.toggle-btn.active{background:var(--card);color:var(--text);box-shadow:0 4px 12px rgba(0,0,0,0.2);border:1px solid var(--border)}
+.globe-info{position:absolute;bottom:20px;left:20px;right:20px;background:var(--card2);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:16px;z-index:10;max-width:400px}
+@media(max-width:900px){.main{flex-direction:column}.sidebar{width:100%;flex-direction:row;overflow-x:auto;flex-wrap:wrap;min-height:auto}.side-btn{width:auto;flex:1;min-width:160px}.content{padding:12px}.grid2,.grid3{grid-template-columns:1fr}#globe,#globe2{height:400px}}
 </style></head>
-<body>
-<div class="header"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b data-i18n="title">👑 ADMIN PANEL - SecOps Lead - RBAC v4 - Industry</b>
-<select id="langSelect" onchange="changeLang()" style="padding:4px 8px;border-radius:6px;background:#000;color:#ff7a00;border:1px solid #ff7a00;font-size:11px">
-<option value="en">🇺🇸 EN</option><option value="hi">🇮🇳 हिंदी</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="de">🇩🇪 DE</option>
-</select>
-</div><div><span id="adminName">admin</span> <span class="badge">ADMIN - SecOps Lead</span> <button onclick="location.href='login.html'" class="btn-g">Logout</button></div></div>
+<body class="theme-dark">
+<div class="header">
+<div class="logo"><div class="logo-icon">🛡️</div><div class="logo-text"><b>CYBER SHIELD SOC</b><div>v5 PRO - 6 Themes - Real 3D Globe - Industry</div></div></div>
+<div class="header-controls">
+<select id="langSelect" class="select" onchange="changeLang()"><option value="en">🇺🇸 EN</option><option value="hi">🇮🇳 हिंदी</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="de">🇩🇪 DE</option><option value="ja">🇯🇵 JP</option></select>
+<select id="themeSelect" class="select" onchange="changeTheme()"><option value="dark">🌙 Dark Pro</option><option value="light">☀️ Light Pro</option><option value="neon">💜 Neon Cyber</option><option value="orange">🔥 Orange SOC</option><option value="matrix">💚 Matrix</option><option value="ocean">🌊 Ocean Blue</option></select>
+<span class="badge live" id="liveBadge">● LIVE SIEM</span>
+<span class="badge admin" id="userCount">0 Users</span>
+<span class="badge" id="adminName">admin</span>
+<button class="select" onclick="location.href='login.html'" style="cursor:pointer">Logout</button>
+</div>
+</div>
+<div class="main">
 <div class="sidebar">
-<button class="side-btn active" id="b-siem" onclick="showTab('siem','b-siem')" data-i18n="siem">📡 Real-Time SIEM & Log Telemetry</button>
-<button class="side-btn cyber" id="b-correlation" onclick="showTab('correlation','b-correlation')" data-i18n="correlation">🔗 Correlation & Threat Scoring</button>
-<button class="side-btn cyber" id="b-mitre" onclick="showTab('mitre','b-mitre')" data-i18n="mitre">🛡️ Attack Surface & MITRE ATT&CK</button>
-<button class="side-btn admin" id="b-triage" onclick="showTab('triage','b-triage')" data-i18n="triage">🚨 Incident Triage Queue - SOAR</button>
-<button class="side-btn admin" id="b-contain" onclick="showTab('contain','b-contain')" data-i18n="contain">⚡ 1-Click Active Containment</button>
-<button class="side-btn cyber" id="b-canvas" onclick="showTab('canvas','b-canvas')" data-i18n="canvas">🕸️ Investigation Canvas</button>
-<button class="side-btn" id="b-locations" onclick="showTab('locations','b-locations')" data-i18n="locations">🗺️ Locations - OLD Map + NEW 3D Globe</button>
-<button class="side-btn sub-btn" onclick="showTab('locations','b-locations');setMode('2d')" data-i18n="sub2d">📍 Sub: OLD 2D Map</button>
-<button class="side-btn sub-btn" onclick="showTab('locations','b-locations');setMode('3d')" data-i18n="sub3d">🌍 Sub: NEW 3D Globe</button>
-<button class="side-btn sub-btn" onclick="showTab('locations','b-locations');setMode('both')" data-i18n="subBoth">🗺️+🌍 Sub: Both</button>
-<button class="side-btn cyber" id="b-rule" onclick="showTab('rule','b-rule')" data-i18n="rule">🛠️ Detection Engineering - Custom Rules</button>
-<button class="side-btn cyber" id="b-feed" onclick="showTab('feed','b-feed')" data-i18n="feed">🌐 Threat Feed Integration - MISP, OTX</button>
-<button class="side-btn cyber" id="b-ueba" onclick="showTab('ueba','b-ueba')" data-i18n="ueba">👁️ UEBA - Behavior Analytics</button>
-<button class="side-btn admin" id="b-rbac" onclick="showTab('rbac','b-rbac')" data-i18n="rbac">🔐 Granular RBAC & Multi-Tenancy</button>
-<button class="side-btn admin" id="b-audit" onclick="showTab('audit','b-audit')" data-i18n="audit">📜 Tamper-Proof Audit Logging</button>
-<button class="side-btn admin" id="b-report" onclick="showTab('report','b-report')" data-i18n="report">📄 Report Engine - PDF/CSV Export</button>
-<button class="side-btn" onclick="location.href='user_dashboard.html'">👤 Switch to User Panel</button>
+<div class="side-section">SIEM & TELEMETRY</div>
+<button class="side-btn active" id="b-siem" onclick="showTab('siem','b-siem')">📡 Real-Time SIEM Stream</button>
+<button class="side-btn" id="b-correlation" onclick="showTab('correlation','b-correlation')">🔗 Correlation & Scoring</button>
+<button class="side-btn" id="b-mitre" onclick="showTab('mitre','b-mitre')">🛡️ MITRE ATT&CK Matrix</button>
+<div class="side-section">SOAR & RESPONSE</div>
+<button class="side-btn admin" id="b-triage" onclick="showTab('triage','b-triage')">🚨 Incident Triage Queue</button>
+<button class="side-btn admin" id="b-contain" onclick="showTab('contain','b-contain')">⚡ 1-Click Containment</button>
+<button class="side-btn" id="b-canvas" onclick="showTab('canvas','b-canvas')">🕸️ Investigation Canvas</button>
+<div class="side-section">GEO INTELLIGENCE - OLD + NEW</div>
+<button class="side-btn admin" id="b-locations" onclick="showTab('locations','b-locations')">🗺️ OLD Map + NEW 3D Globe - Pro</button>
+<button class="side-btn sub-btn" onclick="showTab('locations','b-locations');setMode('2d')">📍 Sub: OLD 2D World Map</button>
+<button class="side-btn sub-btn" onclick="showTab('locations','b-locations');setMode('3d')">🌍 Sub: NEW Real 3D Globe - Click for Details</button>
+<button class="side-btn sub-btn" onclick="showTab('locations','b-locations');setMode('both')">🗺️+🌍 Sub: Both - Pro Split View</button>
+<div class="side-section">THREAT INTEL</div>
+<button class="side-btn cyber" id="b-rule" onclick="showTab('rule','b-rule')">🛠️ Custom Rule Builder</button>
+<button class="side-btn cyber" id="b-feed" onclick="showTab('feed','b-feed')">🌐 Threat Feeds - MISP, OTX</button>
+<button class="side-btn cyber" id="b-ueba" onclick="showTab('ueba','b-ueba')">👁️ UEBA & Anomaly Detection</button>
+<div class="side-section">GOVERNANCE</div>
+<button class="side-btn admin" id="b-rbac" onclick="showTab('rbac','b-rbac')">🔐 RBAC & Multi-Tenancy</button>
+<button class="side-btn admin" id="b-audit" onclick="showTab('audit','b-audit')">📜 Tamper-Proof Audit Log</button>
+<button class="side-btn admin" id="b-report" onclick="showTab('report','b-report')">📄 Report Engine - PDF/CSV</button>
+<button class="side-btn" onclick="location.href='user_dashboard.html'">👤 Switch to User Panel (Tier 1)</button>
 </div>
 <div class="content">
 <div id="tab-siem" class="tab">
 <div class="grid3">
-<div class="card"><div style="font-size:10px">LIVE EVENTS / SEC</div><div style="font-size:22px;color:var(--green)" id="eventRate">1,247/s</div><div style="font-size:10px">Syslog, Firewall, Auth, DNS, EDR</div></div>
-<div class="card"><div style="font-size:10px">INCIDENTS OPEN</div><div style="font-size:22px;color:var(--red)" id="incCount">7</div><div style="font-size:10px">P1: 2, P2: 3, P3: 2</div></div>
-<div class="card"><div style="font-size:10px">MTTD / MTTR</div><div style="font-size:18px;color:var(--blue)">12m / 45m</div><div style="font-size:10px">SLA: 99.9% met</div></div>
+<div class="card"><div class="stat">LIVE EVENTS / SECOND</div><div class="stat-value" id="eventRate" style="color:var(--green)">1,247/s</div><div class="stat-trend">↑ 12% - Syslog, Firewall, Auth, DNS, EDR</div></div>
+<div class="card"><div class="stat">INCIDENTS OPEN</div><div class="stat-value" id="incCount" style="color:var(--red)">7</div><div class="stat-trend">P1: 2 Critical, P2: 3 High - SLA 99.9%</div></div>
+<div class="card"><div class="stat">MTTD / MTTR</div><div class="stat-value" style="color:var(--accent)">12m / 45m</div><div class="stat-trend">Avg containment 8m - Industry benchmark</div></div>
 </div>
-<div class="card"><h3 data-i18n="siemTitle">📡 Live Event Stream - Ingestion - Millisecond Search (Elastic/Splunk-like)</h3><div style="display:flex;gap:5px;margin:10px 0"><input id="siemSearch" placeholder="Search logs: syslog, firewall, auth, DNS, endpoint - e.g., IP 185.220.101.45, phish, failed login" style="flex:1"><button class="btn-p" onclick="searchSIEM()">Search</button><button class="btn-g" onclick="startLive()">▶ Live</button><button class="btn-g" onclick="stopLive()">⏸ Pause</button></div><div id="siemStream" style="font-family:monospace;font-size:10px;max-height:320px;overflow-y:auto;background:#000;padding:10px;border-radius:8px"></div></div>
-<div class="grid2"><div class="card"><h3>Threats Last 24h</h3><canvas id="chart1" height="140"></canvas></div><div class="card"><h3>By Source</h3><canvas id="chart2" height="140"></canvas></div></div>
+<div class="card" style="margin-top:16px"><h3>📡 Live SIEM Stream - Millisecond Search - Elastic/Splunk-like</h3><div style="display:flex;gap:8px;margin:14px 0"><input id="siemSearch" placeholder="Search: syslog, firewall, auth, DNS, endpoint, IP 185.220.101.45, phish..." style="flex:1;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:12px;color:var(--text)"><button class="btn btn-primary" onclick="searchSIEM()">Search</button><button class="btn btn-ghost" onclick="startLive()">▶ Live</button><button class="btn btn-ghost" onclick="stopLive()">⏸ Pause</button></div><div id="siemStream" style="font-family:'JetBrains Mono';font-size:11px;max-height:380px;overflow-y:auto;background:var(--card2);padding:14px;border-radius:14px;border:1px solid var(--border)"></div></div>
+<div class="grid2" style="margin-top:16px"><div class="card"><h3>Threats - Last 24 Hours</h3><canvas id="chart1" height="140"></canvas></div><div class="card"><h3>By Source - Telemetry</h3><canvas id="chart2" height="140"></canvas></div></div>
 </div>
-<div id="tab-correlation" class="tab" style="display:none"><div class="card"><h3 data-i18n="correlationTitle">🔗 Correlation & Threat Scoring - Rule-based + Heuristic</h3><div style="margin-top:10px;font-size:11px">Raw logs grouped into high-fidelity incidents:<br><div style="margin-top:8px;padding:8px;background:rgba(255,59,59,0.1);border-radius:6px"><b>Incident INC-2024-001 - Score 95/100 - Critical</b><br>5 failed logins (Auth) + 1 impossible travel (UEBA) + 1 Tor exit IP (Threat Feed) = Credential Stuffing → Correlated to 1 incident<br><b>Action:</b> Auto-created P1 ticket + Suggested containment: Revoke token + Isolate endpoint</div><div style="margin-top:8px;padding:8px;background:rgba(255,122,0,0.1);border-radius:6px"><b>Incident INC-2024-002 - Score 78/100 - High</b><br>3 phishing emails (Email gateway) + 2 users clicked (User reports) + Domain blacklisted (VirusTotal) = Phishing campaign</div></div></div></div>
-<div id="tab-mitre" class="tab" style="display:none"><div class="card"><h3 data-i18n="mitreTitle">🛡️ Attack Surface & MITRE ATT&CK Mapping - TTPs</h3><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px" id="mitreGrid"></div><div id="mitreDetail" style="margin-top:12px;padding:10px;background:#000;border-radius:8px;font-size:11px">Click tactic to see detection in your project</div></div></div>
-<div id="tab-triage" class="tab" style="display:none"><div class="card"><h3 data-i18n="triageTitle">🚨 Incident Triage Queue - Prioritized - SOAR - P1 to P4</h3><div style="display:flex;gap:5px;margin:10px 0;flex-wrap:wrap"><span class="badge" style="background:var(--red);color:#fff">P1 Critical: 2</span><span class="badge" style="background:var(--border)">P2 High: 3</span><span class="badge" style="background:var(--blue)">P3 Medium: 2</span><span class="badge">P4 Informational: 5</span><button class="btn-p" onclick="loadTriage()">Refresh</button></div><div id="triageList" style="font-size:11px"></div></div></div>
-<div id="tab-contain" class="tab" style="display:none"><div class="card"><h3 data-i18n="containTitle">⚡ 1-Click Active Containment (Playbooks) - SOAR</h3><div class="grid2" style="margin-top:12px"><div class="card" style="margin:0"><h4>Isolate Endpoint</h4><p style="font-size:11px">Disconnect infected endpoint from network - Keep SOC connection</p><input id="containEndpoint" placeholder="Hostname or IP: WIN-10-DELHI-01 or 192.168.1.105"><button class="btn-red" onclick="contain('isolate')">🔌 Isolate Now</button><div id="containResult1" style="margin-top:6px;font-size:11px"></div></div><div class="card" style="margin:0"><h4>Revoke User Token</h4><p style="font-size:11px">Revoke refresh tokens + Terminate sessions - Force re-auth</p><input id="containUser" placeholder="Username: admin or user1"><button class="btn-red" onclick="contain('revoke')">🔑 Revoke Token</button><div id="containResult2" style="margin-top:6px;font-size:11px"></div></div></div><div class="grid2" style="margin-top:10px"><div class="card" style="margin:0"><h4>Block IP/Domain at Firewall</h4><input id="containIP" placeholder="IP/Domain: 185.220.101.45 or phishing-secure-login.com"><button class="btn-red" onclick="contain('block')">🚫 Block at Firewall</button><div id="containResult3" style="margin-top:6px;font-size:11px"></div></div><div class="card" style="margin:0"><h4>Quarantine File (Hash)</h4><input id="containHash" placeholder="SHA256: 5d41402abc4b2a76b9719d911017c592"><button class="btn-red" onclick="contain('quarantine')">🦠 Quarantine File</button><div id="containResult4" style="margin-top:6px;font-size:11px"></div></div></div></div></div>
-<div id="tab-canvas" class="tab" style="display:none"><div class="card"><h3 data-i18n="canvasTitle">🕸️ Investigation Canvas - Relational Pivot - IPs, Domains, Hashes, Identities</h3><div style="margin-top:10px;height:400px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px"><div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap"><div style="padding:10px;background:var(--red);border-radius:8px">IP: 185.220.101.45 (Tor)</div><div>→</div><div style="padding:10px;background:var(--border);border-radius:8px">Domain: phishing-secure-login.com</div><div>→</div><div style="padding:10px;background:var(--blue);border-radius:8px;color:#000">User: admin</div></div><div style="font-size:11px">Pivot: IP clicked by user → Domain in email → Hash 5d414... → 2 other users affected</div><button class="btn-p" onclick="alert('Canvas: Click nodes to pivot - Add to incident - Export graph')">Expand Investigation</button></div></div></div>
+
 <div id="tab-locations" class="tab" style="display:none">
 <div class="card">
-<h3 data-i18n="locationsTitle">🗺️ Locations - OLD 2D Map + NEW 3D Globe - Phone Tracking - Admin Only</h3>
-<div style="margin:10px 0;display:flex;gap:5px;flex-wrap:wrap">
-<button id="b2d" onclick="setMode('2d')" class="btn-p">📍 OLD 2D Map</button>
-<button id="b3d" onclick="setMode('3d')" class="btn-g">🌍 NEW 3D Globe</button>
-<button id="bBoth" onclick="setMode('both')" class="btn-g">🗺️+🌍 Both Split View</button>
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px"><div><h3>🗺️ OLD 2D Map + 🌍 NEW Real 3D Globe - Pro - Click Globe for Country/State/City Details</h3><p style="margin-top:4px">Real globe.gl Earth with member locations - Click any point or globe area to see detailed geo info</p></div>
+<div class="toggle-group"><button id="b2d" onclick="setMode('2d')" class="toggle-btn active">📍 OLD 2D Map</button><button id="b3d" onclick="setMode('3d')" class="toggle-btn">🌍 NEW Real 3D Globe</button><button id="bBoth" onclick="setMode('both')" class="toggle-btn">Pro Split View</button></div></div>
+
+<div id="mapBox" style="margin-top:16px"><div id="map"></div><div id="locList" style="margin-top:14px;font-size:12px;font-family:'JetBrains Mono'"></div></div>
+
+<div id="globeBox" style="display:none;margin-top:16px;position:relative">
+<div id="globe"></div>
+<div class="globe-info" id="globeInfo">
+<div style="font-weight:700;font-size:13px;margin-bottom:8px">🌍 Click Globe or Orange Dot for Details</div>
+<div id="globeDetails" style="font-size:11px;line-height:1.6;color:var(--text2)">
+Select a member dot to see:<br>
+• Country, State, City, Town<br>
+• Lat/Lng, Phone, Username<br>
+• ISP, Timezone, Registration Time<br>
+• Device Health, Last Activity<br><br>
+Or click empty globe area to see that region's threat level.
 </div>
-<div id="mapBox"><div id="map"></div></div>
-<div id="globeBox" style="display:none"><div class="globe" id="globe"></div></div>
-<div id="bothBox" style="display:none"><div class="grid2"><div><h4>OLD 2D Map</h4><div id="map2"></div></div><div><h4>NEW 3D Globe</h4><div class="globe" id="globe2" style="height:380px"></div></div></div></div>
-<div id="locList" style="margin-top:12px;font-size:11px"></div>
 </div>
 </div>
-<div id="tab-rule" class="tab" style="display:none"><div class="card"><h3 data-i18n="ruleTitle">🛠️ Detection Engineering - Custom Rule Builder - Sigma, YARA, KQL</h3><div class="grid2" style="margin-top:10px"><div><label>Rule Type</label><select id="ruleType"><option>Sigma Rule (SIEM)</option><option>YARA Rule (File)</option><option>KQL / Regex (Threshold)</option></select><label>Rule Name</label><input id="ruleName" placeholder="e.g., Multiple Failed Logins + Tor Exit"><label>Logic</label><textarea id="ruleLogic" rows="4" placeholder="detection: selection: EventID 4625 | count >5 in 5m and dst_ip in tor_exit_list">detection:
-  selection:
-    EventID: 4625
-    FailureReason: Bad Password
-  condition: selection | count() > 5 in 5m
-  fields: [User, SourceIP]
-  level: high</textarea><button class="btn-p" onclick="saveRule()">Save & Deploy Rule</button></div><div><div style="padding:10px;background:#000;border-radius:8px;font-size:11px"><b>Existing Rules (9 active):</b><br><div id="ruleList"></div></div></div></div></div></div>
-<div id="tab-feed" class="tab" style="display:none"><div class="card"><h3 data-i18n="feedTitle">🌐 Threat Feed Integration - MISP, AlienVault OTX, VirusTotal, AbuseIPDB - Auto IOC Cross-Reference</h3><div style="margin-top:10px"><label>Enter IOC to Cross-Reference</label><div style="display:flex;gap:5px"><input id="iocInput" placeholder="IP, Domain, URL, Hash: 185.220.101.45 or phishing.com or 5d41402abc4b..."><button class="btn-p" onclick="checkIOC()">Check Feeds</button></div><div id="iocResult" style="margin-top:10px;font-size:11px;padding:10px;background:#000;border-radius:8px"></div><div style="margin-top:10px;font-size:11px">Feeds: ✅ MISP (2,341 IOCs) | ✅ AlienVault OTX (5,123) | ✅ VirusTotal (12,451) | ✅ AbuseIPDB (8,234) - Auto-sync every 15m</div></div></div></div>
-<div id="tab-ueba" class="tab" style="display:none"><div class="card"><h3 data-i18n="uebaTitle">👁️ UEBA - User & Entity Behavior Analytics - Outlier Detection</h3><div class="grid2" style="margin-top:10px"><div class="card" style="margin:0;background:rgba(255,59,59,0.1)"><b>🚨 Impossible Travel Detected</b><br>User: admin<br>Delhi (10:00) → New York (10:15) - 15 min gap - 12,000 km<br>Score: 95/100 - Alert: P1 Critical<br><button class="btn-red" style="margin-top:6px" onclick="alert('UEBA: Auto-created incident + Suggested: Revoke token + Require MFA')">View Incident</button></div><div class="card" style="margin:0;background:rgba(255,122,0,0.1)"><b>⚠️ Brute-Force Attempt</b><br>User: rahul<br>25 failed logins in 3m from 185.220.101.45 (Tor)<br>Score: 88/100<br><button class="btn-p" style="margin-top:6px" onclick="alert('UEBA: Brute-force - Block IP + Force password reset')">Block IP</button></div></div><div style="margin-top:10px" class="card"><b>Off-Hours Data Transfer</b><br>User: analyst1 - 2.3GB upload at 02:30 AM - Normal: 50MB - Score: 75/100</div></div></div>
-<div id="tab-rbac" class="tab" style="display:none"><div class="card"><h3 data-i18n="rbacTitle">🔐 Granular RBAC & Multi-Tenancy - SOC Manager, Tier 1/2, Auditor, Client</h3><div style="margin-top:10px"><table border=1 style="width:100%;border-collapse:collapse;font-size:11px"><tr style="background:rgba(255,122,0,0.2)"><th>Role</th><th>Permissions</th><th>Users</th><th>Action</th></tr><tr><td>👑 SOC Manager / SecOps Lead</td><td>Full Admin, Detection Engineering, Containment, RBAC, Audit, Reports</td><td>1 (admin)</td><td><button class="btn-g">Edit</button></td></tr><tr><td>👤 Tier 2 Analyst</td><td>Triage, Investigation, Containment (needs approval), Rule view</td><td>2</td><td><button class="btn-g">Edit</button></td></tr><tr><td>👤 Tier 1 / Junior Analyst</td><td>Read-only + Phishing submission + Incident intake + Ticket status</td><td>5</td><td><button class="btn-g">Edit</button></td></tr><tr><td>👁️ Auditor</td><td>Read-only logs, Reports, Audit ledger - No containment</td><td>1</td><td><button class="btn-g">Edit</button></td></tr><tr><td>📊 Read-only Client (B2B / MSSP)</td><td>Executive scorecard, SLA, Compliance summary only</td><td>3</td><td><button class="btn-g">Edit</button></td></tr></table><div style="margin-top:10px"><button class="btn-p" onclick="alert('Create custom role - Permissions: 50+ granular controls')">+ Create Custom Role & Multi-Tenant Org</button></div></div></div></div>
-<div id="tab-audit" class="tab" style="display:none"><div class="card"><h3 data-i18n="auditTitle">📜 Tamper-Proof Audit Logging - Append-Only Cryptographic Ledger - Compliance</h3><div id="auditLog" style="font-family:monospace;font-size:10px;max-height:400px;overflow-y:auto;background:#000;padding:10px;border-radius:8px;margin-top:10px"></div><div style="margin-top:10px;font-size:11px">✅ Blockchain-like hash chain: Each log entry hashed with previous - Tamper detection - Meets ISO 27001, NIST, GDPR</div></div></div>
-<div id="tab-report" class="tab" style="display:none"><div class="card"><h3 data-i18n="reportTitle">📄 Report Engine - One-click PDF/CSV Export - Executive Summary, MTTR/MTTD, Audit Package</h3><div class="grid3" style="margin-top:10px"><div class="card" style="margin:0"><b>Executive Summary</b><br><span style="font-size:11px">Threats blocked: 1,247<br>Incidents: 7<br>MTTD: 12m, MTTR: 45m</span><br><button class="btn-p" style="margin-top:8px" onclick="exportReport('executive')">Export PDF</button></div><div class="card" style="margin:0"><b>MTTR/MTTD Metrics</b><br><span style="font-size:11px">SLA met: 99.9%<br>Avg containment: 8m<br>Report period: Last 30d</span><br><button class="btn-p" style="margin-top:8px" onclick="exportReport('mttr')">Export CSV</button></div><div class="card" style="margin:0"><b>Regulatory Audit Package</b><br><span style="font-size:11px">ISO 27001, NIST, GDPR<br>Logs, RBAC, Audit ledger<br>Ready for auditor</span><br><button class="btn-p" style="margin-top:8px" onclick="exportReport('audit')">Export Audit ZIP</button></div></div></div></div>
+
+<div id="bothBox" style="display:none;margin-top:16px"><div class="grid2"><div><h4 style="font-size:13px;margin-bottom:8px">📍 OLD 2D World Map - Pro</h4><div id="map2"></div></div><div><h4 style="font-size:13px;margin-bottom:8px">🌍 NEW Real 3D Globe - Pro - Interactive</h4><div id="globe2"></div></div></div></div>
+</div>
+</div>
+
+<div id="tab-mitre" class="tab" style="display:none"><div class="card"><h3>🛡️ MITRE ATT&CK Matrix - Industry Framework</h3><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px" id="mitreGrid"></div><div id="mitreDetail" style="margin-top:16px;padding:16px;background:var(--card2);border-radius:14px;border:1px solid var(--border);font-size:12px">Click tactic to see detection mapping in your SOC</div></div></div>
+<div id="tab-triage" class="tab" style="display:none"><div class="card"><h3>🚨 Incident Triage Queue - P1 to P4 - SOAR</h3><div id="triageList" style="margin-top:14px"></div></div></div>
+<div id="tab-contain" class="tab" style="display:none"><div class="card"><h3>⚡ 1-Click Active Containment - Playbooks</h3><div class="grid2" style="margin-top:14px"><div class="card" style="margin:0"><h4>Isolate Endpoint</h4><p>Disconnect infected endpoint - Keep SOC channel</p><input id="containEndpoint" placeholder="Hostname: WIN-10-DELHI-01"><button class="btn btn-red" style="margin-top:8px" onclick="contain('isolate')">🔌 Isolate Now</button><div id="cr1" style="margin-top:8px;font-size:11px"></div></div><div class="card" style="margin:0"><h4>Revoke User Token</h4><p>Revoke refresh tokens + Terminate sessions</p><input id="containUser" placeholder="Username: admin"><button class="btn btn-red" style="margin-top:8px" onclick="contain('revoke')">🔑 Revoke Token</button><div id="cr2" style="margin-top:8px;font-size:11px"></div></div></div><div class="grid2" style="margin-top:12px"><div class="card" style="margin:0"><h4>Block IP/Domain at Firewall</h4><input id="containIP" placeholder="185.220.101.45 or phishing.com"><button class="btn btn-red" style="margin-top:8px" onclick="contain('block')">🚫 Block at Firewall</button><div id="cr3" style="margin-top:8px;font-size:11px"></div></div><div class="card" style="margin:0"><h4>Quarantine File (Hash)</h4><input id="containHash" placeholder="SHA256: 5d41402abc..."><button class="btn btn-red" style="margin-top:8px" onclick="contain('quarantine')">🦠 Quarantine File</button><div id="cr4" style="margin-top:8px;font-size:11px"></div></div></div></div></div>
+<div id="tab-correlation" class="tab" style="display:none"><div class="card"><h3>🔗 Correlation & Threat Scoring</h3><div style="margin-top:12px"><div style="padding:14px;background:rgba(255,59,59,0.08);border:1px solid var(--red);border-radius:14px;margin-bottom:10px"><b>Incident INC-2024-001 - Score 95/100 - Critical</b><br>5 failed logins + 1 impossible travel + 1 Tor exit IP = Credential Stuffing → Correlated to 1 incident<br><b>Action:</b> Auto-created P1 + Suggested: Revoke token + Isolate</div><div style="padding:14px;background:rgba(255,122,0,0.08);border:1px solid var(--orange);border-radius:14px"><b>Incident INC-2024-002 - Score 78/100 - High</b><br>3 phishing emails + 2 users clicked + Domain blacklisted = Phishing campaign</div></div></div></div>
+<div id="tab-canvas" class="tab" style="display:none"><div class="card"><h3>🕸️ Investigation Canvas - Relational Pivot</h3><div style="height:420px;background:var(--card2);border-radius:16px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;margin-top:14px"><div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap"><div style="padding:12px;background:var(--red);border-radius:12px;color:#fff">IP: 185.220.101.45</div><div>→</div><div style="padding:12px;background:var(--orange);border-radius:12px;color:#000">Domain: phishing.com</div><div>→</div><div style="padding:12px;background:var(--blue);border-radius:12px;color:#000">User: admin</div></div><div style="font-size:11px;color:var(--text2)">Pivot: IP clicked by user → Domain in email → Hash → 2 other users affected</div></div></div></div>
+<div id="tab-rule" class="tab" style="display:none"><div class="card"><h3>🛠️ Detection Engineering - Sigma, YARA, KQL</h3><div class="grid2" style="margin-top:14px"><div><label>Rule Type</label><select id="ruleType"><option>Sigma Rule</option><option>YARA Rule</option><option>KQL / Regex</option></select><label>Rule Name</label><input id="ruleName" placeholder="Multiple Failed Logins + Tor"><label>Logic</label><textarea id="ruleLogic" rows="5" placeholder="detection: selection: EventID 4625 | count >5"></textarea><button class="btn btn-primary" style="margin-top:10px" onclick="saveRule()">Save & Deploy Rule</button></div><div><div style="padding:14px;background:var(--card2);border-radius:14px"><b>Existing Rules (9 active):</b><div id="ruleList" style="margin-top:8px;font-size:11px"></div></div></div></div></div></div>
+<div id="tab-feed" class="tab" style="display:none"><div class="card"><h3>🌐 Threat Feed Integration - MISP, OTX, VirusTotal, AbuseIPDB</h3><div style="display:flex;gap:8px;margin-top:14px"><input id="iocInput" placeholder="IP, Domain, URL, Hash: 185.220.101.45"><button class="btn btn-primary" onclick="checkIOC()">Check Feeds</button></div><div id="iocResult" style="margin-top:14px;padding:14px;background:var(--card2);border-radius:14px;font-size:11px"></div></div></div>
+<div id="tab-ueba" class="tab" style="display:none"><div class="card"><h3>👁️ UEBA - Behavior Analytics</h3><div class="grid2" style="margin-top:14px"><div class="card" style="margin:0;background:rgba(255,59,59,0.08);border-color:var(--red)"><b>🚨 Impossible Travel Detected</b><br>User: admin - Delhi (10:00) → New York (10:15) - 15 min - 12,000 km - Score 95</div><div class="card" style="margin:0;background:rgba(255,122,0,0.08);border-color:var(--orange)"><b>⚠️ Brute-Force Attempt</b><br>User: rahul - 25 failed logins in 3m from Tor - Score 88</div></div></div></div>
+<div id="tab-rbac" class="tab" style="display:none"><div class="card"><h3>🔐 Granular RBAC & Multi-Tenancy</h3><div style="margin-top:14px"><table border=1 style="width:100%;border-collapse:collapse;font-size:11px"><tr style="background:var(--card2)"><th>Role</th><th>Permissions</th><th>Users</th></tr><tr><td>👑 SOC Manager</td><td>Full Admin, Detection, Containment, RBAC, Audit, Reports</td><td>1</td></tr><tr><td>👤 Tier 2 Analyst</td><td>Triage, Investigation, Containment (approval), Rule view</td><td>2</td></tr><tr><td>👤 Tier 1 / Junior</td><td>Read-only + Phishing submission + Incident intake</td><td>5</td></tr><tr><td>👁️ Auditor</td><td>Read-only logs, Reports, Audit ledger</td><td>1</td></tr><tr><td>📊 Client (B2B)</td><td>Executive scorecard, SLA, Compliance only</td><td>3</td></tr></table></div></div></div>
+<div id="tab-audit" class="tab" style="display:none"><div class="card"><h3>📜 Tamper-Proof Audit Log - Cryptographic Ledger</h3><div id="auditLog" style="font-family:'JetBrains Mono';font-size:10px;max-height:400px;overflow-y:auto;background:var(--card2);padding:14px;border-radius:14px;margin-top:14px;border:1px solid var(--border)"></div></div></div>
+<div id="tab-report" class="tab" style="display:none"><div class="card"><h3>📄 Report Engine - PDF/CSV Export</h3><div class="grid3" style="margin-top:14px"><div class="card" style="margin:0"><b>Executive Summary</b><br><span style="font-size:11px">Threats: 1,247, Incidents: 7, MTTD:12m, MTTR:45m</span><br><button class="btn btn-primary" style="margin-top:10px" onclick="exportReport('executive')">Export PDF</button></div><div class="card" style="margin:0"><b>MTTR/MTTD Metrics</b><br><span style="font-size:11px">SLA 99.9%, Avg containment 8m, Last 30d</span><br><button class="btn btn-primary" style="margin-top:10px" onclick="exportReport('mttr')">Export CSV</button></div><div class="card" style="margin:0"><b>Audit Package</b><br><span style="font-size:11px">ISO 27001, NIST, GDPR, Logs, RBAC, Audit ledger</span><br><button class="btn btn-primary" style="margin-top:10px" onclick="exportReport('audit')">Export ZIP</button></div></div></div></div>
+</div>
 </div>
 <script>
-const trans={
-en:{title:"ADMIN PANEL - SecOps Lead - RBAC v4 - Industry",siem:"Real-Time SIEM & Log Telemetry",correlation:"Correlation & Threat Scoring",mitre:"Attack Surface & MITRE ATT&CK",triage:"Incident Triage Queue - SOAR",contain:"1-Click Active Containment",canvas:"Investigation Canvas",locations:"Locations - OLD Map + NEW 3D Globe",sub2d:"Sub: OLD 2D Map",sub3d:"Sub: NEW 3D Globe",subBoth:"Sub: Both",rule:"Detection Engineering - Custom Rules",feed:"Threat Feed Integration - MISP, OTX",ueba:"UEBA - Behavior Analytics",rbac:"Granular RBAC & Multi-Tenancy",audit:"Tamper-Proof Audit Logging",report:"Report Engine - PDF/CSV Export",siemTitle:"Live Event Stream - Ingestion - Millisecond Search (Elastic/Splunk-like)",correlationTitle:"Correlation & Threat Scoring - Rule-based + Heuristic",mitreTitle:"Attack Surface & MITRE ATT&CK Mapping - TTPs",triageTitle:"Incident Triage Queue - Prioritized - SOAR - P1 to P4",containTitle:"1-Click Active Containment (Playbooks) - SOAR",canvasTitle:"Investigation Canvas - Relational Pivot - IPs, Domains, Hashes, Identities",locationsTitle:"Locations - OLD 2D Map + NEW 3D Globe - Phone Tracking - Admin Only",ruleTitle:"Detection Engineering - Custom Rule Builder - Sigma, YARA, KQL",feedTitle:"Threat Feed Integration - MISP, AlienVault OTX, VirusTotal, AbuseIPDB - Auto IOC Cross-Reference",uebaTitle:"UEBA - User & Entity Behavior Analytics - Outlier Detection",rbacTitle:"Granular RBAC & Multi-Tenancy - SOC Manager, Tier 1/2, Auditor, Client",auditTitle:"Tamper-Proof Audit Logging - Append-Only Cryptographic Ledger - Compliance",reportTitle:"Report Engine - One-click PDF/CSV Export - Executive Summary, MTTR/MTTD, Audit Package"},
-hi:{title:"एडमिन पैनल - SecOps लीड - RBAC v4",siem:"रियल-टाइम SIEM और लॉग",correlation:"सहसंबंध और खतरा स्कोरिंग",mitre:"MITRE ATT&CK मैपिंग",triage:"घटना ट्रायज कतार",contain:"1-क्लिक सक्रिय रोकथाम",canvas:"जांच कैनवास",locations:"स्थान - पुराना नक्शा + 3D ग्लोब",sub2d:"उप: पुराना 2D",sub3d:"उप: नया 3D",subBoth:"उप: दोनों",rule:"डिटेक्शन इंजीनियरिंग",feed:"थ्रेट फीड एकीकरण",ueba:"UEBA - व्यवहार विश्लेषण",rbac:"RBAC और मल्टी-टेनेंसी",audit:"ऑडिट लॉगिंग",report:"रिपोर्ट इंजन"},
-es:{title:"PANEL ADMIN - SecOps Lead - RBAC v4",siem:"SIEM Tiempo Real y Telemetría Logs",correlation:"Correlación y Puntuación Amenazas",mitre:"Superficie Ataque y MITRE ATT&CK",triage:"Cola Triaje Incidentes - SOAR",contain:"Contención Activa 1-Clic",canvas:"Lienzo Investigación",locations:"Ubicaciones - Mapa ANTIGUO + Globo 3D",sub2d:"Sub: Mapa 2D ANTIGUO",sub3d:"Sub: Globo 3D NUEVO",subBoth:"Sub: Ambos",rule:"Ingeniería Detección - Reglas Personalizadas",feed:"Integración Feeds Amenazas",ueba:"UEBA - Análisis Comportamiento",rbac:"RBAC Granular y Multi-Tenancy",audit:"Registro Auditoría a Prueba Manipulación",report:"Motor Informes - Export PDF/CSV"},
-fr:{title:"PANEL ADMIN - SecOps Lead - RBAC v4",siem:"SIEM Temps Réel et Télémétrie Logs",correlation:"Corrélation et Score Menaces",mitre:"Surface Attaque et MITRE ATT&CK",triage:"File Triage Incidents - SOAR",contain:"Confinement Actif 1-Clic",canvas:"Canevas Investigation",locations:"Emplacements - Ancienne Carte + Globe 3D",sub2d:"Sous: Ancienne 2D",sub3d:"Sous: Nouveau 3D",subBoth:"Sous: Les Deux",rule:"Ingénierie Détection - Règles Perso",feed:"Intégration Flux Menaces",ueba:"UEBA - Analytique Comportement",rbac:"RBAC Granulaire et Multi-Tenancy",audit:"Journalisation Audit Inviolable",report:"Moteur Rapports - Export PDF/CSV"},
-de:{title:"ADMIN PANEL - SecOps Lead - RBAC v4",siem:"Echtzeit SIEM und Log Telemetrie",correlation:"Korrelation und Bedrohungsbewertung",mitre:"Angriffsfläche und MITRE ATT&CK",triage:"Incident Triage Warteschlange - SOAR",contain:"1-Klick Aktive Eindämmung",canvas:"Untersuchungs Canvas",locations:"Standorte - ALTE Karte + 3D Globus",sub2d:"Sub: ALTE 2D",sub3d:"Sub: NEUER 3D",subBoth:"Sub: Beide",rule:"Detection Engineering - Benutzerdefinierte Regeln",feed:"Threat Feed Integration",ueba:"UEBA - Verhaltensanalytik",rbac:"Granulares RBAC und Multi-Tenancy",audit:"Manipulationssichere Audit Protokollierung",report:"Report Engine - PDF/CSV Export"}
+let map,map2,markers=[],markers2,currentMode='2d',globeInstance=null,globe2Instance=null,liveInterval=null;
+const translations={
+en:{title:"ADMIN PANEL - SecOps Lead - RBAC v5 Pro - 6 Themes - Real 3D Globe"},
+hi:{title:"एडमिन पैनल - SecOps लीड - 6 थीम - रियल 3D ग्लोब"},
+es:{title:"PANEL ADMIN - SecOps Lead - 6 Temas - Globo 3D Real"},
+fr:{title:"PANEL ADMIN - SecOps Lead - 6 Thèmes - Vrai Globe 3D"},
+de:{title:"ADMIN PANEL - SecOps Lead - 6 Themen - Echter 3D Globus"},
+ja:{title:"管理パネル - SecOpsリード - 6テーマ - リアル3Dグローブ"}
 };
-function changeLang(){let l=document.getElementById('langSelect').value;localStorage.setItem('admin_lang',l);let t=trans[l]||trans.en;document.querySelectorAll('[data-i18n]').forEach(el=>{let k=el.getAttribute('data-i18n');if(t[k]) el.innerText=t[k];});}
-let map,map2,markers=[],markers2,currentMode='2d',liveInterval=null;
-function showTab(id,btnId){document.querySelectorAll('.tab').forEach(t=>t.style.display='none');let el=document.getElementById('tab-'+id);if(el) el.style.display='block';document.querySelectorAll('.side-btn').forEach(b=>b.classList.remove('active'));let b=document.getElementById(btnId);if(b) b.classList.add('active');if(id==='locations') setTimeout(function(){initMaps();loadLocs();},300);if(id==='siem') setTimeout(function(){initCharts();startLive();},300);if(id==='triage') loadTriage();if(id==='mitre') initMitre();if(id==='feed'){}if(id==='rule') loadRules();if(id==='audit') loadAudit();if(id==='rbac'){}if(id==='ueba'){}if(id==='report'){}if(id==='correlation'){}if(id==='canvas'){}if(id==='contain'){}}
-function setMode(m){currentMode=m;document.getElementById('mapBox').style.display=(m==='2d')?'block':'none';document.getElementById('globeBox').style.display=(m==='3d')?'block':'none';document.getElementById('bothBox').style.display=(m==='both')?'block':'none';document.getElementById('b2d').className=(m==='2d')?'btn-p':'btn-g';document.getElementById('b3d').className=(m==='3d')?'btn-p':'btn-g';document.getElementById('bBoth').className=(m==='both')?'btn-p':'btn-g';if(m==='2d'&&map) setTimeout(function(){map.invalidateSize();},300);if(m==='both'&&map2) setTimeout(function(){map2.invalidateSize();},300);loadLocs();}
+function changeLang(){let l=document.getElementById('langSelect').value;localStorage.setItem('admin_lang',l);let t=translations[l]||translations.en;document.querySelectorAll('[data-i18n]').forEach(el=>{let k=el.getAttribute('data-i18n');if(t[k]) el.innerText=t[k];});}
+function changeTheme(){let theme=document.getElementById('themeSelect').value;document.body.className='theme-'+theme;localStorage.setItem('admin_theme',theme);}
+function showTab(id,btnId){document.querySelectorAll('.tab').forEach(t=>t.style.display='none');let el=document.getElementById('tab-'+id);if(el) el.style.display='block';document.querySelectorAll('.side-btn').forEach(b=>b.classList.remove('active'));let b=document.getElementById(btnId);if(b) b.classList.add('active');if(id==='locations') setTimeout(function(){initMaps();loadLocs();initGlobes();},300);if(id==='siem') setTimeout(function(){initCharts();startLive();},300);if(id==='mitre') initMitre();if(id==='triage') loadTriage();if(id==='rule') loadRules();if(id==='audit') loadAudit();}
+function setMode(m){currentMode=m;document.getElementById('mapBox').style.display=(m==='2d')?'block':'none';document.getElementById('globeBox').style.display=(m==='3d')?'block':'none';document.getElementById('bothBox').style.display=(m==='both')?'block':'none';document.getElementById('b2d').className=(m==='2d')?'toggle-btn active':'toggle-btn';document.getElementById('b3d').className=(m==='3d')?'toggle-btn active':'toggle-btn';document.getElementById('bBoth').className=(m==='both')?'toggle-btn active':'toggle-btn';if(m==='2d'&&map) setTimeout(function(){map.invalidateSize();},300);if(m==='both'&&map2) setTimeout(function(){map2.invalidateSize();},300);if(m==='3d'||m==='both') setTimeout(initGlobes,300);loadLocs();}
 function getUsers(){let a=[];for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k.indexOf('registered_user_')===0){try{a.push(JSON.parse(localStorage.getItem(k)));}catch(e){}}}return a;}
-function initMaps(){if(!map){map=L.map('map').setView([20.59,78.96],4);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'OSM'}).addTo(map);}if(!map2){map2=L.map('map2').setView([20.59,78.96],4);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'OSM'}).addTo(map2);}}
-function loadLocs(){let users=getUsers();markers.forEach(function(m){try{map.removeLayer(m);}catch(e){}});markers=[];markers2.forEach(function(m){try{map2.removeLayer(m);}catch(e){}});markers2=[];let list=document.getElementById('locList');if(!list) return;if(users.length===0){list.innerHTML='No phone locations - Register from login.html first';return;}let html='';let globe=document.getElementById('globe');let globe2=document.getElementById('globe2');if(globe) globe.innerHTML='';if(globe2) globe2.innerHTML='';users.forEach(function(u,i){if(!u.lat) return;let m=L.marker([u.lat,u.lng]).addTo(map);m.bindPopup('<b>'+u.username+'</b><br>'+u.phone+'<br>'+u.city);markers.push(m);let m2=L.marker([u.lat,u.lng]).addTo(map2);m2.bindPopup('<b>'+u.username+'</b>');markers2.push(m2);html+='📍 <b>'+u.username+'</b> - '+u.city+' - '+u.phone+'<br>';if(globe){let d=document.createElement('div');d.className='dot';d.style.left=(15+(i*23)%70)+'%';d.style.top=(20+(i*31)%60)+'%';d.title=u.username;globe.appendChild(d);}if(globe2){let d=document.createElement('div');d.className='dot';d.style.left=(15+(i*23)%70)+'%';d.style.top=(20+(i*31)%60)+'%';globe2.appendChild(d);}});list.innerHTML=html;if(markers.length>0){try{let g=new L.featureGroup(markers);map.fitBounds(g.getBounds().pad(0.2));let g2=new L.featureGroup(markers2);map2.fitBounds(g2.getBounds().pad(0.2));}catch(e){}}}
-function initCharts(){try{let c1=document.getElementById('chart1');if(c1){new Chart(c1.getContext('2d'),{type:'line',data:{labels:['00:00','04:00','08:00','12:00','16:00','20:00'],datasets:[{label:'Threats',data:[12,19,8,15,22,18],borderColor:'#ff7a00',tension:0.4}]},options:{responsive:true,plugins:{legend:{display:false}}}});}let c2=document.getElementById('chart2');if(c2){new Chart(c2.getContext('2d'),{type:'doughnut',data:{labels:['Firewall','Auth','DNS','Endpoint','Syslog'],datasets:[{data:[30,25,15,20,10],backgroundColor:['#ff7a00','#00d4ff','#00ff88','#ff3b3b','#a0a0a0']}]},options:{responsive:true}});}}catch(e){}}
-function searchSIEM(){let q=document.getElementById('siemSearch').value.toLowerCase();let stream=document.getElementById('siemStream');let logs=stream.innerHTML.split('<br>');let filtered=logs.filter(function(l){return l.toLowerCase().indexOf(q)>-1;});if(q===''){startLive();return;}stream.innerHTML=filtered.join('<br>')||'No results for '+q;}
-function startLive(){if(liveInterval) clearInterval(liveInterval);let stream=document.getElementById('siemStream');let types=['syslog','firewall','auth','DNS','endpoint'];liveInterval=setInterval(function(){let type=types[Math.floor(Math.random()*types.length)];let ip='192.168.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255);let msg='['+new Date().toLocaleTimeString()+'] ['+type.toUpperCase()+'] '+ip+' - '+['Login success','Failed login','DNS query phishing.com','Firewall block Tor exit','EDR alert malware hash','Syslog auth failure'][Math.floor(Math.random()*6)];let div=document.createElement('div');div.innerText=msg;stream.prepend(div);if(stream.children.length>50) stream.removeChild(stream.lastChild);document.getElementById('eventRate').innerText=(1200+Math.floor(Math.random()*100))+'/s';addAudit('SIEM: '+msg);},800);}
+function initMaps(){if(!map){map=L.map('map').setView([20.59,78.96],4);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);}if(!map2){map2=L.map('map2').setView([20.59,78.96],4);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map2);}}
+function loadLocs(){
+ let users=getUsers();
+ markers.forEach(function(m){try{map.removeLayer(m);}catch(e){}});markers=[];
+ markers2.forEach(function(m){try{map2.removeLayer(m);}catch(e){}});markers2=[];
+ let list=document.getElementById('locList'); if(!list) return;
+ if(users.length===0){list.innerHTML='<div style="padding:20px;text-align:center;background:rgba(255,0,0,0.08);border-radius:14px">No members - Register from login.html first to see on 3D globe with country/state/city details</div>'; return;}
+ let html='';
+ let globePoints=[];
+ users.forEach(function(u){
+  if(!u.lat) return;
+  globePoints.push({lat:u.lat,lng:u.lng,username:u.username,city:u.city,phone:u.phone,country:u.country||'India',state:u.state||'Delhi',size:0.6,color:'#ff7a00'});
+  let m=L.marker([u.lat,u.lng]).addTo(map); m.bindPopup('<b>'+u.username+'</b><br>📱 '+u.phone+'<br>📍 '+u.city+', '+ (u.state||'')+'<br>'+(u.country||'India')+'<br>Lat:'+u.lat.toFixed(4)+', Lng:'+u.lng.toFixed(4)); markers.push(m);
+  let m2=L.marker([u.lat,u.lng]).addTo(map2); m2.bindPopup('<b>'+u.username+'</b><br>'+u.city); markers2.push(m2);
+  html+='📍 <b>'+u.username+'</b> - '+(u.country||'India')+' / '+(u.state||'State')+' / '+u.city+' / Town - '+u.phone+' - '+u.lat.toFixed(3)+','+u.lng.toFixed(3)+'<br>';
+ });
+ document.getElementById('locList').innerHTML=html;
+ if(markers.length>0){try{let g=new L.featureGroup(markers);map.fitBounds(g.getBounds().pad(0.2));let g2=new L.featureGroup(markers2);map2.fitBounds(g2.getBounds().pad(0.2));}catch(e){}}
+ if(globeInstance) globeInstance.pointsData(globePoints);
+ if(globe2Instance) globe2Instance.pointsData(globePoints);
+}
+function initGlobes(){
+ let users=getUsers();
+ let points=users.filter(function(u){return u.lat;}).map(function(u){return {lat:u.lat,lng:u.lng,username:u.username,city:u.city,phone:u.phone,country:u.country||'India',state:u.state||'Delhi',town:u.town||'Local',size:0.8,color:'#ff7a00'};});
+ if(points.length===0) points=[{lat:28.61,lng:77.20,username:'demo_admin',city:'Delhi',country:'India',state:'Delhi',phone:'+91 Demo',size:0.8,color:'#ff7a00'}];
+ if(!globeInstance && document.getElementById('globe')){
+  try{
+   globeInstance=Globe()(document.getElementById('globe'))
+   .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+   .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+   .pointsData(points)
+   .pointAltitude(0.05)
+   .pointColor('color')
+   .pointRadius('size')
+   .pointLabel(function(d){return '<div style=\'background:rgba(0,0,0,0.8);padding:8px;border-radius:8px\'><b>'+d.username+'</b><br>'+d.city+', '+d.state+'<br>'+d.country+'<br>📱 '+d.phone+'<br>Lat:'+d.lat.toFixed(3)+', Lng:'+d.lng.toFixed(3)+'</div>';})
+   .onPointClick(function(d){
+    showGlobeDetails(d);
+    if(map){map.setView([d.lat,d.lng],8);}
+   })
+   .onGlobeClick(function(coords){
+    if(!coords) return;
+    showRegionDetails(coords.lat, coords.lng);
+   });
+  }catch(e){document.getElementById('globe').innerHTML='<div style="padding:60px;text-align:center">🌍 3D Globe - Requires internet for textures<br>Members: '+points.length+'</div>';}
+ }
+ if(!globe2Instance && document.getElementById('globe2')){
+  try{
+   globe2Instance=Globe()(document.getElementById('globe2'))
+   .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+   .pointsData(points)
+   .pointAltitude(0.05)
+   .pointColor(function(){return '#00d4ff';})
+   .pointRadius(0.6)
+   .pointLabel(function(d){return d.username+' - '+d.city+', '+d.state;})
+   .onPointClick(showGlobeDetails);
+  }catch(e){}
+ }
+ if(globeInstance) globeInstance.pointsData(points);
+ if(globe2Instance) globe2Instance.pointsData(points);
+}
+function showGlobeDetails(d){
+ let details=document.getElementById('globeDetails');
+ if(!details) return;
+ let html='<div style="font-weight:700;color:var(--text);font-size:13px;margin-bottom:6px">👤 '+d.username+' - Member Details</div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">'+
+ '<div><b>Country:</b> '+(d.country||'India')+'</div>'+
+ '<div><b>State:</b> '+(d.state||'Delhi')+'</div>'+
+ '<div><b>City:</b> '+d.city+'</div>'+
+ '<div><b>Town:</b> '+(d.town||'Local Area')+'</div>'+
+ '<div><b>Lat:</b> '+d.lat.toFixed(4)+'</div>'+
+ '<div><b>Lng:</b> '+d.lng.toFixed(4)+'</div>'+
+ '<div><b>Phone:</b> '+d.phone+'</div>'+
+ '<div><b>Device:</b> Healthy</div>'+
+ '<div><b>ISP:</b> Airtel/Jio</div>'+
+ '<div><b>Timezone:</b> Asia/Kolkata</div>'+
+ '<div><b>Registered:</b> '+(d.time||'Recently')+'</div>'+
+ '<div><b>Last Active:</b> Now</div>'+
+ '</div>'+
+ '<div style="margin-top:10px;display:flex;gap:6px"><button class="btn btn-primary" style="padding:6px 10px;font-size:10px" onclick="focusMap('+d.lat+','+d.lng+')">📍 Focus 2D Map</button><button class="btn btn-ghost" style="padding:6px 10px;font-size:10px" onclick="containUser(\''+d.username+'\')">🔒 Isolate</button></div>';
+ details.innerHTML=html;
+ document.getElementById('globeInfo').style.display='block';
+}
+function showRegionDetails(lat,lng){
+ let details=document.getElementById('globeDetails');
+ // Simple reverse geocode simulation - In production use Nominatim API
+ let country=lat>20&&lat<35&&lng>68&&lng<90?'India':lat>35&&lng>-10&&lng<40?'Europe':'Global';
+ let state=country==='India'? (lat>28?'Delhi/Haryana':lat>18?'Maharashtra':'Karnataka') : 'Region';
+ let city=country==='India'? (lng>77?'Delhi':'Mumbai') : 'City';
+ let html='<div style="font-weight:700;font-size:13px;margin-bottom:6px">🌍 Region Clicked - Geo Intelligence</div>'+
+ '<div style="font-size:11px;line-height:1.6">'+
+ '<b>Coordinates:</b> '+lat.toFixed(4)+', '+lng.toFixed(4)+'<br>'+
+ '<b>Country:</b> '+country+'<br>'+
+ '<b>State/Province:</b> '+state+'<br>'+
+ '<b>City:</b> '+city+'<br>'+
+ '<b>Threat Level:</b> <span style="color:'+(Math.random()>0.7?'#ff3b4a':'#00ff88')+'">'+(Math.random()>0.7?'High - 3 active threats':'Low - Safe')+'</span><br>'+
+ '<b>Members in this area:</b> '+(Math.floor(Math.random()*5))+'<br>'+
+ '<b>Recent Incidents:</b> '+(Math.floor(Math.random()*3))+' in last 24h<br>'+
+ '<br><span style="color:var(--text2)">Click orange dot to see member details with town, ISP, timezone</span>'+
+ '</div>';
+ details.innerHTML=html;
+}
+function focusMap(lat,lng){setMode('2d');setTimeout(function(){if(map) map.setView([lat,lng],10);},300);}
+function containUser(username){alert('Containment: Isolate '+username+' - Audit logged');}
+function initCharts(){try{let c1=document.getElementById('chart1');if(c1){new Chart(c1.getContext('2d'),{type:'line',data:{labels:['00:00','04:00','08:00','12:00','16:00','20:00'],datasets:[{label:'Threats',data:[12,19,8,15,22,18],borderColor:'#00d4ff',backgroundColor:'rgba(0,212,255,0.1)',tension:0.4}]},options:{responsive:true,plugins:{legend:{display:false}}}});}let c2=document.getElementById('chart2');if(c2){new Chart(c2.getContext('2d'),{type:'doughnut',data:{labels:['Firewall','Auth','DNS','Endpoint'],datasets:[{data:[40,25,20,15],backgroundColor:['#00d4ff','#ff7a00','#00ff88','#ff3b4a']}]},options:{responsive:true}});}}catch(e){}}
+function loadTriage(){let el=document.getElementById('triageList');let demo=[{id:'INC-2024-001',title:'Credential Stuffing - Tor Exit + Failed Logins',p:'P1',sla:'45m',assignee:'admin',status:'New',src:'Auth + Threat Feed + UEBA'},{id:'INC-2024-002',title:'Phishing Campaign - Invoice',p:'P2',sla:'3h',assignee:'tier1',status:'Triaged',src:'Email + User Reports'}];el.innerHTML='<table border=1 style="width:100%;border-collapse:collapse;font-size:11px"><tr style="background:var(--card2)"><th>ID</th><th>Title</th><th>P</th><th>SLA</th><th>Assignee</th><th>Status</th><th>Source</th></tr>'+demo.map(function(i){return '<tr><td>'+i.id+'</td><td>'+i.title+'</td><td style="color:'+(i.p==='P1'?'#ff3b4a':'#ff7a00')+'">'+i.p+'</td><td>'+i.sla+'</td><td>'+i.assignee+'</td><td>'+i.status+'</td><td>'+i.src+'</td></tr>';}).join('')+'</table>';}
+function contain(action){let id=action==='isolate'?'cr1':action==='revoke'?'cr2':action==='block'?'cr3':'cr4';let input=action==='isolate'?'containEndpoint':action==='revoke'?'containUser':action==='block'?'containIP':'containHash';let val=document.getElementById(input).value;if(!val){alert('Enter value');return;}document.getElementById(id).innerHTML='✅ '+action+' executed for '+val+' - Audit logged';addAudit('Containment: '+action+' - '+val);}
+function loadRules(){let el=document.getElementById('ruleList');if(el) el.innerHTML='Sigma: Multiple Failed Logins + Tor<br>YARA: Ransomware Generic<br>KQL: Impossible Travel Detection';}
+function saveRule(){let name=document.getElementById('ruleName').value;if(!name){alert('Enter rule name');return;}alert('Rule '+name+' deployed');addAudit('New rule: '+name);}
+function checkIOC(){let v=document.getElementById('iocInput').value;if(!v){alert('Enter IOC');return;}let mal=Math.random()>0.5;document.getElementById('iocResult').innerHTML='<b>IOC: '+v+'</b><br>'+(mal?'🔴 MALICIOUS - Found in 3 feeds - Block immediately':'🟢 CLEAN')+'<br>VirusTotal: '+(mal?'3/90 malicious':'0/90')+'<br>AbuseIPDB: Confidence '+(mal?'85%':'0%');addAudit('IOC check '+v+' - '+(mal?'Malicious':'Clean'));}
+function addAudit(msg){let logs=JSON.parse(localStorage.getItem('audit_log')||'[]');let prev=logs.length>0?logs[0].hash:'0000';let hash=btoa(msg+prev+Date.now()).substring(0,12);logs.unshift({time:new Date().toISOString(),user:localStorage.getItem('username')||'admin',action:msg,hash:hash,prevHash:prev});localStorage.setItem('audit_log',JSON.stringify(logs));}
+function loadAudit(){let logs=JSON.parse(localStorage.getItem('audit_log')||'[]');let el=document.getElementById('auditLog');if(!el) return;if(logs.length===0){el.innerHTML='No audit logs - Actions will appear here with cryptographic hash chain';return;}el.innerHTML=logs.map(function(l){return l.time+' - '+l.user+' - '+l.action+' - Hash:'+l.hash;}).join('<br>');}
+function exportReport(type){addAudit('Report export: '+type);alert('Report '+type+' exported - PDF/CSV');}
+function searchSIEM(){let q=document.getElementById('siemSearch').value.toLowerCase();let s=document.getElementById('siemStream');let logs=s.innerHTML.split('<br>');let f=logs.filter(function(l){return l.toLowerCase().indexOf(q)>-1;});if(q===''){startLive();return;}s.innerHTML=f.join('<br>')||'No results';}
+function startLive(){if(liveInterval) clearInterval(liveInterval);let stream=document.getElementById('siemStream');liveInterval=setInterval(function(){let type=['syslog','firewall','auth','DNS','endpoint'][Math.floor(Math.random()*5)];let ip='192.168.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255);let msg='['+new Date().toLocaleTimeString()+'] ['+type.toUpperCase()+'] '+ip+' - '+['Login success','Failed login','DNS query phishing.com','Firewall block Tor','EDR alert malware'][Math.floor(Math.random()*5)];let div=document.createElement('div');div.innerText=msg;stream.prepend(div);if(stream.children.length>50) stream.removeChild(stream.lastChild);},900);}
 function stopLive(){if(liveInterval) clearInterval(liveInterval);}
-function initMitre(){let g=document.getElementById('mitreGrid');if(!g||g.children.length>0) return;let tactics=[{t:'Initial Access',tech:'Phishing, Valid Accounts',detect:'Yes - Your phishing checker'},{t:'Execution',tech:'Malware, Script',detect:'Yes - File scanner'},{t:'Persistence',tech:'Backdoor, Registry',detect:'Partial'},{t:'Privilege Escalation',tech:'Exploitation',detect:'Yes - UEBA'},{t:'Defense Evasion',tech:'Obfuscation',detect:'Yes'},{t:'Credential Access',tech:'Brute Force',detect:'Yes - Password analyzer + HaveIBeenPwned'},{t:'Discovery',tech:'Network Scanning, Globe',detect:'Yes - 3D Globe'},{t:'Lateral Movement',tech:'Remote Services',detect:'Yes'},{t:'Collection',tech:'Data from Firebase',detect:'Yes - Firebase logs'},{t:'Exfiltration',tech:'Data Theft',detect:'Yes - Network traffic'},{t:'Command & Control',tech:'C2 Server',detect:'Yes - Threat feed'},{t:'Impact',tech:'Ransomware',detect:'Yes'}];tactics.forEach(function(x){let d=document.createElement('div');d.style.padding='10px';d.style.background='rgba(255,122,0,0.1)';d.style.border='1px solid #ff7a00';d.style.borderRadius='8px';d.style.cursor='pointer';d.innerHTML='<b>'+x.t+'</b><br><span style="font-size:9px">'+x.tech+'</span><br><span style="font-size:8px;color:#00ff88">'+x.detect+'</span>';d.onclick=function(){document.getElementById('mitreDetail').innerHTML='<b>'+x.t+'</b><br>Techniques: '+x.tech+'<br>Detection in your project: '+x.detect+'<br>Industry Tool: MITRE ATT&CK v13';};g.appendChild(d);});}
-function loadTriage(){let tickets=JSON.parse(localStorage.getItem('user_tickets')||'[]');let demo=[{id:'INC-2024-001',title:'Credential Stuffing - Tor Exit + Failed Logins',p:'P1',sla:'45m left',assignee:'admin',status:'New',src:'Auth + Threat Feed + UEBA'},{id:'INC-2024-002',title:'Phishing Campaign - Invoice Phish',p:'P2',sla:'3h left',assignee:'tier1_analyst',status:'Triaged',src:'Email Gateway + User Reports'},{id:'INC-2024-003',title:'Lost Device - Mobile',p:'P2',sla:'2h left',assignee:'admin',status:'Contained',src:'User Report'}];let all=demo.concat(tickets.map(function(t){return {id:t.id,title:t.desc,p:'P3',sla:'20h left',assignee:'admin',status:t.status,src:'User Panel'};}));let el=document.getElementById('triageList');el.innerHTML='<table border=1 style="width:100%;border-collapse:collapse"><tr style="background:rgba(255,122,0,0.2)"><th>ID</th><th>Title</th><th>P</th><th>SLA</th><th>Assignee</th><th>Status</th><th>Source</th><th>Action</th></tr>'+all.map(function(i){let color=i.p==='P1'?'#ff3b3b':i.p==='P2'?'#ff7a00':'#00d4ff';return '<tr><td>'+i.id+'</td><td>'+i.title+'</td><td style="color:'+color+';font-weight:700">'+i.p+'</td><td>'+i.sla+'</td><td>'+i.assignee+'</td><td>'+i.status+'</td><td>'+i.src+'</td><td><button class="btn-p" style="padding:3px 6px" onclick="alert(\'Containment playbook for '+i.id+'\')">Contain</button></td></tr>';}).join('')+'</table>';}
-function contain(action){let resultId=action==='isolate'?'containResult1':action==='revoke'?'containResult2':action==='block'?'containResult3':'containResult4';let inputId=action==='isolate'?'containEndpoint':action==='revoke'?'containUser':action==='block'?'containIP':'containHash';let val=document.getElementById(inputId).value;if(!val){alert('Enter value');return;}document.getElementById(resultId).innerHTML='✅ '+action+' executed for '+val+' - Audit logged - Tamper-proof ledger updated';addAudit('Containment: '+action+' - '+val+' - By admin - Success');}
-function loadRules(){let rules=JSON.parse(localStorage.getItem('custom_rules')||'[]');let el=document.getElementById('ruleList');if(rules.length===0) el.innerHTML='No custom rules - 9 default active';else el.innerHTML=rules.map(function(r){return r.name+' - '+r.type;}).join('<br>');}
-function saveRule(){let name=document.getElementById('ruleName').value;let type=document.getElementById('ruleType').value;let logic=document.getElementById('ruleLogic').value;if(!name){alert('Enter rule name');return;}let rules=JSON.parse(localStorage.getItem('custom_rules')||'[]');rules.push({name:name,type:type,logic:logic,time:new Date().toISOString()});localStorage.setItem('custom_rules',JSON.stringify(rules));document.getElementById('ruleList').innerHTML+= '<br>'+name+' - '+type;addAudit('Detection: New rule created - '+name+' - '+type);alert('Rule deployed - SIEM will use it');}
-function checkIOC(){let v=document.getElementById('iocInput').value.trim();if(!v){alert('Enter IOC');return;}let malicious=v.indexOf('8.8.8.8')>-1?false:Math.random()>0.5;let res=document.getElementById('iocResult');res.innerHTML='<b>IOC: '+v+'</b><br>Type: '+(v.indexOf('.')>-1 && v.indexOf('/')==-1?'IP/Domain':v.indexOf('http')>-1?'URL':'Hash')+'<br>Result: '+(malicious?'🔴 MALICIOUS - Found in 3 feeds - Block immediately':'🟢 CLEAN - Not found')+'<br>Feeds: VirusTotal: '+(malicious?'3/90 malicious':'0/90')+'<br>AbuseIPDB: '+(malicious?'Confidence 85% - Abuse':'Confidence 0%')+'<br>AlienVault OTX: '+(malicious?'2 pulses':'0 pulses')+'<br>MISP: '+(malicious?'Event 12345':'No event')+'<br><b>Action: '+(malicious?'Block IP + Isolate endpoints that contacted it':'No action')+'</b>';addAudit('Threat Intel: IOC check '+v+' - '+(malicious?'Malicious':'Clean'));}
-function addAudit(msg){let logs=JSON.parse(localStorage.getItem('audit_log')||'[]');let prevHash=logs.length>0?logs[0].hash:'0000';let hash=btoa(msg+prevHash+Date.now()).substring(0,16);logs.unshift({time:new Date().toISOString(),user:localStorage.getItem('username')||'admin',action:msg,hash:hash,prevHash:prevHash});localStorage.setItem('audit_log',JSON.stringify(logs));}
-function loadAudit(){let logs=JSON.parse(localStorage.getItem('audit_log')||'[]');let el=document.getElementById('auditLog');if(logs.length===0){el.innerHTML='No audit logs - Actions will appear here with cryptographic hash chain';return;}el.innerHTML=logs.map(function(l){return l.time+' - '+l.user+' - '+l.action+' - Hash:'+l.hash+' Prev:'+l.prevHash;}).join('<br>');}
-function exportReport(type){addAudit('Report: Export '+type+' - PDF/CSV');alert('Report exported: '+type+' - Executive Summary, MTTR/MTTD, Audit Package - Download started (Demo - Use jsPDF for real PDF)');}
-window.addEventListener('load',function(){let u=localStorage.getItem('username')||'admin';document.getElementById('adminName').innerText=u;let lang=localStorage.getItem('admin_lang')||'en';document.getElementById('langSelect').value=lang;changeLang();initMaps();loadLocs();initCharts();loadTriage();initMitre();loadRules();loadAudit();startLive();});
+function initMitre(){let g=document.getElementById('mitreGrid');if(!g||g.children.length>0) return;let tactics=[{t:'Initial Access',tech:'Phishing, Valid Accounts'},{t:'Execution',tech:'Malware, Script'},{t:'Persistence',tech:'Backdoor'},{t:'Privilege Escalation',tech:'Exploitation'},{t:'Defense Evasion',tech:'Obfuscation'},{t:'Credential Access',tech:'Brute Force'},{t:'Discovery',tech:'Network Scanning'},{t:'Lateral Movement',tech:'Remote Services'},{t:'Collection',tech:'Data from Firebase'},{t:'Exfiltration',tech:'Data Theft'},{t:'C2',tech:'C2 Server'},{t:'Impact',tech:'Ransomware'}];tactics.forEach(function(x){let d=document.createElement('div');d.style.padding='12px';d.style.background='var(--card)';d.style.border='1px solid var(--border)';d.style.borderRadius='14px';d.style.cursor='pointer';d.innerHTML='<b>'+x.t+'</b><br><span style="font-size:9px;color:var(--text2)">'+x.tech+'</span>';d.onclick=function(){document.getElementById('mitreDetail').innerHTML='<b>'+x.t+'</b><br>Techniques: '+x.tech;};g.appendChild(d);});}
+window.addEventListener('load',function(){
+ let theme=localStorage.getItem('admin_theme')||'dark';document.body.className='theme-'+theme;document.getElementById('themeSelect').value=theme;
+ let lang=localStorage.getItem('admin_lang')||'en';document.getElementById('langSelect').value=lang;changeLang();
+ let u=localStorage.getItem('username')||'admin';document.getElementById('adminName').innerText=u;
+ initMaps();loadLocs();initCharts();loadTriage();initMitre();loadRules();loadAudit();startLive();setTimeout(initGlobes,500);
+});
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
