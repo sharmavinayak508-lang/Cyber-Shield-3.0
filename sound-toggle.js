@@ -1,7 +1,9 @@
-// CYBER SHIELD 3.0 - UNIVERSAL SOUND ON/OFF TOGGLE - COMPLETE FILE
-// Upload this file to GitHub repo as sound-toggle.js
+// CYBER SHIELD 3.0 - UNIVERSAL SOUND ON/OFF TOGGLE - FIXED VERSION
+// Upload this file to GitHub repo as sound-toggle.js (purani wali ke upar)
 // Works for login.html, admin_dashboard.html, user_dashboard.html
 // Setting is shared via localStorage across ALL pages
+// FIX: Login wale #soundBtn ko bhi sync karega, duplicate button nahi banayega
+// ORDER: eagle-sound.js PEHLE, sound-toggle.js BAAD me load karo (login.html me already aisa hai)
 
 (function(){
   let soundEnabled = localStorage.getItem('cyber_sound_enabled') !== 'off';
@@ -22,9 +24,13 @@
     return soundEnabled;
   };
 
+  // Login wala button #soundBtn bhi isi se chalega
+  window.toggleSound = window.toggleCyberSound;
+
   window.isCyberSoundOn = function(){ return soundEnabled; };
 
   function updateCyberSoundBtn(){
+    // 1. Dashboard wala button
     let btns = document.querySelectorAll('#cyberSoundToggleBtn, .cyberSoundToggleBtn');
     btns.forEach(btn=>{
       btn.innerText = soundEnabled ? '🔊 SOUND: ON' : '🔇 SOUND: OFF';
@@ -32,6 +38,9 @@
       btn.style.color = soundEnabled ? '#00d4ff' : '#ff3b3b';
       btn.style.borderColor = soundEnabled ? '#00d4ff' : '#ff3b3b';
     });
+    // 2. Login wala chhota Eagle button
+    let sb = document.getElementById('soundBtn');
+    if(sb){ sb.innerText = soundEnabled ? '🦅 🔊' : '🦅 🔇'; }
     let status = document.getElementById('cyberSoundStatus');
     if(status){
       status.innerText = soundEnabled ? '🔊 Eagle sound ON' : '🔇 Eagle sound OFF';
@@ -40,6 +49,8 @@
   }
 
   function createBtnIfMissing(){
+    // Agar Login wala #soundBtn pehle se hai, toh naya button MAT banao - warna 2 button dikhenge!
+    if(document.getElementById('soundBtn')){ updateCyberSoundBtn(); return; }
     if(document.getElementById('cyberSoundToggleBtn')){ updateCyberSoundBtn(); return; }
     let header = document.querySelector('.header-controls') || document.querySelector('.header') || document.body;
     let btn = document.createElement('button');
@@ -64,7 +75,6 @@
   window.addEventListener('load', ()=>{
     createBtnIfMissing();
     patchRoar();
-    // Backup: stop audio if OFF
     setInterval(()=>{ if(!soundEnabled) document.querySelectorAll('audio').forEach(a=>{ try{a.pause();}catch(e){} }); }, 1000);
   });
 
