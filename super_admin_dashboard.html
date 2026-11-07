@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>👑 Super Admin Dashboard — Cyber Shield</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0A0500;--card:#1A0D02;--line:rgba(255,138,0,.35);--muted:#E8B48A;--accent:#FF8A00;--accent2:#FFD700;--blue:#FF8A00;--text:#FFF2E6;--input:#1A0A02}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.topbar{max-width:1220px;margin:auto;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em;font-size:18px}
+.logo img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #FFD700;box-shadow:0 0 18px #FF8A00}
+.logo small{display:block;font-weight:600;color:var(--muted);letter-spacing:.12em;font-size:10px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.iconBtn{padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-weight:800}
+.wrap{max-width:1220px;margin:auto;padding:8px 22px 30px}
+.crownBanner{background:linear-gradient(90deg,#FF8A00,#FFD700,#FF4400);color:#000;border-radius:20px;padding:18px 20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.crownBanner h1{font-size:24px}.crownBanner p{font-weight:700;font-size:13px;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+@media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.stat b{font-size:30px;display:block;margin-top:6px}.stat span{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em}
+.stat.gold{border-color:#FFD700;background:linear-gradient(180deg,rgba(255,215,0,.14),rgba(255,138,0,.08))}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px}
+.card h2{font-size:18px;margin-bottom:6px}.card p.sub{color:var(--muted);font-size:13px;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.08)}th{color:#FFB347;font-size:11px;letter-spacing:.08em}
+.pill{padding:4px 9px;border-radius:20px;font-size:11px;font-weight:800;display:inline-block}
+.pill.admin{background:#FF8A00;color:#000}.pill.user{background:#00D4FF;color:#000}.pill.viewer{background:#999;color:#000}.pill.super{background:#FFD700;color:#000}.pill.blocked{background:#FF3B3B;color:#fff}
+.btn{padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:800;font-size:13px;margin:3px}
+.btn.green{background:#00FF88}.btn.red{background:#FF3B3B;color:#fff}.btn.orange{background:#FF8A00}.btn.blue{background:#00D4FF}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+input,select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--input);color:var(--text);margin:6px 0}
+.locBox{background:#000;border:1px dashed #FF8A00;border-radius:14px;padding:12px;font-size:13px;line-height:1.7;margin-top:10px}
+.msg{font-weight:800;font-size:13px;text-align:center;margin-top:10px;min-height:18px}
+.foot{max-width:1220px;margin:auto;padding:0 22px 22px;display:flex;justify-content:space-between;color:var(--muted);font-size:12px;flex-wrap:wrap}
+</style></head>
+<body>
+<header class="topbar">
+<div class="logo"><img src="eagle.png" onerror="this.src='eagle.png'"><span>👑 SUPER ADMIN<small>CYBER SHIELD • VINAYAK SHARMA • CSE STUDENT</small></span></div>
+<div class="controls"><span id="myLoc" style="font-size:12px;color:#FFB347">📍 Location: --</span><button class="iconBtn" id="soundBtn" onclick="window.toggleCyberSound()">🦅 🔊</button><button class="iconBtn" onclick="location.href='login.html'">🚪 Logout</button></div>
+</header>
+<div class="wrap">
+<div class="crownBanner"><div><h1>👑 Super Admin Dashboard</h1><p>There is only Super Admin Vinayak Sharma. CSE Student — Admin se zyada power sirf yahan hai.</p></div><div style="text-align:right"><b id="clock" style="font-size:16px">--:--:--</b><br><span style="font-size:12px;font-weight:700">Live System • Sadhaura, Haryana</span></div></div>
+
+<div class="stats">
+<div class="stat gold"><span>✅ ADMIN APPROVED</span><b id="stApproved">0</b><span>Tumne kitne Admin Allow kiye</span></div>
+<div class="stat"><span>❌ ADMIN REJECTED</span><b id="stRejected">0</b><span>Tumne kitne Admin Reject kiye</span></div>
+<div class="stat"><span>⏳ PENDING REQUESTS</span><b id="stPending">0</b><span>Admin banne ke liye wait kar rahe</span></div>
+<div class="stat"><span>👥 TOTAL SYSTEM USERS</span><b id="stTotal">0</b><span>Admin + User + Viewer + Tum</span></div>
+<div class="stat"><span>🛡️ TOTAL ADMINS</span><b id="stAdmins">0</b><span>Approved Admins (Super Admin ke alawa)</span></div>
+<div class="stat"><span>👤 TOTAL USERS</span><b id="stUsers">0</b><span>System use kar rahe Users</span></div>
+<div class="stat"><span>👁️ TOTAL VIEWERS</span><b id="stViewers">0</b><span>Read-Only Viewers</span></div>
+<div class="stat"><span>🚫 BLOCKED</span><b id="stBlocked">0</b><span>Blocked members</span></div>
+</div>
+
+<div class="grid">
+<section class="card">
+<h2>📍 Live Location — Admin + User Kahan Hai?</h2><p class="sub">Har login pe location save hoti hai. Super Admin yahan se dekh sakta hai kaun us time kis Country / State / City me hai.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn blue" onclick="refreshAll()">🔄 Refresh Location Table</button><button class="btn orange" onclick="useMyLocation()">📍 Meri Location Update Karo</button></div>
+<div id="locTable"></div>
+<div class="locBox"><b>🛰️ Tumhari Current Location:</b><br><span id="myLocDetail">Location abhi tak save nahi hui — Login ke time Allow ki thi wahi dikhegi.</span></div>
+<p class="sub" style="margin-top:10px">Note: Location sirf tab save hoti hai jab user Login ke time <b>Allow</b> dabata hai. Deny karega toh Login hi nahi hoga.</p>
+</section>
+
+<section>
+<div class="card" style="margin-bottom:14px">
+<h2>⚡ Super Admin Powers — Admin Ke Paas Ye Nahi Hai</h2><p class="sub">Lockdown, Broadcast, Delete, Demote — Sirf Tum kar sakte ho. Admin ye nahi kar sakta.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn orange" onclick="var r=window.setLockdown('Vinayak',!window.isLockdown());alert(r.msg);refreshAll()">🔒 Lockdown ON / OFF</button>
+<button class="btn blue" onclick="var m=prompt('Broadcast Message likho:');if(m){window.broadcastMessage('Vinayak',m);alert('Broadcast bhej diya!')}">📣 Broadcast Bhejo</button>
+<button class="btn ghost" onclick="if(confirm('Saare SIEM Logs clear kar dun?')){window.CyberSIEM.clear();alert('Logs clear!');refreshAll()}">🧹 SIEM Logs Clear</button>
+</div>
+<div id="superAdminPanel" style="margin-top:12px"></div>
+</div>
+
+<div class="card">
+<h2>➕ Naya Admin Banao (Manual)</h2><p class="sub">Teacher demo ke liye: Kisi bhi naam ko turant Admin banao — Request ka wait nahi karna padega.</p>
+<input id="newAdminName" placeholder="Naye Admin ka Username - jaise: rahul">
+<button class="btn green" onclick="makeAdminNow()">✅ Turant Admin Banao</button>
+<p id="msg" class="msg"></p>
+<h2 style="margin-top:14px">📜 SIEM — Last Login / Activity</h2><p class="sub">Kaun kab login hua, kisne location Allow ki, kisne Admin request bheji — sab yahan.</p>
+<div id="siemBox" style="max-height:260px;overflow:auto;font-size:12px;line-height:1.7"></div>
+</div>
+</section>
+</div>
+</div>
+<footer class="foot"><span>© 2026 Cyber Shield • Super Admin: Vinayak Sharma — CSE Student</span><span>Version 3.0 • SOC-ready logging</span></footer>
+
+<script src="siem-backend.js"></script>
+<script src="admin-control.js"></script>
+<script src="language.js"></script>
+<script src="eagle-sound.js"></script>
+<script src="sound-toggle.js"></script>
+<script src="location-gate.js"></script>
+<script>
+var me = localStorage.getItem('cyber_current_user')||'Vinayak';
+var myRole = localStorage.getItem('cyber_role')||'super_admin';
+// Safety: Super Admin Dashboard sirf Super Admin khol sakta hai - Admin kholega toh usko Admin Dashboard pe bhej do
+if(myRole!=='super_admin' && !(window.isSuperAdmin && window.isSuperAdmin(me))){ alert('Ye Super Admin Dashboard hai - Tum Admin Dashboard pe ja rahe ho.'); location.href='admin_dashboard.html'; }
+function esc(s){ return String(s==null?'':s).replace(/</g,'&lt;'); }
+function fmtTime(t){ if(!t) return '-'; try{ return new Date(t).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }catch(e){ return t; } }
+function refreshAll(){
+  var st = window.getAdminStats ? window.getAdminStats() : {approved:0,rejected:0,pending:0,totalMembers:0,totalAdmins:0,totalUsers:0,totalViewers:0,blocked:0};
+  document.getElementById('stApproved').innerText = st.approved;
+  document.getElementById('stRejected').innerText = st.rejected;
+  document.getElementById('stPending').innerText = st.pending;
+  document.getElementById('stTotal').innerText = st.totalMembers;
+  document.getElementById('stAdmins').innerText = st.totalAdmins;
+  document.getElementById('stUsers').innerText = st.totalUsers;
+  document.getElementById('stViewers').innerText = st.totalViewers;
+  document.getElementById('stBlocked').innerText = st.blocked;
+  var users = JSON.parse(localStorage.getItem('cyber_users')||'[]');
+  var blocked = JSON.parse(localStorage.getItem('cyber_blocked_users')||'[]');
+  var html = '<table><tr><th>USER</th><th>ROLE</th><th>📍 COUNTRY</th><th>STATE</th><th>CITY</th><th>LAST LOGIN</th><th>ACTION</th></tr>';
+  if(users.length===0) html += '<tr><td colspan="7">Koi user nahi hai.</td></tr>';
+  users.forEach(function(u){
+    var loc = u.lastLocation || {};
+    var pill = u.role==='super_admin'?'super':u.role==='admin'?'admin':u.role==='user'?'user':'viewer';
+    var isBlocked = blocked.includes(u.username);
+    html += '<tr><td><b>'+esc(u.username)+'</b><br><span style="font-size:11px;color:#E8B48A">'+esc(u.name||'')+'</span></td><td><span class="pill '+pill+'">'+esc(u.role.toUpperCase())+'</span>'+(isBlocked?' <span class="pill blocked">BLOCKED</span>':'')+'</td><td>'+esc(loc.country||u.country||'-')+'</td><td>'+esc(loc.state||u.state||'-')+'</td><td>'+esc(loc.city||u.city||'-')+'</td><td>'+fmtTime(u.lastLoginAt)+'</td><td>';
+    if(!window.isSuperAdmin(u.username)){
+      html += '<button class="btn red" style="padding:5px 8px;font-size:11px" onclick="window.blockUser(\'Vinayak\',\''+esc(u.username)+'\');refreshAll()">🚫 Block</button> ';
+      html += '<button class="btn green" style="padding:5px 8px;font-size:11px" onclick="window.unblockUser(\'Vinayak\',\''+esc(u.username)+'\');refreshAll()">✅ Unblock</button>';
+      if(u.role==='admin') html += ' <button class="btn orange" style="padding:5px 8px;font-size:11px" onclick="window.demoteAdmin(\'Vinayak\',\''+esc(u.username)+'\');refreshAll()">⬇ Demote</button>';
+    } else html += '👑 Tum';
+    html += '</td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('locTable').innerHTML = html;
+  var logs = JSON.parse(localStorage.getItem('cyber_siem_logs')||'[]').slice(-20).reverse();
+  document.getElementById('siemBox').innerHTML = logs.length? logs.map(function(l){ return '<div>• '+fmtTime(l.time)+' — <b>'+esc(l.event)+'</b> '+esc(JSON.stringify(l.data||{}).slice(0,120))+'</div>'; }).join('') : 'Koi activity nahi.';
+  if(window.renderSuperAdminPanel) window.renderSuperAdminPanel('Vinayak');
+  var myLoc = null; try{ myLoc = JSON.parse(localStorage.getItem('cyber_location')||'null'); }catch(e){}
+  if(myLoc){ document.getElementById('myLoc').innerText = '📍 '+(myLoc.city||'')+', '+(myLoc.state||'')+', '+(myLoc.country||''); document.getElementById('myLocDetail').innerText = (myLoc.city||'-')+', '+(myLoc.state||'-')+', '+(myLoc.country||'-')+' | IP: '+(myLoc.ip||'-')+' | Source: '+(myLoc.source||'-')+' | Lat: '+(myLoc.lat||'-')+', Lon: '+(myLoc.lon||'-'); }
+}
+function makeAdminNow(){
+  var n = document.getElementById('newAdminName').value.trim();
+  if(!n){ document.getElementById('msg').innerText='Pehle naam likho!'; return; }
+  var users = JSON.parse(localStorage.getItem('cyber_users')||'[]');
+  var u = users.find(function(x){ return x.username===n; });
+  if(u){ u.role='admin'; u.approvedBy='Vinayak'; u.approvedAt=new Date().toISOString(); }
+  else users.push({username:n, name:n, role:'admin', approvedBy:'Vinayak', approvedAt:new Date().toISOString()});
+  localStorage.setItem('cyber_users', JSON.stringify(users));
+  var s = JSON.parse(localStorage.getItem('cyber_admin_stats')||'{"approved":0,"rejected":0}'); s.approved=(s.approved||0)+1; localStorage.setItem('cyber_admin_stats', JSON.stringify(s));
+  if(window.logSIEM) window.logSIEM('admin_approved', {by:'Vinayak', user:n});
+  document.getElementById('msg').innerText='✅ '+n+' ab Admin ban gaya!';
+  document.getElementById('newAdminName').value=''; refreshAll();
+}
+async function useMyLocation(){
+  if(window.requestCyberLocation){ var loc = await window.requestCyberLocation('Vinayak'); if(loc) refreshAll(); }
+}
+setInterval(function(){ document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-IN'); }, 1000);
+refreshAll();
+if(window.playEagleSound) window.playEagleSound();
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
