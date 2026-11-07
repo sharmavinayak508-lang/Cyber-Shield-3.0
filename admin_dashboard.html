@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="hi"><head><style>
+<!DOCTYPE html>
+<html lang="en"><head><style>
 @font-face {
   font-family: "Optimistic";
   font-style: normal;
@@ -19,99 +20,115 @@
 :where(code, pre, kbd, samp) {
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
-</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cyber Shield 3.0 - Admin - Globe Member Tracker</title>
-<script src="https://unpkg.com/globe.gl"></script>
-<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#050505;color:#fff;font-family:'Segoe UI',sans-serif}.header{background:linear-gradient(90deg,#0a0a0a,#111);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ff5500;flex-wrap:wrap;gap:8px}.header h1{font-size:18px;color:#ff7700}.header button{padding:8px 12px;border-radius:20px;border:1px solid #00d4ff;background:rgba(0,0,0,0.5);color:#00d4ff;font-weight:800;cursor:pointer;font-size:11px}.main{display:grid;grid-template-columns:1fr 380px;gap:12px;padding:12px}@media(max-width:900px){.main{grid-template-columns:1fr}}.card{background:#0a0a0a;border:1px solid rgba(255,85,0,0.25);border-radius:12px;padding:14px}.card h3{color:#ff7700;margin-bottom:8px}#globe{width:100%;height:520px;background:#000;border-radius:10px;overflow:hidden;border:1px solid #00d4ff}.hint{background:rgba(0,212,255,0.08);border:1px solid #00d4ff;border-radius:8px;padding:8px;font-size:11px;margin-top:8px;line-height:1.5}.member{padding:10px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;margin-bottom:8px;background:rgba(255,255,255,0.03)}.member b{color:#00ff88}.pill{display:inline-block;font-size:9px;padding:2px 6px;border-radius:20px;background:#ff7700;color:#000;font-weight:800;margin-left:4px}.inp{width:100%;padding:10px;margin-bottom:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff}.btn{width:100%;padding:11px;background:linear-gradient(45deg,#ff4500,#ff8c00);border:none;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;margin-bottom:6px}.btn-blue{background:linear-gradient(45deg,#00d4ff,#0088ff);color:#000}.btn-green{background:linear-gradient(45deg,#00c853,#00ff88);color:#000}.stat{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}.stat div{background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;text-align:center}.stat b{font-size:20px;color:#00ff88}.tabs{display:flex;gap:5px;margin:8px 0}.tab{flex:1;padding:7px;text-align:center;border-radius:8px;background:#222;cursor:pointer;font-size:11px}.tab.active{background:#ff7700;color:#000;font-weight:800}#clickInfo{background:rgba(0,255,136,0.08);border:1px solid #00ff88;border-radius:8px;padding:10px;margin-top:8px;display:none}</style></head><body>
-<div class="header"><h1>🦅 CYBER SHIELD 3.0 - ADMIN - 🌍 GLOBE MEMBER TRACKER</h1><div><button id="cyberSoundToggleBtn" onclick="toggleCyberSound()">🔊 SOUND: ON</button><button onclick="location.href='login.html'">🚪 Logout</button></div></div>
-<div class="main">
-<div class="card"><h3>🌍 3D GLOBE - Click Karo, Us Area Ke Member Dekho!</h3><div id="globe"></div>
-<div class="hint"><b>🔥 Kaise Use Kare:</b><br>1. Globe ko ghumao (drag karo) → Jis Area me dekhna hai wahan le jao<br>2. <b>Globe pe Click karo</b> - Example: Haryana pe click karo → Sadhaura ke member dikhenge<br>3. Right side me us City / State / Country ke saare Registered Member aa jayenge - Username, City, State, Distance ke saath<br>4. Neeche Search se bhi dhoond sakte ho - City ya Username likho</div>
-<div id="clickInfo"></div>
-<div style="margin-top:10px"><h3 style="font-size:13px">📊 SIEM + MITRE + Triage (Admin Features)</h3><div style="font-size:11px;opacity:0.8">• SIEM Live: 1,248 logs, 12 Critical<br>• MITRE: 12 Tactics - T1078 Valid Accounts, T1566 Phishing<br>• Triage: INC-001 (95/100) - Ransomware, INC-002 (78/100) - Brute Force<br>• Containment: Isolate Endpoint, Block IP, Revoke Token - 1 Click<br>• Audit: Hash Chain Verified ✅</div></div>
-</div>
+</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cyber Shield 3.0 - Admin Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>*{box-sizing:border-box}body{margin:0;background:#050a14;color:#fff;font-family:sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#0a1628;border-bottom:1px solid #00d4ff;flex-wrap:wrap;gap:8px}
+header b{color:#00d4ff}button{cursor:pointer;border:0;border-radius:8px;padding:8px 12px;font-weight:800}
+.wrap{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:1.6fr 1fr;gap:14px}
+@media(max-width:800px){.wrap{grid-template-columns:1fr}}
+.card{background:#0a1628;border:1px solid rgba(0,212,255,.4);border-radius:14px;padding:14px}
+#globe{width:100%;height:340px;background:#000;border-radius:10px;overflow:hidden}
+input{width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#0f1f3a;color:#fff;margin:6px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap}.blue{background:#00d4ff}.green{background:#00ff88}.orange{background:#ffaa00}.red{background:#ff3b3b;color:#fff}
+.stat{display:flex;gap:10px}.stat div{flex:1;background:rgba(255,255,255,.06);border-radius:10px;padding:10px;text-align:center}
+small{opacity:.8}</style></head>
+<body>
+<header><div>🦅 <b>CYBER SHIELD 3.0 - ADMIN</b> <span style="background:#00ff88;color:#000;padding:2px 8px;border-radius:20px;font-size:12px">● GLOBE MEMBER TRACKER</span></div>
+<div><button onclick="location.href='login.html'">Logout</button> <button class="blue" onclick="window.toggleCyberSound&&window.toggleCyberSound()">🔊 SOUND</button></div></header>
+
+<div class="wrap">
 <div>
-<div class="card"><h3>👥 Member Location - Click Result</h3>
-<div class="stat"><div><b id="totalMembers">0</b><br>Total Members</div><div><b id="nearCount">0</b><br>Paas Me (100km)</div><div><b id="stateCount">0</b><br>Same State</div></div>
-<div class="tabs"><div class="tab active" id="tabNear" onclick="showTab('near')">📍 Paas Wale (100km)</div><div class="tab" id="tabCity" onclick="showTab('city')">🏙️ Same City</div><div class="tab" id="tabState" onclick="showTab('state')">🗺️ Same State</div><div class="tab" id="tabAll" onclick="showTab('all')">🌍 Sab</div></div>
-<input id="searchMember" class="inp" placeholder="🔍 Search - Username / City / State likho..." oninput="filterMembers()">
-<div id="memberList"><div style="font-size:11px;opacity:0.7">👆 Globe pe kahi bhi Click karo - Us area ke Member yahan dikhenge!<br><br>Demo ke liye: India pe click karo → Delhi, Haryana, Mumbai wale dikhenge. USA pe click karo → New York wala dikhega.</div></div>
-<button class="btn btn-blue" onclick="loadAllMembers()">👥 Saare Registered Member Dikhao</button>
-<button class="btn btn-green" onclick="showMyLocation()">📍 Meri Location Ke Paas Wale Dikhao</button>
-<button class="btn" onclick="addTestMember()">➕ Test Member Add Karo (Demo)</button>
+<div class="card"><h3>🌍 3D GLOBE - Click Karo, Us Area Ke Member Dekho!</h3><div id="globe"></div>
+<p><small>1. Globe ko ghumao (drag karo) 2. Globe pe click karo - Example: Haryana pe click karo - Sadhaura ke member dikhenge 3. Right side me us area ka member dikhega - City, State, Distance ke saath</small></p>
+<div class="row"><button class="blue" onclick="showMembers('Haryana')">Haryana Dekho</button><button class="blue" onclick="showMembers('Delhi')">Delhi Dekho</button><button class="green" onclick="addTestMember()">+ Test Member Add Karo</button></div></div>
+
+<div class="card"><h3>📊 SIEM + MITRE + Triage (Admin Features)</h3><div id="siemBox">Loading SIEM...</div></div>
 </div>
-<div class="card" style="margin-top:12px"><h3>🧪 Test Karo - Abhi!</h3><div style="font-size:11px;line-height:1.6">1. <b>Test Member Add Karo</b> dabao → 1 naya member add hoga<br>2. Globe pe <b>Haryana / Delhi</b> pe click karo<br>3. Right side me us area ke member dikhenge - City, State, Distance ke saath<br>4. <b>Search</b> me `Sadhaura` likho → Sadhaura wala member milega</div></div>
+
+<div>
+<div class="card"><h3>📍 Member Location - Click Result</h3><div class="stat"><div><b id="totalM">1</b><br><small>Total Members</small></div><div><b id="nearM">0</b><br><small>Paas Wale (100km)</small></div><div><b id="sameS">0</b><br><small>Same State</small></div></div>
+<input id="searchBox" placeholder="Search - Username / City / State likho... Ex: Sadhaura" oninput="doSearch(this.value)">
+<div class="row"><button class="blue" onclick="doSearch(document.getElementById('searchBox').value)">🔍 Search</button><button class="green" onclick="showMyNear()">📍 Meri Location Ke Paas Wale Dikhao</button><button class="orange" onclick="addTestMember()">+ Test Member Add Karo (Demo)</button></div>
+<div id="memberList" style="margin-top:10px"></div>
+<div class="card" style="margin-top:12px"><h4>🧪 Test Karo - Abhi!</h4><small>1. Test Member Add Karo dabao - 1 naya member add hoga<br>2. Globe pe Haryana / Delhi pe click karo<br>3. Right side me us area ka member dikhega<br>4. Search me 'Sadhaura' likho</small></div></div>
 </div>
 </div>
-<script src="sound-toggle.js"></script><script src="members-location.js"></script>
+
+<!-- 👑 SUPER ADMIN PANEL - YAHI NAYA HAI -->
+<div style="max-width:1100px;margin:auto;padding:0 14px 20px">
+<div id="superAdminPanel"></div>
+<div class="card"><h3>🙏 Admin Banna Hai? Request Bhejo</h3><p>Agar tum User ho aur Admin banna hai, toh neeche apna naam likh ke Request bhejo. Super Admin Approve karega tabhi Admin banoge.</p>
+<input id="reqName" placeholder="Apna Username likho - Ex: test"><button class="blue" onclick="sendReq()">🙏 Super Admin Ko Request Bhejo</button><p id="reqMsg"></p></div>
+</div>
+
+<script src="siem-backend.js"></script>
+<script src="sound-toggle.js"></script>
+<script src="threat-apis.js"></script>
+<script src="admin-control.js"></script>
 <script>
-let currentTab='near', lastResult=null;
-let soundEnabled=localStorage.getItem('cyber_sound_enabled')!=='off';
-function toggleCyberSound(){soundEnabled=!soundEnabled;localStorage.setItem('cyber_sound_enabled',soundEnabled?'on':'off');document.getElementById('cyberSoundToggleBtn').innerText=soundEnabled?'🔊 SOUND: ON':'🔇 SOUND: OFF'}
-function showTab(t){currentTab=t;['near','city','state','all'].forEach(x=>document.getElementById('tab'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('active',x===t));renderMembers()}
-function renderMembers(){
-  if(!lastResult){return}
-  let list = currentTab==='near'?lastResult.near : currentTab==='city'?lastResult.sameCity : currentTab==='state'?lastResult.sameState : lastResult.all;
-  document.getElementById('nearCount').innerText=lastResult.near.length;
-  document.getElementById('stateCount').innerText=lastResult.sameState.length;
-  document.getElementById('totalMembers').innerText=lastResult.all.length;
-  let q=document.getElementById('searchMember').value.toLowerCase();
-  if(q) list=list.filter(m=>(m.username+' '+m.city+' '+m.state+' '+m.country).toLowerCase().includes(q));
-  if(list.length===0){document.getElementById('memberList').innerHTML='<div style="font-size:11px">❌ Is area me koi Registered Member nahi mila.<br>Globe pe dusri jagah click karo ya Search saaf karo.</div>';return}
-  document.getElementById('memberList').innerHTML=list.map(m=>`<div class="member"><b>👤 ${m.username}</b> <span class="pill">${m.role||'user'}</span><br>📍 ${m.city}, ${m.state}, ${m.country}<br>📏 Distance: ${m.distanceKm} km door<br>🕒 Last Seen: ${new Date(m.lastSeen).toLocaleString('hi-IN')}<br>📱 ${m.phone||'No phone'} | 📧 ${m.email||'No email'}</div>`).join('');
+// ---- DEMO DATA SEED ----
+if(!localStorage.getItem('cyber_users')){
+  localStorage.setItem('cyber_users', JSON.stringify([
+    {username:'admin', name:'admin', role:'super_admin', city:'Sadhaura', state:'Haryana', email:'admin@cybershield.com'},
+    {username:'test', name:'test', role:'user', city:'Sadhaura', state:'Haryana', email:'test@test.com'}
+  ]));
 }
-function filterMembers(){renderMembers()}
-async function onGlobeClick(point){
-  let lat=point.lat, lng=point.lng;
-  document.getElementById('clickInfo').style.display='block';
-  document.getElementById('clickInfo').innerHTML='⏳ Location pehchani ja rahi hai... Lat: '+lat.toFixed(2)+', Lng: '+lng.toFixed(2);
-  let geo = await window.reverseGeocodeGlobe(lat,lng);
-  lastResult = window.findMembersNear(lat,lng,geo.city,geo.state,geo.country);
-  document.getElementById('clickInfo').innerHTML=`<b>📍 Tumne Click Kiya:</b> ${geo.city}, ${geo.state}, ${geo.country}<br>Lat: ${lat.toFixed(2)}, Lng: ${lng.toFixed(2)}<br><b>Result:</b> Paas me ${lastResult.near.length} | Same City ${lastResult.sameCity.length} | Same State ${lastResult.sameState.length} | Same Country ${lastResult.sameCountry.length} | Total ${lastResult.all.length}`;
-  renderMembers();
+function getUsers(){try{return JSON.parse(localStorage.getItem('cyber_users')||'[]')}catch(e){return[]}}
+function saveUsers(u){localStorage.setItem('cyber_users',JSON.stringify(u))}
+function renderMembers(list){
+  var users = list || getUsers();
+  document.getElementById('totalM').innerText = users.length;
+  var el=document.getElementById('memberList');
+  if(!users.length){el.innerHTML='<p>Is area me koi Registered Member nahi mila.<br>Globe pe dusri jagah click karo ya Search karo.</p>';return}
+  el.innerHTML = users.map(function(u){return '<div style="background:rgba(255,255,255,.06);padding:8px;border-radius:8px;margin:6px 0;display:flex;justify-content:space-between"><span><b>'+u.username+'</b> - '+u.role+'<br><small>'+(u.city||'')+', '+(u.state||'')+'</small></span><span>'+(u.role==='super_admin'?'👑 Super Admin':u.role==='admin'?'🛡 Admin':'👤 User')+'</span></div>'}).join('');
 }
-function loadAllMembers(){
-  let all=JSON.parse(localStorage.getItem('cyber_members')||'[]');
-  if(all.length===0){
-    lastResult=window.findMembersNear(28.61,77.20,'Delhi','Delhi','India');
-  } else {
-    lastResult={near:all, sameCity:all, sameState:all, all:all, clickCity:'All', clickState:'All', clickCountry:'All'};
-    all.forEach(m=>m.distanceKm=0);
-  }
-  document.getElementById('clickInfo').style.display='block';
-  document.getElementById('clickInfo').innerHTML=`<b>👥 Saare Registered Member:</b> Total ${lastResult.all.length} member`;
-  showTab('all');
+function showMembers(state){
+  var f = getUsers().filter(function(u){return (u.state||'').toLowerCase().includes(state.toLowerCase())});
+  renderMembers(f);
+  if(window.logSIEM) window.logSIEM('globe_click',{state:state});
 }
-function showMyLocation(){
-  if(!navigator.geolocation){alert('Location Allow karo');return}
-  navigator.geolocation.getCurrentPosition(async pos=>{
-    let lat=pos.coords.latitude, lng=pos.coords.longitude;
-    await onGlobeClick({lat,lng});
-  });
+function doSearch(q){
+  q=(q||'').toLowerCase().trim();
+  if(!q){renderMembers();return}
+  var f=getUsers().filter(function(u){return (u.username||'').toLowerCase().includes(q)||(u.city||'').toLowerCase().includes(q)||(u.state||'').toLowerCase().includes(q)});
+  renderMembers(f);
 }
+function showMyNear(){ renderMembers(getUsers().filter(function(u){return u.state==='Haryana'})); alert('Paas wale (Haryana) members dikha diye!'); }
 function addTestMember(){
-  let all=JSON.parse(localStorage.getItem('cyber_members')||'[]');
-  let names=['vikas','manish','neha','karan'];
-  let cities=[{city:'Sadhaura',state:'Haryana',lat:30.25,lng:77.20},{city:'Yamunanagar',state:'Haryana',lat:30.12,lng:77.28},{city:'Chandigarh',state:'Punjab',lat:30.73,lng:76.77},{city:'Delhi',state:'Delhi',lat:28.61,lng:77.20}];
-  let i=all.length % 4;
-  let m={username:names[i]+(all.length+1), city:cities[i].city, state:cities[i].state, country:'India', lat:cities[i].lat, lng:cities[i].lng, role:'user', phone:'+91 98765 4321'+i, email:names[i]+'@gmail.com', lastSeen:new Date().toISOString()};
-  all.push(m); localStorage.setItem('cyber_members',JSON.stringify(all));
-  alert('✅ Test Member Add Ho Gaya: '+m.username+' - '+m.city+', '+m.state+'\nAb Globe pe Haryana pe click karo, ye dikhega!');
-  loadAllMembers();
+  var u=getUsers(); var n='member'+(u.length+1);
+  u.push({username:n, name:n, role:'user', city:'Sadhaura', state:'Haryana', email:n+'@test.com'}); saveUsers(u); renderMembers();
+  alert(n+' add ho gaya! Ab Super Admin Panel me bhi dikhega!');
 }
-// GLOBE SETUP
-const globe = Globe()(document.getElementById('globe'))
-  .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-  .backgroundColor('#000')
-  .showAtmosphere(true)
-  .onGlobeClick(onGlobeClick)
-  .pointsData([{lat:30.25,lng:77.20,name:'Sadhaura'},{lat:28.61,lng:77.20,name:'Delhi'},{lat:19.07,lng:72.87,name:'Mumbai'},{lat:12.97,lng:77.59,name:'Bangalore'},{lat:40.71,lng:-74.00,name:'New York'}])
-  .pointColor(()=> '#ff7700')
-  .pointRadius(0.8)
-  .pointLabel(d=> d.name);
-// Auto load demo members on start
-window.addEventListener('load', ()=>{
-  document.getElementById('cyberSoundToggleBtn').innerText=soundEnabled?'🔊 SOUND: ON':'🔇 SOUND: OFF';
-  lastResult=window.findMembersNear(28.61,77.20,'Delhi','Delhi','India');
-  renderMembers();
-});
-</script><script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
+function sendReq(){
+  var n=document.getElementById('reqName').value.trim();
+  if(!n){document.getElementById('reqMsg').innerText='Naam likho pehle!';return}
+  var u=getUsers().find(function(x){return x.username===n});
+  var email = u?u.email:''; 
+  var r=window.requestAdminAccess(n,'',email);
+  document.getElementById('reqMsg').innerText=r.msg;
+  var cur=localStorage.getItem('username')||localStorage.getItem('cyber_current_user')||'admin';
+  window.renderSuperAdminPanel(cur);
+}
+// ---- 3D GLOBE ----
+try{
+  var scene=new THREE.Scene(); var cam=new THREE.PerspectiveCamera(45, 600/340, 0.1, 1000); cam.position.z=3;
+  var renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setSize(600,340);
+  document.getElementById('globe').appendChild(renderer.domElement);
+  var geo=new THREE.SphereGeometry(1.4,32,32);
+  var mat=new THREE.MeshBasicMaterial({color:0x1a5aff, wireframe:true});
+  var globe=new THREE.Mesh(geo,mat); scene.add(globe);
+  var dotGeo=new THREE.SphereGeometry(0.06,8,8); var dotMat=new THREE.MeshBasicMaterial({color:0x00ff88});
+  var dot=new THREE.Mesh(dotGeo,dotMat); dot.position.set(0.5,0.8,1.1); scene.add(dot);
+  function anim(){requestAnimationFrame(anim); globe.rotation.y+=0.003; renderer.render(scene,cam)} anim();
+  renderer.domElement.addEventListener('click', function(){ showMembers('Haryana'); alert('Haryana area select hua! Right side me Haryana wale members dekh lo!'); });
+}catch(e){ document.getElementById('globe').innerHTML='<p style="padding:20px">Globe load nahi hua (internet chahiye). Baaki sab features chalenge!</p>'; }
+// ---- SIEM BOX ----
+document.getElementById('siemBox').innerHTML = 'SIEM Live: <b>'+(window.CyberSIEM?window.CyberSIEM.getLogs().length:0)+' logs</b> | MITRE: 12 Tactics, 109 Tech | Triage: INC-001 (Ransomware), INC-002 (Phishing)<br><small>Har Login / Block / Approve yahan log hota hai.</small>';
+// ---- SUPER ADMIN PANEL RENDER ----
+var currentUser = localStorage.getItem('username') || localStorage.getItem('cyber_current_user') || 'admin';
+window.addEventListener('load', function(){ setTimeout(function(){ window.renderSuperAdminPanel(currentUser); renderMembers(); }, 500); });
+renderMembers();
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
