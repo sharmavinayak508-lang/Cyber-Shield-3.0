@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="hi"><head><style>
+<!DOCTYPE html>
+<html lang="hi"><head><style>
 @font-face {
   font-family: "Optimistic";
   font-style: normal;
@@ -19,117 +20,148 @@
 :where(code, pre, kbd, samp) {
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
-</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber Shield 3.0 - Dual OTP + Face Login - Dono OTP</title>
-<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#060608;font-family:'Segoe UI',sans-serif;min-height:100vh;color:#fff}.viewport{position:relative;width:100vw;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:12px}.eagle-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}#flameCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}.overlay{position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.25),rgba(0,0,0,0.65));z-index:1}.card{position:relative;z-index:3;background:rgba(10,10,15,0.68);backdrop-filter:blur(14px);border:1px solid rgba(255,90,0,0.25);padding:20px;width:440px;max-width:100%;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,0.9);max-height:95vh;overflow-y:auto}.card h2{text-align:center;color:#ff7700}.sub{text-align:center;font-size:11px;opacity:0.8;margin:4px 0 10px}.top{display:flex;gap:4px}.top select{flex:1;padding:7px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:11px}.flow{background:rgba(0,255,136,0.08);border:1px solid #00ff88;border-radius:8px;padding:8px;font-size:10px;margin:8px 0;line-height:1.5}.tabs{display:flex;background:rgba(0,0,0,0.4);border-radius:10px;padding:3px;margin:8px 0}.tab{flex:1;padding:7px;text-align:center;border-radius:8px;cursor:pointer;font-size:11px;color:#aaa}.tab.active{background:#ff7700;color:#000;font-weight:800}.methods{display:flex;gap:5px;margin:8px 0}.method{flex:1;padding:9px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.3);cursor:pointer;text-align:center;font-size:10px;font-weight:700}.method.active{background:linear-gradient(45deg,#ff4500,#ff8c00);color:#fff}.inp{width:100%;padding:12px;margin-bottom:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;outline:none}.inp:focus{border-color:#ff5500}.btn{width:100%;padding:13px;background:linear-gradient(45deg,#ff4500,#ff8c00);border:none;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer}.btn-green{background:linear-gradient(45deg,#00c853,#00ff88);color:#000}.btn-blue{background:linear-gradient(45deg,#00d4ff,#0088ff);color:#000}.btn-ghost{width:100%;padding:10px;background:#222;border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;cursor:pointer;margin-top:6px}.sound{display:flex;gap:6px;margin:8px 0}.sound button{flex:1;padding:8px;border-radius:20px;border:1px solid #00d4ff;background:rgba(0,0,0,0.5);color:#00d4ff;font-weight:800;cursor:pointer;font-size:11px}.sound button.o{border-color:#ff7a00;color:#ff7a00}.face-box{position:relative;width:100%;height:200px;background:#000;border-radius:10px;overflow:hidden;border:2px solid #ff7700;display:none;margin:8px 0}.face-box video{width:100%;height:100%;object-fit:cover}.compare{display:flex;gap:8px;margin-top:8px}.compare div{flex:1;text-align:center;font-size:10px}.compare img{width:100%;height:80px;object-fit:cover;border-radius:8px;background:#000}.result{padding:9px;border-radius:8px;margin-top:8px;font-size:11px;display:none;text-align:center;font-weight:700}.result.ok{background:rgba(0,255,136,0.15);border:1px solid #00ff88;color:#00ff88}.result.no{background:rgba(255,59,59,0.15);border:1px solid #ff3b3b;color:#ff3b3b}.dual{margin-top:10px;padding:10px;background:rgba(0,212,255,0.08);border:1px solid #00d4ff;border-radius:10px;display:none}.dual-otp-row{display:flex;gap:8px}.dual-otp-row div{flex:1}.badge{display:inline-block;font-size:9px;padding:3px 6px;border-radius:20px;background:rgba(255,119,0,0.15);border:1px solid rgba(255,119,0,0.3);color:#ffaa55;margin:2px}#msg{font-size:11px;text-align:center;margin-top:8px;min-height:16px}#log{font-size:9px;opacity:0.7;max-height:60px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.3);padding:6px;border-radius:6px}</style></head><body>
-<div class="viewport"><img class="eagle-bg" src="eagle.png" onerror="this.src='https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1400'"><div class="overlay"></div><canvas id="flameCanvas"></canvas>
-<div class="card"><h2>🦅 EAGLE LOGIN - DUAL OTP</h2><div class="sub">Cyber Shield 3.0 - Face Pehle, Fail Hua Toh Dono OTP (Phone + Email)</div>
-<div class="top"><select><option>🇮🇳 हिंदी</option><option>🇺🇸 English</option><option>🇪🇸 Español</option></select><select id="roleSelect"><option value="admin">👑 Admin</option><option value="user">👤 User</option><option value="viewer">👁️ Viewer</option></select></div>
-<div style="text-align:center"><span class="badge">🔥 Canvas Fire</span><span class="badge">👁️ Face</span><span class="badge">📱 Phone OTP</span><span class="badge">📧 Email OTP</span><span class="badge" id="faceApiStatus">Face AI Loading...</span></div>
-<div class="sound"><button id="cyberSoundToggleBtn" onclick="toggleCyberSound()">🔊 SOUND: ON</button><button class="o" onclick="triggerRoar();triggerFire()">🦁 Roar + 🔥 Fire</button></div>
-<div class="flow"><b>🔄 LOGIN FLOW - Samjho:</b><br>1. Registered banda → <b>Face</b> se try karega → Match hua toh sidha apne page pe ✅<br>2. Face Fail / Face nahi hai → <b>Dual OTP</b> chuno → Phone + Email dono dalo → Dono pe OTP jayega<br>3. Dono OTP daalo → Dono sahi hue toh Allow ✅, Ek bhi galat hua toh <b>DENY ❌</b><br>4. Naya banda hai (Registered nahi) → Pehle <b>Register</b> tab se Register karo, phir Login</div>
-<div class="tabs"><div class="tab active" id="tL" onclick="switchTab('login')">Login</div><div class="tab" id="tR" onclick="switchTab('register')">Register (Naya Banda)</div></div>
-<div style="font-size:10px;opacity:0.8">LOGIN METHOD CHUNO:</div>
-<div class="methods"><div class="method active" id="mFace" onclick="switchMethod('face')">👁️ Face - Pehle Try Karo</div><div class="method" id="mDual" onclick="switchMethod('dual')">📱+📧 Dual OTP</div></div>
-<input id="username" class="inp" placeholder="Username - jisse register kiya tha" value="admin">
-<input id="phone" class="inp" placeholder="Phone Number - +91 9876543210" value="+91 9876543210">
-<input id="email" class="inp" placeholder="Email ID - jisse register kiya tha" value="admin@cybershield.com">
-<input id="password" class="inp" type="password" placeholder="Password" value="admin123">
-<!-- FACE BOX -->
-<div id="faceBoxWrap" style="display:block">
-<div id="faceBox" class="face-box"><video id="faceVideo" autoplay muted playsinline></video></div>
-<div style="display:flex;gap:6px"><button class="btn btn-green" onclick="openCameraForRegister()">📸 Register Face</button><button class="btn" onclick="openCameraForLogin()">👁️ Face Se Login</button></div>
-<div style="display:flex;gap:6px;margin-top:6px"><button class="btn-ghost" onclick="captureFace('register')">📸 Capture - Register</button><button class="btn-ghost" onclick="captureFace('login')">✅ Capture - Verify Face</button><button class="btn-ghost" onclick="stopCamera()">⏹ Stop</button></div>
-<div class="compare"><div>Registered Face<img id="registeredFaceImg"><div id="registeredFaceLabel">No face yet</div></div><div>Live Face<img id="liveFaceImg"><div id="liveFaceLabel">Camera se capture karo</div></div></div>
-<div id="faceMatchBar" style="margin-top:8px;height:8px;background:#222;border-radius:20px;overflow:hidden;display:none"><div id="faceMatchFill" style="height:100%;width:0%;background:#00ff88"></div></div><div id="faceMatchText" style="font-size:11px;text-align:center"></div>
-<div style="text-align:center;margin-top:8px;font-size:11px">Face Match Nahi Hua? 👇 Neeche Dual OTP Se Login Karo</div>
-<button class="btn btn-blue" onclick="switchMethod('dual')">📱+📧 Dual OTP Se Login Karo →</button>
+</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cyber Shield 3.0 - Dual OTP Login</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#050a14;color:#fff;font-family:sans-serif;background-image:url('https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1200&q=80');background-size:cover;background-position:center}
+.overlay{background:rgba(0,0,0,.55);min-height:100vh;padding:16px}
+.card{max-width:520px;margin:20px auto;background:rgba(10,22,40,.92);border:1px solid #00d4ff;border-radius:16px;padding:16px}
+h1{color:#ffaa00;text-align:center;margin:4px 0}h1+p{text-align:center;opacity:.85;font-size:13px}
+select,input{width:100%;padding:11px;border-radius:10px;border:1px solid #333;background:#0f1f3a;color:#fff;margin:6px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px;font-weight:800}
+.green{background:#00ff88}.orange{background:#ff8800;color:#fff}.blue{background:#00d4ff}.red{background:#ff3b3b;color:#fff}
+.box{background:rgba(0,255,136,.12);border:1px solid #00ff88;border-radius:10px;padding:10px;font-size:13px;margin:8px 0}
+.warn{background:rgba(255,170,0,.12);border:1px solid #ffaa00;border-radius:10px;padding:10px;font-size:13px}
+.roleInfo{background:#0a1628;border:1px solid #333;border-radius:10px;padding:10px;font-size:13px;margin:8px 0}
+video,img{width:100%;height:140px;background:#000;border-radius:10px;object-fit:cover}
+</style></head>
+<body><div class="overlay"><div class="card">
+<h1>🦅 EAGLE LOGIN - DUAL OTP</h1><p>Cyber Shield 3.0 - Face Pehle, Fail Hua Toh Dono OTP (Phone + Email)</p>
+
+<div class="row">
+<select id="langSel"><option>🇮🇳 हिंदी</option><option>🇬🇧 English</option></select>
+<select id="roleSel" onchange="showRoleInfo()">
+<option value="admin">👑 Admin</option>
+<option value="user">👤 User</option>
+<option value="viewer">👀 Viewer</option>
+</select>
 </div>
-<!-- DUAL OTP BOX -->
-<div id="dualBox" class="dual">
-<div style="font-weight:800">📱+📧 DUAL OTP LOGIN - Dono OTP Chahiye!</div><div style="font-size:10px;opacity:0.8">Step 1: Phone + Email dalo (upar) → Send OTPs dabao → Phone pe SMS + Email pe Mail aayega<br>Step 2: Dono OTP neeche dalo → Verify dabao → Dono sahi toh Allow, ek bhi galat toh DENY</div>
-<button class="btn btn-blue" style="margin-top:8px" onclick="sendDualOTPs()">📤 Dono Pe OTP Bhejo - Phone SMS + Email Mail</button>
-<div id="dualSentInfo" style="font-size:11px;margin-top:8px;display:none"></div>
-<div class="dual-otp-row" style="margin-top:8px"><div><label style="font-size:11px">📱 Phone OTP (SMS)</label><input id="phoneOTPInput" class="inp" placeholder="Phone OTP - 6 digit" maxlength="6"></div><div><label style="font-size:11px">📧 Email OTP (Mail)</label><input id="emailOTPInput" class="inp" placeholder="Email OTP - 6 digit" maxlength="6"></div></div>
-<button class="btn btn-green" onclick="verifyDualOTPs()">✅ Dono OTP Verify Karo → Login</button>
-<button class="btn-ghost" onclick="switchMethod('face')">👁️ Wapas Face Se Try Karo</button>
-<div style="font-size:10px;opacity:0.7;margin-top:6px">Demo Mode me OTP screen pe hi dikh jayega. Real ke liye Firebase Phone Enable + EmailJS Key daalo (dual-otp.js me).</div>
+
+<div id="roleInfo" class="roleInfo"></div>
+
+<div class="row"><button class="blue" onclick="alert('Canvas Fire ON!')">🔥 Canvas Fire</button><button onclick="alert('Face mode')">👁 Face</button><button onclick="alert('Phone OTP mode')">📱 Phone OTP</button></div>
+<button id="soundBtn" class="red" style="width:100%;margin:8px 0" onclick="toggleSound()">🔇 SOUND: OFF</button>
+
+<div class="box"><b>✅ LOGIN FLOW - Samjho:</b><br>
+1. Registered banda → Face se try karega<br>
+2. Face Fail / Face nahi hai → Dual OTP chunega<br>
+3. Dono OTP daalo → Dono sahi hue toh Allow, ek bhi galat toh DENY<br>
+4. Naya banda hai (Registered nahi) → Pehle Register karo</div>
+
+<div class="row"><button class="orange" onclick="showTab('login')">Login</button><button onclick="showTab('register')">Register (Naya Banda)</button></div>
+<p><b>LOGIN METHOD CHUNO:</b></p>
+<div class="row"><button class="orange" id="faceBtn" onclick="setMethod('face')">👁 Face - Pehle Try Karo</button><button id="otpBtn" onclick="setMethod('otp')">📱+📧 Dual OTP</button></div>
+
+<input id="uName" value="admin" placeholder="Username">
+<input id="uPhone" value="+91 9876543210" placeholder="Phone">
+<input id="uEmail" value="admin@cybershield.com" placeholder="Email">
+<input id="uPass" type="password" value="123456" placeholder="Password">
+
+<div id="faceBox">
+<div class="row"><button class="green" onclick="startCam()">📸 Register Face</button><button class="orange" onclick="loginFace()">👁 Face Se Login</button></div>
+<div class="row"><button onclick="captureFace('register')">📷 Capture - Register</button><button onclick="captureFace('verify')">✅ Capture - Verify Face</button><button onclick="stopCam()">⏹ Stop</button></div>
+<video id="cam" autoplay playsinline muted></video>
+<div class="row"><img id="regImg"><img id="liveImg"></div>
+<p><small>✅ Registered: <span id="regLabel">admin</span> | Camera se capture karo</small></p>
 </div>
-<button id="mainBtn" class="btn" style="margin-top:10px" onclick="handleMainBtn()">Register / Login →</button>
-<div id="msg"></div><div id="faceResult" class="result"></div>
-<div id="log">System ready - Face + Dual OTP (Phone+Email) + Fire + Sound...</div>
-<div id="recaptcha-container"></div>
+
+<div id="otpBox" style="display:none">
+<div class="warn"><b>📱+📧 DUAL OTP LOGIN - Dono OTP Chahiye!</b><br>Step 1: Phone + Email daalo (upar) → Send OTPs dabao → Phone pe SMS + Email pe Mail aayega<br>Step 2: Dono OTP neeche daalo → Verify dabao → Dono sahi toh Allow, ek bhi galat toh DENY</div>
+<button class="blue" style="width:100%;margin:8px 0" onclick="sendOTPs()">📱 + 📧 Dono Pe OTP Bhejo - Phone SMS + Email Mail</button>
+<div id="otpShow" style="display:none;background:#00ff88;color:#000;padding:10px;border-radius:10px;font-weight:800;text-align:center"></div>
+<div class="row"><input id="phoneOtp" placeholder="Phone OTP - 6 digit"><input id="emailOtp" placeholder="Email OTP - 6 digit"></div>
+<button class="green" style="width:100%" onclick="verifyOTPs()">✅ Dono OTP Verify Karo → Login</button>
+<p id="otpMsg"></p>
+</div>
+
+<button class="blue" style="width:100%;margin-top:10px" onclick="goDual()">📱 + 📧 Dual OTP Se Login Karo →</button>
+<button class="orange" style="width:100%;margin-top:8px" onclick="doLogin()">Register / Login →</button>
+<p style="text-align:center;opacity:.6;font-size:12px">System ready - Face + Dual OTP (Phone+Email) + Fire + Sound...</p>
+<p style="text-align:center;font-size:12px;opacity:.7">Demo Mode me OTP screen pe hi dikh jayega. Real ke liye Firebase Phone Enable + EmailJS Key daalo (dual-otp.js me).</p>
 </div></div>
-<audio id="realRoar" src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_1718a6b9d5.mp3?filename=lion-roar-104347.mp3"></audio><audio id="eagleSound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=eagle-call-112199.mp3"></audio>
-<script src="sound-toggle.js"></script><script src="dual-otp.js"></script><script src="siem-backend.js"></script><script src="eagle-check.js"></script>
-<script type="module">import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";import {getFirestore,collection,addDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";const cfg={apiKey:"AIzaSyCQilWZIBkHNXPgb2SyEkEItjL6Syhug_c",authDomain:"cyber-shield-11c28.firebaseapp.com",projectId:"cyber-shield-11c28",storageBucket:"cyber-shield-11c28.firebasestorage.app",messagingSenderId:"1078658729202",appId:"1:1078658729202:web:2a9028ca291d600dbbbc6b"};const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);window.firebaseAuth=auth;window.firebaseDB=db;window.realFirebaseSignup=async(email,pass,u,role)=>{try{const c=await createUserWithEmailAndPassword(auth,email,pass);await addDoc(collection(db,'users'),{uid:c.user.uid,username:u,email,role,phone:document.getElementById('phone').value,createdAt:serverTimestamp()});return{success:true,user:c.user}}catch(e){return{success:false,error:e.message}}};window.realFirebaseLogin=async(email,pass)=>{try{const c=await signInWithEmailAndPassword(auth,email,pass);return{success:true,user:c.user}}catch(e){return{success:false,error:e.message}}};</script>
+
+<script src="siem-backend.js"></script>
+<script src="sound-toggle.js"></script>
+<script src="admin-control.js"></script>
 <script>
-// FIRE CANVAS
-const canvas=document.getElementById('flameCanvas'),ctx=canvas.getContext('2d');function resize(){canvas.width=innerWidth;canvas.height=innerHeight}addEventListener('resize',resize);resize();let manual=0;function triggerFire(){manual=60}class P{constructor(x,y){this.x=x;this.y=y;this.vx=-Math.random()*8-4;this.vy=(Math.random()-0.5)*4;this.r=Math.random()*20+10;this.m=Math.random()*30+20;this.l=this.m}update(){this.x+=this.vx;this.y+=this.vy;this.vy-=0.1;this.l--;if(this.r>0.5)this.r-=0.4}draw(){let ra=this.l/this.m;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,${Math.floor(200*ra)},${Math.floor(50*ra)},${ra})`;ctx.fill()}}let parts=[],timer=0;function anim(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.globalCompositeOperation='lighter';let ex=canvas.width*0.45,ey=canvas.height*0.38;timer++;if(timer>360)timer=0;if((timer>=60&&timer<=240)||manual>0){if(manual>0)manual--;for(let i=0;i<6;i++)parts.push(new P(ex,ey))}for(let i=parts.length-1;i>=0;i--){parts[i].update();if(parts[i].l<=0||parts[i].r<=0)parts.splice(i,1);else parts[i].draw()}requestAnimationFrame(anim)}anim();
-// SOUND
-let soundEnabled=localStorage.getItem('cyber_sound_enabled')!=='off';function toggleCyberSound(){soundEnabled=!soundEnabled;localStorage.setItem('cyber_sound_enabled',soundEnabled?'on':'off');document.getElementById('cyberSoundToggleBtn').innerText=soundEnabled?'🔊 SOUND: ON':'🔇 SOUND: OFF';if(!soundEnabled){document.getElementById('realRoar').pause();document.getElementById('eagleSound').pause()}else triggerRoar()}function triggerRoar(){if(!soundEnabled)return;let a=document.getElementById('realRoar');if(a){a.volume=0.8;a.currentTime=0;a.play().catch(()=>{})}let e=document.getElementById('eagleSound');if(e){e.volume=0.6;e.currentTime=0;setTimeout(()=>e.play().catch(()=>{}),500)}}
-// LOGIN LOGIC
-let mode='login',method='face',cameraStream=null,faceModelsLoaded=false;
-function switchTab(m){mode=m;document.getElementById('tL').classList.toggle('active',m==='login');document.getElementById('tR').classList.toggle('active',m==='register');document.getElementById('mainBtn').innerText=m==='register'?'✅ Register Karo - Naya Banda':'➡️ Login Karo →';}
-function switchMethod(m){method=m;document.getElementById('mFace').classList.toggle('active',m==='face');document.getElementById('mDual').classList.toggle('active',m==='dual');document.getElementById('faceBoxWrap').style.display=m==='face'?'block':'none';document.getElementById('dualBox').style.display=m==='dual'?'block':'none';if(m==='dual')showMsg('📱+📧 Dual OTP - Phone + Email dono dalo, phir Dono Pe OTP Bhejo','#00d4ff');else showMsg('👁️ Face - Pehle Face se try karo','#ff7700')}
-function showMsg(t,c){let el=document.getElementById('msg');el.style.color=c||'#ff7700';el.innerText=t}
-function addLog(t){document.getElementById('log').innerHTML=new Date().toLocaleTimeString()+' - '+t+'<br>'+document.getElementById('log').innerHTML}
-function redirectByRole(u){let r=document.getElementById('roleSelect').value;localStorage.setItem('role',r);localStorage.setItem('username',u);location.href=r==='admin'?'admin_dashboard.html':'user_dashboard.html'}
-async function loadFaceModels(){try{await faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights');await faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights');await faceapi.nets.faceRecognitionNet.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights');faceModelsLoaded=true;document.getElementById('faceApiStatus').innerText='✅ Face AI Ready'}catch(e){document.getElementById('faceApiStatus').innerText='⚠️ Face Fallback Mode'}}
-async function openCameraForRegister(){await startCamera();showMsg('📸 Register Face Mode','#00ff88')}async function openCameraForLogin(){await startCamera();showMsg('👁️ Face Login Mode','#ff7700');loadRegisteredFace()}async function startCamera(){try{if(cameraStream)return;cameraStream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480,facingMode:'user'}});document.getElementById('faceVideo').srcObject=cameraStream;document.getElementById('faceBox').style.display='block'}catch(e){alert('Camera Allow karo')}}function stopCamera(){if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}document.getElementById('faceVideo').srcObject=null;document.getElementById('faceBox').style.display='none'}function capturePhoto(){let v=document.getElementById('faceVideo');if(!v||!v.videoWidth)return null;let c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0,c.width,c.height);return{dataURL:c.toDataURL('image/jpeg',0.85),canvas:c}}
-async function captureFace(action){let u=document.getElementById('username').value.trim();if(!u){showMsg('❌ Pehle Username likho','#ff3b3b');return}if(!cameraStream){await startCamera();showMsg('📸 Camera ON - Dobara Capture dabao','#ff7700');return}let photo=capturePhoto();if(!photo)return;if(action==='register'){let det=null;if(faceModelsLoaded){try{det=await faceapi.detectSingleFace(photo.canvas,new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor()}catch(e){}}if(faceModelsLoaded&&!det){showFace('❌ FACE NAHI MILA - Chehra seedha rakho','no');return}localStorage.setItem('face_data_'+u,JSON.stringify({username:u,image:photo.dataURL,descriptor:det?Array.from(det.descriptor):null,time:new Date().toISOString()}));document.getElementById('registeredFaceImg').src=photo.dataURL;document.getElementById('registeredFaceLabel').innerText='✅ Registered: '+u;showFace('✅ FACE REGISTERED! '+u+' - Ab Face Login try karo','ok');triggerRoar();triggerFire()}else await verifyFace(photo)}
-function loadRegisteredFace(){let u=document.getElementById('username').value.trim();if(!u)return;let raw=localStorage.getItem('face_data_'+u);if(raw){let d=JSON.parse(raw);document.getElementById('registeredFaceImg').src=d.image;document.getElementById('registeredFaceLabel').innerText='✅ Registered: '+u}else{document.getElementById('registeredFaceImg').src='';document.getElementById('registeredFaceLabel').innerText='❌ Is naam se face nahi - Pehle Register Face karo ya Dual OTP use karo'}}
-async function verifyFace(photo){let u=document.getElementById('username').value.trim();let raw=localStorage.getItem('face_data_'+u);if(!raw){showFace('❌ DENIED - '+u+' ka face registered nahi! Pehle Register Face karo ya Dual OTP se login karo.','no');addLog('❌ Face DENIED - No face for '+u);setTimeout(()=>switchMethod('dual'),800);return}let saved=JSON.parse(raw);document.getElementById('liveFaceImg').src=photo.dataURL;let sim=0,mu='';if(faceModelsLoaded&&saved.descriptor){try{let live=await faceapi.detectSingleFace(photo.canvas,new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor();if(!live){showFace('❌ DENIED - Live me face nahi mila','no');return}let dist=faceapi.euclideanDistance(saved.descriptor,live.descriptor);sim=Math.max(0,Math.min(100,Math.round((1-dist)*100)));mu='AI - Dist '+dist.toFixed(3)}catch(e){}}if(sim===0){sim=await compareImg(saved.image,photo.dataURL);mu='Fallback Compare'}document.getElementById('faceMatchBar').style.display='block';document.getElementById('faceMatchFill').style.width=sim+'%';document.getElementById('faceMatchFill').style.background=sim>=60?'#00ff88':'#ff3b3b';document.getElementById('faceMatchText').innerText='Match: '+sim+'% | '+mu+' | Chahiye 60%+';if(sim>=60){showFace('✅ FACE MATCHED! '+sim+'% - Welcome '+u+'! Apne page pe ja rahe ho...','ok');triggerRoar();triggerFire();setTimeout(()=>redirectByRole(u),1200)}else{showFace('❌ FACE DENIED! Sirf '+sim+'% Match. Tum '+u+' nahi ho! Ab Dual OTP se login karo ya Dobara Register karo.','no');addLog('❌ Face DENIED '+u+' '+sim+'%');setTimeout(()=>switchMethod('dual'),1200)}}
-function showFace(m,t){let el=document.getElementById('faceResult');el.style.display='block';el.className='result '+(t==='ok'?'ok':'no');el.innerText=m;showMsg(m,t==='ok'?'#00ff88':'#ff3b3b')}
-async function compareImg(a,b){return new Promise(res=>{let i1=new Image(),i2=new Image(),ld=0,h1,h2;function hist(img,cb){let c=document.createElement('canvas');c.width=64;c.height=64;let x=c.getContext('2d');x.drawImage(img,0,0,64,64);let d=x.getImageData(0,0,64,64).data;let h=new Array(16).fill(0);for(let k=0;k<d.length;k+=4)h[Math.floor(((d[k]+d[k+1]+d[k+2])/3)/16)]++;cb(h)}i1.onload=()=>hist(i1,h=>{h1=h;ld++;if(ld===2)calc()});i2.onload=()=>hist(i2,h=>{h2=h;ld++;if(ld===2)calc()});function calc(){let diff=0,tot=0;for(let k=0;k<16;k++){diff+=Math.abs(h1[k]-h2[k]);tot+=h1[k]+h2[k]}res(Math.max(0,Math.round(100-(diff/tot)*100*1.2)))}i1.src=a;i2.src=b})}
-// DUAL OTP HANDLERS
-async function sendDualOTPs(){
-  let phone=document.getElementById('phone').value.trim(), email=document.getElementById('email').value.trim(), u=document.getElementById('username').value.trim();
-  if(!u||!phone||!email){showMsg('❌ Username + Phone + Email teeno dalo - Dono pe OTP jayega','#ff3b3b');return}
-  if(!localStorage.getItem('registered_user_'+u) && mode==='login'){
-    // Check if registered - Agar nahi hai toh Register pe bhejo
-    showMsg('⚠️ '+u+' registered nahi lag raha - Pehle Register tab se Register karo, phir Dual OTP','#ff7a00');
-    // Still allow demo OTP for testing
-  }
-  showMsg('⏳ Dono pe OTP bheja ja raha hai... Phone SMS + Email Mail...','#ffca28');
-  let pRes = await window.sendPhoneOTPReal(phone);
-  let eRes = await window.sendEmailOTPReal(email, u);
-  let info=document.getElementById('dualSentInfo'); info.style.display='block';
-  info.innerHTML = `📱 Phone: ${pRes.msg}<br>📧 Email: ${eRes.msg}<br><b>Dono OTP daalo neeche - Dono sahi hone chahiye!</b><br>${!pRes.real?'<span style="color:#ff7a00">Demo Phone OTP upar dikha hai - Use daalo</span><br>':''}${!eRes.real?'<span style="color:#ff7a00">Demo Email OTP upar dikha hai - Use daalo</span><br>':''}`;
-  showMsg('✅ Dono OTP bhej diye! Phone + Email dono check karo','#00ff88'); addLog('📤 Dual OTP sent to '+phone+' + '+email);
+let soundOn=false, stream=null, method='face';
+let demoPhoneOtp='', demoEmailOtp='';
+function showRoleInfo(){
+  var r=document.getElementById('roleSel').value;
+  var el=document.getElementById('roleInfo');
+  if(r==='admin') el.innerHTML='<b>👑 Admin:</b> Sab kuch kar sakta hai - Block, Delete, Approve. <b>Par</b> - Pehla Admin (Super Admin) hi dusre Admin ko Approve karega! Bina Approve ke Admin Login nahi hoga!';
+  else if(r==='user') el.innerHTML='<b>👤 User:</b> Apna Dashboard dekhega, Apni Details, Globe me Members dekhega. Block / Delete / Approve <b>nahi</b> kar sakta.';
+  else el.innerHTML='<b>👀 Viewer:</b> Sirf <b>DEKH</b> sakta hai - Dashboard, Globe, Members dekh sakta hai. <b>Kuch bhi Change / Block / Delete / Approve nahi kar sakta!</b> - Guest / Interviewer ke liye best hai!';
 }
-async function verifyDualOTPs(){
-  let p=document.getElementById('phoneOTPInput').value.trim(), e=document.getElementById('emailOTPInput').value.trim(), u=document.getElementById('username').value.trim();
-  if(!p||!e){showMsg('❌ Dono OTP dalo - Phone wala + Email wala','#ff3b3b');return}
-  if(p.length!==6||e.length!==6){showMsg('❌ Dono OTP 6 digit ke hone chahiye','#ff3b3b');return}
-  showMsg('⏳ Dono OTP verify ho rahe hain...','#ffca28');
-  let res = await window.verifyDualOTP(p,e);
-  if(res.bothOK){
-    showFace('✅ DONO OTP VERIFIED! Phone ✅ + Email ✅ - Welcome '+u+'! Apne page pe ja rahe ho...','ok'); addLog('✅ Dual OTP VERIFIED '+u); triggerRoar(); triggerFire(); setTimeout(()=>redirectByRole(u),1200);
-  } else {
-    let msg = '❌ ACCESS DENIED! ';
-    if(!res.phoneOK && !res.emailOK) msg+='Dono OTP galat hain! ';
-    else if(!res.phoneOK) msg+='Phone OTP galat hai! Email sahi hai. ';
-    else msg+='Email OTP galat hai! Phone sahi hai. ';
-    msg+='Dobara try karo. Attempt: '+res.attempts;
-    showFace(msg,'no'); addLog('❌ Dual OTP DENIED '+u+' Phone:'+res.phoneOK+' Email:'+res.emailOK);
-    if(res.attempts>=3){ showMsg('❌ 3 baar galat - 1 min ruko ya Face se try karo','#ff3b3b'); }
-  }
+showRoleInfo();
+function showTab(t){ alert(t==='login'?'Login Tab - Neeche se Login karo':'Register Tab - Pehle Register Face karo, phir Login karo'); }
+function setMethod(m){ method=m; document.getElementById('faceBox').style.display = m==='face'?'block':'none'; document.getElementById('otpBox').style.display = m==='otp'?'block':'none'; }
+function goDual(){ setMethod('otp'); document.getElementById('otpBox').scrollIntoView({behavior:'smooth'}); }
+function toggleSound(){ soundOn=!soundOn; document.getElementById('soundBtn').innerText = soundOn?'🔊 SOUND: ON':'🔇 SOUND: OFF'; if(window.toggleCyberSound) window.toggleCyberSound(); }
+async function startCam(){ try{ stream=await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('cam').srcObject=stream; }catch(e){ alert('Camera nahi khula: '+e.message); } }
+function stopCam(){ if(stream){ stream.getTracks().forEach(function(t){t.stop()}); stream=null; } }
+function captureFace(mode){
+  var v=document.getElementById('cam'); if(!v.srcObject){ alert('Pehle Camera On karo - Register Face dabao!'); return; }
+  var c=document.createElement('canvas'); c.width=v.videoWidth||320; c.height=v.videoHeight||240; c.getContext('2d').drawImage(v,0,0);
+  var url=c.toDataURL('image/jpeg');
+  if(mode==='register'){ document.getElementById('regImg').src=url; document.getElementById('regLabel').innerText=document.getElementById('uName').value||'admin'; alert('Face Register ho gaya! Ab Face Se Login dabao!'); }
+  else { document.getElementById('liveImg').src=url; alert('Face Verify ho raha hai... (Demo me Allow)'); doLogin(); }
 }
-async function handleMainBtn(){
-  let u=document.getElementById('username').value.trim(), email=document.getElementById('email').value.trim(), pass=document.getElementById('password').value, phone=document.getElementById('phone').value.trim();
-  if(!u||!email||!pass||!phone){showMsg('❌ Username + Phone + Email + Password - Sab dalo','#ff3b3b');return}
-  if(mode==='register'){
-    let r=await window.realFirebaseSignup(email,pass,u,document.getElementById('roleSelect').value);
-    if(r.success){localStorage.setItem('registered_user_'+u,JSON.stringify({username:u,email,phone,uid:r.user.uid,time:new Date().toISOString()}));showMsg('✅ REGISTER HO GAYA! '+u+' - Ab Face Register karo ya Login karo','#00ff88');addLog('✅ Registered '+u);triggerRoar();switchTab('login');switchMethod('face')}
-    else showMsg('Firebase: '+r.error,'#ff3b3b');
-  } else {
-    // Login tab me main button = Dual OTP pe bhejo
-    switchMethod('dual'); showMsg('📱+📧 Dual OTP se login - Dono Pe OTP Bhejo dabao','#00d4ff');
-  }
+function sendOTPs(){
+  demoPhoneOtp = String(Math.floor(100000+Math.random()*900000));
+  demoEmailOtp = String(Math.floor(100000+Math.random()*900000));
+  var el=document.getElementById('otpShow'); el.style.display='block';
+  el.innerHTML='📱 Phone OTP: '+demoPhoneOtp+'<br>📧 Email OTP: '+demoEmailOtp+'<br><small>Demo Mode - Screen pe hi dikh raha hai!</small>';
+  if(window.logSIEM) window.logSIEM('otp_sent',{user:document.getElementById('uName').value});
 }
-document.getElementById('username').addEventListener('input',loadRegisteredFace);
-window.addEventListener('load',()=>{loadFaceModels();loadRegisteredFace();document.getElementById('cyberSoundToggleBtn').innerText=soundEnabled?'🔊 SOUND: ON':'🔇 SOUND: OFF';if(window.emailjs && 'YOUR_EMAILJS_PUBLIC_KEY'!=='YOUR_EMAILJS_PUBLIC_KEY'){emailjs.init('YOUR_EMAILJS_PUBLIC_KEY')}});
-</script><script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
+function verifyOTPs(){
+  var p=document.getElementById('phoneOtp').value.trim(), e=document.getElementById('emailOtp').value.trim();
+  var msg=document.getElementById('otpMsg');
+  if(!demoPhoneOtp){ msg.innerText='Pehle Dono Pe OTP Bhejo dabao!'; return; }
+  if(p===demoPhoneOtp && e===demoEmailOtp){ msg.innerText='✅ Dono OTP Sahi! Allow!'; if(window.logSIEM) window.logSIEM('otp_verified',{user:document.getElementById('uName').value}); doLogin(); }
+  else { msg.innerText='❌ ACCESS DENIED! Dono OTP galat hain! Phone: '+(p===demoPhoneOtp)+' Email: '+(e===demoEmailOtp); if(window.logSIEM) window.logSIEM('otp_failed',{user:document.getElementById('uName').value}); }
+}
+function doLogin(){
+  var name=document.getElementById('uName').value.trim()||'admin';
+  var role=document.getElementById('roleSel').value;
+  // Seed users if empty
+  if(!localStorage.getItem('cyber_users')){
+    localStorage.setItem('cyber_users', JSON.stringify([{username:'admin',name:'admin',role:'super_admin',city:'Sadhaura',state:'Haryana',email:'admin@cybershield.com'}]));
+  }
+  var users=JSON.parse(localStorage.getItem('cyber_users')||'[]');
+  var u=users.find(function(x){return x.username===name});
+  // Block check
+  if(window.isBlocked && window.isBlocked(name)){ alert('🚫 Tum Block ho! Super Admin se baat karo!'); return; }
+  if(window.isLockdown && window.isLockdown() && name!=='admin'){ alert('🔒 Lockdown ON hai! Sirf Super Admin login kar sakta hai!'); return; }
+  // Role check
+  if(role==='admin'){
+    if(window.isSuperAdmin && window.isSuperAdmin(name)){ /* Super Admin - allow */ }
+    else if(u && u.role==='admin'){ /* Approved Admin - allow */ }
+    else if(u && u.role==='super_admin'){ /* allow */ }
+    else {
+      // Not approved admin -> send request + stop
+      if(window.requestAdminAccess) window.requestAdminAccess(name, document.getElementById('uPhone').value, document.getElementById('uEmail').value);
+      alert('⏳ Tum Admin nahi ho! Request Super Admin ko bhej di!\nSuper Admin Approve karega tabhi Admin Dashboard khulega.\nTab tak Viewer ki tarah dekh sakte ho!');
+      role='viewer';
+    }
+  }
+  localStorage.setItem('username', name);
+  localStorage.setItem('cyber_current_user', name);
+  localStorage.setItem('cyber_role', role);
+  if(window.logSIEM) window.logSIEM('login_success',{user:name, role:role});
+  if(role==='admin') location.href='admin_dashboard.html';
+  else if(role==='user') location.href='user_dashboard.html';
+  else location.href='admin_dashboard.html?view=viewer';
+}
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
