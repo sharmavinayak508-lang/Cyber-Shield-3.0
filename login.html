@@ -75,7 +75,7 @@ a{color:var(--text)}
 <div class="controls">
 <select id="langSel" onchange="window.setCyberLang(this.value)"><option value="en">🇬🇧 English</option><option value="hi">🇮🇳 हिन्दी</option><option value="pa">🇮🇳 ਪੰਜਾਬੀ</option><option value="es">🇪🇸 Español</option><option value="fr">🇫🇷 Français</option></select>
 <select id="themeSel" onchange="setTheme(this.value)"><option value="dark">🌑 Dark</option><option value="light">☀️ Light</option><option value="fire">🔥 Fire</option><option value="cyber">💙 Cyber</option></select>
-<button class="iconBtn" id="soundBtn" onclick="toggleSound()" title="Eagle Sound">🦅 🔇</button>
+<button class="iconBtn" id="soundBtn" onclick="window.toggleCyberSound()" title="Eagle Sound">🦅 🔇</button>
 </div>
 </header>
 
@@ -117,9 +117,7 @@ a{color:var(--text)}
 <script>
 function setTheme(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('cyber_theme', t); var s=document.getElementById('themeSel'); if(s) s.value=t; document.querySelectorAll('.themeRow button').forEach(function(b){ b.className = b.getAttribute('data-t')===t?'on':''; }); }
 (function(){ var t=localStorage.getItem('cyber_theme')||'dark'; setTheme(t); var l=localStorage.getItem('cyber_lang')||'en'; if(window.setCyberLang) window.setCyberLang(l); })();
-var stream=null, demoPhoneOtp='', demoEmailOtp='', soundOn = localStorage.getItem('cyber_sound_enabled')!=='off';
-function toggleSound(){ var next = localStorage.getItem('cyber_sound_enabled')==='off' ? 'on':'off'; localStorage.setItem('cyber_sound_enabled', next); soundOn = next==='on'; document.getElementById('soundBtn').innerText = soundOn?'🦅 🔊':'🦅 🔇'; if(soundOn && window.playEagleSound) window.playEagleSound(); }
-(function(){ document.getElementById('soundBtn').innerText = soundOn?'🦅 🔊':'🦅 🔇'; })();
+var stream=null, demoPhoneOtp='', demoEmailOtp='';
 function showTab(t){ document.getElementById('tabLogin').className=t==='login'?'on':''; document.getElementById('tabReg').className=t==='register'?'on':''; var b=document.getElementById('mainBtn'); var dict=window.CyberLang ? window.CyberLang[window.getCyberLang()] : null; b.innerText = t==='register' ? (dict?dict.createBtn:'Create account →') : (dict?dict.continue:'Continue →'); if(t==='register') setMethod('face'); }
 function setMethod(m){ document.getElementById('faceBox').style.display=m==='face'?'block':'none'; document.getElementById('otpBox').style.display=m==='otp'?'block':'none'; document.getElementById('faceBtn').className=m==='face'?'on':''; document.getElementById('otpBtn').className=m==='otp'?'on':''; }
 async function startCam(){ try{ stream=await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('cam').srcObject=stream; }catch(e){ document.getElementById('msg').innerText='Camera unavailable'; } }
