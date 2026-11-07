@@ -157,7 +157,3 @@
     el.innerHTML = html;
   };
 })();
-
-// Viewer = Read Only
-window.canEdit=function(role){ return role==='admin'||role==='super_admin'; };
-window.isViewer=function(role){ return role==='viewer'; };
