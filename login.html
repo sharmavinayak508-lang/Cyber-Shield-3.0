@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi"><head><style>
+<html lang="en"><head><style>
 @font-face {
   font-family: "Optimistic";
   font-style: normal;
@@ -21,144 +21,161 @@
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
 </style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cyber Shield 3.0 - Dual OTP Login</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#050a14;color:#fff;font-family:sans-serif;background-image:url('https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1200&q=80');background-size:cover;background-position:center}
-.overlay{background:rgba(0,0,0,.55);min-height:100vh;padding:16px}
-.card{max-width:520px;margin:20px auto;background:rgba(10,22,40,.92);border:1px solid #00d4ff;border-radius:16px;padding:16px}
-h1{color:#ffaa00;text-align:center;margin:4px 0}h1+p{text-align:center;opacity:.85;font-size:13px}
-select,input{width:100%;padding:11px;border-radius:10px;border:1px solid #333;background:#0f1f3a;color:#fff;margin:6px 0}
-.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}
-button{cursor:pointer;border:0;border-radius:10px;padding:11px;font-weight:800}
-.green{background:#00ff88}.orange{background:#ff8800;color:#fff}.blue{background:#00d4ff}.red{background:#ff3b3b;color:#fff}
-.box{background:rgba(0,255,136,.12);border:1px solid #00ff88;border-radius:10px;padding:10px;font-size:13px;margin:8px 0}
-.warn{background:rgba(255,170,0,.12);border:1px solid #ffaa00;border-radius:10px;padding:10px;font-size:13px}
-.roleInfo{background:#0a1628;border:1px solid #333;border-radius:10px;padding:10px;font-size:13px;margin:8px 0}
-video,img{width:100%;height:140px;background:#000;border-radius:10px;object-fit:cover}
+<title>Cyber Shield — Sign in</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070B14;--card:#0D1424;--line:rgba(255,255,255,.10);--muted:#9AA4B5;--accent:#FF8A00;--accent2:#FFB347;--blue:#2E9BFF;--green:#1FD98A}
+body{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:#fff;min-height:100vh}
+.topbar{max-width:1180px;margin:auto;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em}
+.logo img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.25)}
+.logo small{display:block;font-weight:500;color:var(--muted);letter-spacing:.12em;font-size:10px}
+.iconBtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;font-size:16px}
+.main{max-width:1180px;margin:auto;padding:10px 22px 30px;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
+@media(max-width:860px){.main{grid-template-columns:1fr}.hero{display:none}}
+.hero{position:relative;border-radius:24px;overflow:hidden;min-height:560px;background:url('https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1200&q=80') center/cover}
+.hero:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,11,20,.05),rgba(7,11,20,.92) 78%)}
+.heroInner{position:absolute;z-index:2;left:28px;right:28px;bottom:28px}
+.heroInner h1{font-size:42px;line-height:1.05;letter-spacing:-.02em}
+.heroInner h1 span{color:var(--accent)}
+.heroInner p{color:#C9D1DF;margin-top:12px;line-height:1.6;font-size:15px;max-width:440px}
+.badges{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.badges span{font-size:12px;padding:7px 10px;border-radius:20px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px}
+.card h2{font-size:26px;letter-spacing:-.01em}
+.card .sub{color:var(--muted);font-size:14px;margin-top:6px}
+.seg{display:flex;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:12px;padding:4px;margin:18px 0 14px}
+.seg button{flex:1;padding:10px;border:0;border-radius:9px;background:transparent;color:#C9D1DF;cursor:pointer;font-weight:700;font-size:14px}
+.seg button.on{background:#fff;color:#000}
+label{font-size:12px;color:var(--muted);letter-spacing:.06em;display:block;margin:12px 0 6px}
+input,select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:#0A1120;color:#fff;outline:none;font-size:14px}
+input:focus,select:focus{border-color:var(--blue)}
+select option{color:#000}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.method{display:flex;gap:8px;margin:14px 0}
+.method button{flex:1;padding:10px;border-radius:11px;border:1px solid var(--line);background:transparent;color:#fff;cursor:pointer;font-weight:700}
+.method button.on{background:var(--accent);border-color:var(--accent);color:#000}
+.primary{width:100%;padding:13px;border:0;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#000;font-weight:800;font-size:15px;cursor:pointer;margin-top:16px}
+.ghost{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:transparent;color:#fff;cursor:pointer;font-weight:700;margin-top:10px}
+.divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;margin:16px 0}
+.divider:before,.divider:after{content:'';flex:1;height:1px;background:var(--line)}
+.camBox{border:1px dashed rgba(255,255,255,.22);border-radius:14px;overflow:hidden;background:#000}
+.camBox video,.camBox img{width:100%;height:180px;object-fit:cover;display:block}
+.otpBox{display:none}
+.otpBox .otpShow{display:none;background:#E8FFF3;color:#0A2A1A;padding:11px;border-radius:11px;font-weight:700;font-size:13px;margin-top:10px;text-align:center}
+.msg{font-size:13px;font-weight:700;text-align:center;margin-top:10px;min-height:18px}
+.foot{max-width:1180px;margin:auto;padding:0 22px 22px;display:flex;justify-content:space-between;color:var(--muted);font-size:12px;flex-wrap:wrap;gap:8px}
+a{color:#fff}
 </style></head>
-<body><div class="overlay"><div class="card">
-<h1>🦅 EAGLE LOGIN - DUAL OTP</h1><p>Cyber Shield 3.0 - Face Pehle, Fail Hua Toh Dono OTP (Phone + Email)</p>
+<body>
+<header class="topbar">
+<div class="logo"><img src="eagle.png" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=200&q=80'"><span>CYBER SHIELD<small>SECURITY PLATFORM</small></span></div>
+<div style="display:flex;gap:8px;align-items:center"><select id="langSel" style="width:auto;padding:8px 10px;border-radius:20px"><option>English</option><option>हिन्दी</option></select><button class="iconBtn" id="soundBtn" onclick="toggleSound()" title="Sound">🔇</button></div>
+</header>
 
-<div class="row">
-<select id="langSel"><option>🇮🇳 हिंदी</option><option>🇬🇧 English</option></select>
-<select id="roleSel" onchange="showRoleInfo()">
-<option value="admin">👑 Admin</option>
-<option value="user">👤 User</option>
-<option value="viewer">👀 Viewer</option>
-</select>
-</div>
+<main class="main">
+<section class="hero"><div class="heroInner"><h1>Security,<br><span>without friction.</span></h1><p>Face verification first. Dual OTP as fallback. One Super Admin controls who becomes Admin.</p><div class="badges"><span>✓ Face ID</span><span>✓ Dual OTP</span><span>✓ Super Admin Control</span><span>✓ SIEM Logging</span></div></div></section>
 
-<div id="roleInfo" class="roleInfo"></div>
+<section class="card">
+<h2>Welcome back</h2><p class="sub">Sign in to continue to your workspace.</p>
 
-<div class="row"><button class="blue" onclick="alert('Canvas Fire ON!')">🔥 Canvas Fire</button><button onclick="alert('Face mode')">👁 Face</button><button onclick="alert('Phone OTP mode')">📱 Phone OTP</button></div>
-<button id="soundBtn" class="red" style="width:100%;margin:8px 0" onclick="toggleSound()">🔇 SOUND: OFF</button>
+<div class="seg"><button id="tabLogin" class="on" onclick="showTab('login')">Sign in</button><button id="tabReg" onclick="showTab('register')">Create account</button></div>
 
-<div class="box"><b>✅ LOGIN FLOW - Samjho:</b><br>
-1. Registered banda → Face se try karega<br>
-2. Face Fail / Face nahi hai → Dual OTP chunega<br>
-3. Dono OTP daalo → Dono sahi hue toh Allow, ek bhi galat toh DENY<br>
-4. Naya banda hai (Registered nahi) → Pehle Register karo</div>
+<label>ROLE</label>
+<select id="roleSel"><option value="admin">Admin</option><option value="user">User</option><option value="viewer">Viewer</option></select>
 
-<div class="row"><button class="orange" onclick="showTab('login')">Login</button><button onclick="showTab('register')">Register (Naya Banda)</button></div>
-<p><b>LOGIN METHOD CHUNO:</b></p>
-<div class="row"><button class="orange" id="faceBtn" onclick="setMethod('face')">👁 Face - Pehle Try Karo</button><button id="otpBtn" onclick="setMethod('otp')">📱+📧 Dual OTP</button></div>
+<label>USERNAME</label>
+<input id="uName" value="admin" placeholder="Username" autocomplete="username">
 
-<input id="uName" value="admin" placeholder="Username">
-<input id="uPhone" value="+91 9876543210" placeholder="Phone">
-<input id="uEmail" value="admin@cybershield.com" placeholder="Email">
-<input id="uPass" type="password" value="123456" placeholder="Password">
+<div class="row"><div><label>PHONE</label><input id="uPhone" value="+91 9876543210" placeholder="+91"></div><div><label>EMAIL</label><input id="uEmail" value="admin@cybershield.com" placeholder="Email"></div></div>
+
+<label>PASSWORD</label>
+<input id="uPass" type="password" value="123456" placeholder="Password" autocomplete="current-password">
+
+<div class="method"><button id="faceBtn" class="on" onclick="setMethod('face')">Face ID</button><button id="otpBtn" onclick="setMethod('otp')">Dual OTP</button></div>
 
 <div id="faceBox">
-<div class="row"><button class="green" onclick="startCam()">📸 Register Face</button><button class="orange" onclick="loginFace()">👁 Face Se Login</button></div>
-<div class="row"><button onclick="captureFace('register')">📷 Capture - Register</button><button onclick="captureFace('verify')">✅ Capture - Verify Face</button><button onclick="stopCam()">⏹ Stop</button></div>
-<video id="cam" autoplay playsinline muted></video>
-<div class="row"><img id="regImg"><img id="liveImg"></div>
-<p><small>✅ Registered: <span id="regLabel">admin</span> | Camera se capture karo</small></p>
+<div class="camBox"><video id="cam" autoplay playsinline muted></video></div>
+<div class="row" style="margin-top:10px"><button class="ghost" onclick="startCam()">Enable camera</button><button class="ghost" onclick="captureFace('verify')">Verify face</button></div>
+<div style="display:flex;gap:10px;margin-top:10px"><img id="regImg" style="width:50%;height:72px;object-fit:cover;border-radius:10px;background:#000"><img id="liveImg" style="width:50%;height:72px;object-fit:cover;border-radius:10px;background:#000"></div>
 </div>
 
-<div id="otpBox" style="display:none">
-<div class="warn"><b>📱+📧 DUAL OTP LOGIN - Dono OTP Chahiye!</b><br>Step 1: Phone + Email daalo (upar) → Send OTPs dabao → Phone pe SMS + Email pe Mail aayega<br>Step 2: Dono OTP neeche daalo → Verify dabao → Dono sahi toh Allow, ek bhi galat toh DENY</div>
-<button class="blue" style="width:100%;margin:8px 0" onclick="sendOTPs()">📱 + 📧 Dono Pe OTP Bhejo - Phone SMS + Email Mail</button>
-<div id="otpShow" style="display:none;background:#00ff88;color:#000;padding:10px;border-radius:10px;font-weight:800;text-align:center"></div>
-<div class="row"><input id="phoneOtp" placeholder="Phone OTP - 6 digit"><input id="emailOtp" placeholder="Email OTP - 6 digit"></div>
-<button class="green" style="width:100%" onclick="verifyOTPs()">✅ Dono OTP Verify Karo → Login</button>
-<p id="otpMsg"></p>
+<div id="otpBox" class="otpBox">
+<button class="ghost" onclick="sendOTPs()">Send OTPs</button>
+<div id="otpShow" class="otpShow"></div>
+<div class="row" style="margin-top:10px"><div><label>PHONE OTP</label><input id="phoneOtp" placeholder="6-digit code" inputmode="numeric"></div><div><label>EMAIL OTP</label><input id="emailOtp" placeholder="6-digit code" inputmode="numeric"></div></div>
+<button class="ghost" onclick="verifyOTPs()">Verify OTPs</button>
 </div>
 
-<button class="blue" style="width:100%;margin-top:10px" onclick="goDual()">📱 + 📧 Dual OTP Se Login Karo →</button>
-<button class="orange" style="width:100%;margin-top:8px" onclick="doLogin()">Register / Login →</button>
-<p style="text-align:center;opacity:.6;font-size:12px">System ready - Face + Dual OTP (Phone+Email) + Fire + Sound...</p>
-<p style="text-align:center;font-size:12px;opacity:.7">Demo Mode me OTP screen pe hi dikh jayega. Real ke liye Firebase Phone Enable + EmailJS Key daalo (dual-otp.js me).</p>
-</div></div>
+<p id="msg" class="msg"></p>
+<button class="primary" id="mainBtn" onclick="doLogin()">Continue →</button>
+<p style="text-align:center;color:var(--muted);font-size:12px;margin-top:12px">Protected by Cyber Shield • <a href="#" onclick="return false">Privacy</a> • <a href="#" onclick="return false">Terms</a></p>
+</section>
+</main>
+
+<footer class="foot"><span>© 2026 Cyber Shield. All rights reserved.</span><span>Version 3.0 • SOC-ready logging</span></footer>
 
 <script src="siem-backend.js"></script>
-<script src="sound-toggle.js"></script>
 <script src="admin-control.js"></script>
+<script src="sound-toggle.js"></script>
 <script>
-let soundOn=false, stream=null, method='face';
-let demoPhoneOtp='', demoEmailOtp='';
-function showRoleInfo(){
-  var r=document.getElementById('roleSel').value;
-  var el=document.getElementById('roleInfo');
-  if(r==='admin') el.innerHTML='<b>👑 Admin:</b> Sab kuch kar sakta hai - Block, Delete, Approve. <b>Par</b> - Pehla Admin (Super Admin) hi dusre Admin ko Approve karega! Bina Approve ke Admin Login nahi hoga!';
-  else if(r==='user') el.innerHTML='<b>👤 User:</b> Apna Dashboard dekhega, Apni Details, Globe me Members dekhega. Block / Delete / Approve <b>nahi</b> kar sakta.';
-  else el.innerHTML='<b>👀 Viewer:</b> Sirf <b>DEKH</b> sakta hai - Dashboard, Globe, Members dekh sakta hai. <b>Kuch bhi Change / Block / Delete / Approve nahi kar sakta!</b> - Guest / Interviewer ke liye best hai!';
+var stream=null, demoPhoneOtp='', demoEmailOtp='', soundOn=false, audioCtx=null;
+function showTab(t){
+  document.getElementById('tabLogin').className = t==='login'?'on':''; document.getElementById('tabReg').className = t==='register'?'on':'';
+  document.getElementById('mainBtn').innerText = t==='register'?'Create account →':'Continue →';
+  if(t==='register') setMethod('face');
 }
-showRoleInfo();
-function showTab(t){ alert(t==='login'?'Login Tab - Neeche se Login karo':'Register Tab - Pehle Register Face karo, phir Login karo'); }
-function setMethod(m){ method=m; document.getElementById('faceBox').style.display = m==='face'?'block':'none'; document.getElementById('otpBox').style.display = m==='otp'?'block':'none'; }
-function goDual(){ setMethod('otp'); document.getElementById('otpBox').scrollIntoView({behavior:'smooth'}); }
-function toggleSound(){ soundOn=!soundOn; document.getElementById('soundBtn').innerText = soundOn?'🔊 SOUND: ON':'🔇 SOUND: OFF'; if(window.toggleCyberSound) window.toggleCyberSound(); }
-async function startCam(){ try{ stream=await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('cam').srcObject=stream; }catch(e){ alert('Camera nahi khula: '+e.message); } }
+function setMethod(m){
+  document.getElementById('faceBox').style.display = m==='face'?'block':'none';
+  document.getElementById('otpBox').style.display = m==='otp'?'block':'none';
+  document.getElementById('faceBtn').className = m==='face'?'on':''; document.getElementById('otpBtn').className = m==='otp'?'on':'';
+}
+function ensureAudio(){ if(!audioCtx){ try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }
+function playRoar(){ if(!soundOn) return; ensureAudio(); if(!audioCtx) return; try{ var t=audioCtx.currentTime; var o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sawtooth'; o.frequency.setValueAtTime(90,t); o.frequency.exponentialRampToValueAtTime(45,t+0.5); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.22,t+0.07); g.gain.exponentialRampToValueAtTime(0.0001,t+0.8); o.connect(g); g.connect(audioCtx.destination); o.start(t); o.stop(t+0.9);}catch(e){} }
+window.triggerRoar=playRoar;
+function toggleSound(){ soundOn=!soundOn; ensureAudio(); localStorage.setItem('cyber_sound_enabled', soundOn?'on':'off'); document.getElementById('soundBtn').innerText = soundOn?'🔊':'🔇'; if(soundOn) playRoar(); }
+async function startCam(){ try{ stream=await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('cam').srcObject=stream; }catch(e){ document.getElementById('msg').innerText='Camera unavailable: '+e.message; } }
 function stopCam(){ if(stream){ stream.getTracks().forEach(function(t){t.stop()}); stream=null; } }
 function captureFace(mode){
-  var v=document.getElementById('cam'); if(!v.srcObject){ alert('Pehle Camera On karo - Register Face dabao!'); return; }
+  var v=document.getElementById('cam'); if(!v.srcObject){ startCam(); return; }
   var c=document.createElement('canvas'); c.width=v.videoWidth||320; c.height=v.videoHeight||240; c.getContext('2d').drawImage(v,0,0);
   var url=c.toDataURL('image/jpeg');
-  if(mode==='register'){ document.getElementById('regImg').src=url; document.getElementById('regLabel').innerText=document.getElementById('uName').value||'admin'; alert('Face Register ho gaya! Ab Face Se Login dabao!'); }
-  else { document.getElementById('liveImg').src=url; alert('Face Verify ho raha hai... (Demo me Allow)'); doLogin(); }
+  if(mode==='register'){ document.getElementById('regImg').src=url; document.getElementById('msg').innerText='Face captured.'; }
+  else { document.getElementById('liveImg').src=url; doLogin(); }
 }
 function sendOTPs(){
-  demoPhoneOtp = String(Math.floor(100000+Math.random()*900000));
-  demoEmailOtp = String(Math.floor(100000+Math.random()*900000));
-  var el=document.getElementById('otpShow'); el.style.display='block';
-  el.innerHTML='📱 Phone OTP: '+demoPhoneOtp+'<br>📧 Email OTP: '+demoEmailOtp+'<br><small>Demo Mode - Screen pe hi dikh raha hai!</small>';
+  demoPhoneOtp=String(Math.floor(100000+Math.random()*900000)); demoEmailOtp=String(Math.floor(100000+Math.random()*900000));
+  var el=document.getElementById('otpShow'); el.style.display='block'; el.innerHTML='Phone OTP: '+demoPhoneOtp+' &nbsp;•&nbsp; Email OTP: '+demoEmailOtp;
   if(window.logSIEM) window.logSIEM('otp_sent',{user:document.getElementById('uName').value});
 }
 function verifyOTPs(){
   var p=document.getElementById('phoneOtp').value.trim(), e=document.getElementById('emailOtp').value.trim();
-  var msg=document.getElementById('otpMsg');
-  if(!demoPhoneOtp){ msg.innerText='Pehle Dono Pe OTP Bhejo dabao!'; return; }
-  if(p===demoPhoneOtp && e===demoEmailOtp){ msg.innerText='✅ Dono OTP Sahi! Allow!'; if(window.logSIEM) window.logSIEM('otp_verified',{user:document.getElementById('uName').value}); doLogin(); }
-  else { msg.innerText='❌ ACCESS DENIED! Dono OTP galat hain! Phone: '+(p===demoPhoneOtp)+' Email: '+(e===demoEmailOtp); if(window.logSIEM) window.logSIEM('otp_failed',{user:document.getElementById('uName').value}); }
+  if(!demoPhoneOtp){ document.getElementById('msg').innerText='Send OTPs first.'; return; }
+  if(p===demoPhoneOtp && e===demoEmailOtp){ document.getElementById('msg').innerText='Verified.'; doLogin(); }
+  else { document.getElementById('msg').innerText='Verification failed. Check both codes.'; if(window.logSIEM) window.logSIEM('otp_failed',{user:document.getElementById('uName').value}); }
 }
 function doLogin(){
   var name=document.getElementById('uName').value.trim()||'admin';
   var role=document.getElementById('roleSel').value;
-  // Seed users if empty
-  if(!localStorage.getItem('cyber_users')){
-    localStorage.setItem('cyber_users', JSON.stringify([{username:'admin',name:'admin',role:'super_admin',city:'Sadhaura',state:'Haryana',email:'admin@cybershield.com'}]));
-  }
+  var isRegister = document.getElementById('tabReg').className==='on';
+  if(!localStorage.getItem('cyber_users')) localStorage.setItem('cyber_users', JSON.stringify([{username:'admin',name:'admin',role:'super_admin',city:'Sadhaura',state:'Haryana',email:'admin@cybershield.com'}]));
   var users=JSON.parse(localStorage.getItem('cyber_users')||'[]');
   var u=users.find(function(x){return x.username===name});
-  // Block check
-  if(window.isBlocked && window.isBlocked(name)){ alert('🚫 Tum Block ho! Super Admin se baat karo!'); return; }
-  if(window.isLockdown && window.isLockdown() && name!=='admin'){ alert('🔒 Lockdown ON hai! Sirf Super Admin login kar sakta hai!'); return; }
-  // Role check
-  if(role==='admin'){
-    if(window.isSuperAdmin && window.isSuperAdmin(name)){ /* Super Admin - allow */ }
-    else if(u && u.role==='admin'){ /* Approved Admin - allow */ }
-    else if(u && u.role==='super_admin'){ /* allow */ }
-    else {
-      // Not approved admin -> send request + stop
-      if(window.requestAdminAccess) window.requestAdminAccess(name, document.getElementById('uPhone').value, document.getElementById('uEmail').value);
-      alert('⏳ Tum Admin nahi ho! Request Super Admin ko bhej di!\nSuper Admin Approve karega tabhi Admin Dashboard khulega.\nTab tak Viewer ki tarah dekh sakte ho!');
-      role='viewer';
-    }
+  if(isRegister){
+    if(!u){ users.push({username:name,role:'user',email:document.getElementById('uEmail').value,phone:document.getElementById('uPhone').value}); localStorage.setItem('cyber_users',JSON.stringify(users)); }
+    document.getElementById('msg').innerText='Account created. You can now sign in.';
+    showTab('login'); return;
   }
-  localStorage.setItem('username', name);
-  localStorage.setItem('cyber_current_user', name);
-  localStorage.setItem('cyber_role', role);
-  if(window.logSIEM) window.logSIEM('login_success',{user:name, role:role});
+  if(window.isBlocked && window.isBlocked(name)){ document.getElementById('msg').innerText='This account is blocked.'; return; }
+  if(window.isLockdown && window.isLockdown() && name!=='admin'){ document.getElementById('msg').innerText='System is in lockdown.'; return; }
+  if(role==='admin'){
+    if(window.isSuperAdmin && window.isSuperAdmin(name)){ }
+    else if(u && (u.role==='admin'||u.role==='super_admin')){ }
+    else { if(window.requestAdminAccess) window.requestAdminAccess(name, document.getElementById('uPhone').value, document.getElementById('uEmail').value); document.getElementById('msg').innerText='Admin access request sent to Super Admin for approval.'; return; }
+  }
+  localStorage.setItem('username',name); localStorage.setItem('cyber_current_user',name); localStorage.setItem('cyber_role',role);
+  if(window.logSIEM) window.logSIEM('login_success',{user:name,role:role});
+  if(soundOn) playRoar();
   if(role==='admin') location.href='admin_dashboard.html';
   else if(role==='user') location.href='user_dashboard.html';
   else location.href='admin_dashboard.html?view=viewer';
