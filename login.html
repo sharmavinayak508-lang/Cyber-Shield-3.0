@@ -38,7 +38,7 @@ body{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;background:
 .iconBtn{height:38px;min-width:38px;padding:0 10px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-weight:800}
 .main{max-width:1180px;margin:auto;padding:8px 22px 24px;display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:stretch}
 @media(max-width:860px){.main{grid-template-columns:1fr}.hero{min-height:300px}}
-.hero{position:relative;border-radius:24px;overflow:hidden;min-height:580px;background:url('eagle-fire.jpg') center/cover;cursor:pointer}
+.hero{position:relative;border-radius:24px;overflow:hidden;min-height:580px;background:url('eagle.png') center/cover;cursor:pointer}
 .hero:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.88) 78%)}
 .heroInner{position:absolute;z-index:2;left:26px;right:26px;bottom:24px}
 .heroInner h1{font-size:42px;line-height:1.05;color:#fff}
@@ -71,7 +71,7 @@ a{color:var(--text)}
 </style></head>
 <body>
 <header class="topbar">
-<div class="logo"><img src="eagle-fire.jpg" onerror="this.onerror=null;this.src='eagle.png'"><span>CYBER SHIELD<small data-i18n="brand_sub">SECURITY PLATFORM</small></span></div>
+<div class="logo"><img src="eagle.png" onerror="this.onerror=null;this.src='eagle.png'"><span>CYBER SHIELD<small data-i18n="brand_sub">SECURITY PLATFORM</small></span></div>
 <div class="controls">
 <select id="langSel" onchange="window.setCyberLang(this.value)"><option value="en">🇬🇧 English</option><option value="hi">🇮🇳 हिन्दी</option><option value="pa">🇮🇳 ਪੰਜਾਬੀ</option><option value="es">🇪🇸 Español</option><option value="fr">🇫🇷 Français</option></select>
 <select id="themeSel" onchange="setTheme(this.value)"><option value="dark">🌑 Dark</option><option value="light">☀️ Light</option><option value="fire">🔥 Fire</option><option value="cyber">💙 Cyber</option></select>
