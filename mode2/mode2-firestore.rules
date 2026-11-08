@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // USERS - Apna data khud padh / likh sakta hai
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // SIEM LOGS - Login / OTP / Fail ke logs
+    // Sab login user likh sakta hai, padh sirf login user sakta hai
+    match /logs/{logId} {
+      allow create: if request.auth != null;
+      allow read: if request.auth != null;
+      allow update, delete: if false;
+    }
+
+    // ADMIN REQUESTS - Admin banne ki request
+    match /admin_requests/{reqId} {
+      allow create: if request.auth != null;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // Baaki sab band - Koi aur collection nahi khulega
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
