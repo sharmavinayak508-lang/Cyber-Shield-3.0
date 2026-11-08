@@ -1,0 +1,204 @@
+<!-- FILE NAME: mode2-login.html | KAAM: MODE 2 ka Login Page | Upar bada MODE 2 likha hoga jab MODE 2 ON hoga -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cyber Shield - MODE 2 — Sign in</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070B14;--card:#0D1424;--line:rgba(255,255,255,.12);--muted:#9AA4B5;--accent:#FF8A00;--accent2:#FFB347;--blue:#2E9BFF;--text:#fff;--input:#0A1120}
+[data-theme="light"]{--bg:#F2F4F8;--card:#FFFFFF;--line:rgba(0,0,0,.12);--muted:#5A6B84;--accent:#E86A00;--accent2:#FF9A2E;--blue:#0066CC;--text:#0B1220;--input:#F2F4F8}
+[data-theme="fire"]{--bg:#140600;--card:#240D02;--line:rgba(255,120,0,.30);--muted:#E8B48A;--accent:#FF4400;--accent2:#FFAA00;--blue:#FF8800;--text:#FFF2E6;--input:#1A0A02}
+[data-theme="cyber"]{--bg:#020A12;--card:#041A2A;--line:rgba(0,212,255,.30);--muted:#8AD8F0;--accent:#00D4FF;--accent2:#00FF88;--blue:#00D4FF;--text:#E6FBFF;--input:#021422}
+body{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:.3s}
+.topbar{max-width:1180px;margin:auto;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em}
+.logo img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);box-shadow:0 0 16px var(--accent)}
+.logo small{display:block;font-weight:600;color:var(--muted);letter-spacing:.14em;font-size:10px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.controls select{width:auto;padding:8px 10px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--text);font-weight:700}
+.iconBtn{height:38px;min-width:38px;padding:0 10px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-weight:800}
+.main{max-width:1180px;margin:auto;padding:8px 22px 24px;display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:stretch}
+@media(max-width:860px){.main{grid-template-columns:1fr}.hero{min-height:300px}}
+.hero{position:relative;border-radius:24px;overflow:hidden;min-height:580px;background:url('eagle.png') center/cover;cursor:pointer}
+.hero:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.88) 78%)}
+.heroInner{position:absolute;z-index:2;left:26px;right:26px;bottom:24px}
+.heroInner h1{font-size:42px;line-height:1.05;color:#fff}
+.heroInner h1 span{color:var(--accent)}
+.heroInner p{color:#E6EAF2;margin-top:12px;line-height:1.6;font-size:15px;max-width:460px}
+.badges{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.badges span{font-size:12px;padding:7px 10px;border-radius:20px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px}
+.card h2{font-size:26px}.card .sub{color:var(--muted);font-size:14px;margin-top:6px}
+.seg{display:flex;background:rgba(127,127,127,.14);border:1px solid var(--line);border-radius:12px;padding:4px;margin:18px 0 12px}
+.seg button{flex:1;padding:10px;border:0;border-radius:9px;background:transparent;color:var(--muted);cursor:pointer;font-weight:700}
+.seg button.on{background:var(--text);color:var(--bg)}
+label{font-size:11px;color:var(--muted);letter-spacing:.08em;display:block;margin:12px 0 6px;font-weight:700}
+input,select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:var(--input);color:var(--text);outline:none;font-size:14px}
+input:focus,select:focus{border-color:var(--blue)}
+select option{color:#000}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.method{display:flex;gap:8px;margin:14px 0}.method button{flex:1;padding:10px;border-radius:11px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;font-weight:700}
+.method button.on{background:var(--accent);border-color:var(--accent);color:#000}
+.primary{width:100%;padding:13px;border:0;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#000;font-weight:800;font-size:15px;cursor:pointer;margin-top:14px}
+.ghost{width:100%;padding:11px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--text);cursor:pointer;font-weight:700;margin-top:10px}
+.camBox{border:1px dashed var(--line);border-radius:14px;overflow:hidden;background:#000}
+.camBox video{width:100%;height:180px;object-fit:cover;display:block}
+.otpBox{display:none}.otpShow{display:none;background:#E8FFF3;color:#0A2A1A;padding:11px;border-radius:11px;font-weight:700;font-size:13px;margin-top:10px;text-align:center}
+.msg{font-size:13px;font-weight:700;text-align:center;margin-top:10px;min-height:18px}
+.hint{display:none;background:rgba(255,138,0,.15);border:1px solid #FF8A00;border-radius:12px;padding:12px;margin-top:10px;font-size:13px;line-height:1.6}
+.themeRow{display:flex;gap:6px;margin-top:12px}.themeRow button{flex:1;padding:8px;border-radius:20px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;font-size:12px;font-weight:700}
+.themeRow button.on{background:var(--accent);color:#000;border-color:var(--accent)}
+.foot{max-width:1180px;margin:auto;padding:0 22px 22px;display:flex;justify-content:space-between;color:var(--muted);font-size:12px;flex-wrap:wrap;gap:8px}
+a{color:var(--text)}
+</style></head>
+<body>
+<div id="mode2Banner" style="display:block;background:#00ff88;color:#000;font-weight:900;text-align:center;padding:12px 10px;font-size:15px;letter-spacing:.02em">MODE 1 - DEMO MODE | localStorage | Data browser me save hoga</div><div style="max-width:1180px;margin:10px auto 0;padding:0 22px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span id="modeBadge" style="font-size:12px;font-weight:800;padding:7px 10px;border-radius:20px;background:rgba(255,255,255,.12)">MODE 1 - DEMO</span><button data-mode-btn="demo" onclick="window.setCyberMode('demo')" style="padding:8px 12px;border-radius:20px;cursor:pointer;font-weight:800">MODE 1 - DEMO</button><button data-mode-btn="realistic" onclick="window.setCyberMode('realistic')" style="padding:8px 12px;border-radius:20px;cursor:pointer;font-weight:800">MODE 2 - REALISTIC (Firebase)</button><span id="modeNote" style="font-size:12px;opacity:.8"></span></div>
+<header class="topbar">
+<div class="logo"><img src="eagle.png" onerror="this.onerror=null;this.src='eagle.png'"><span>CYBER SHIELD<small data-i18n="brand_sub">SECURITY PLATFORM</small></span></div>
+<div class="controls">
+<select id="langSel" onchange="window.setCyberLang(this.value)"><option value="en">🇬🇧 English</option><option value="hi">🇮🇳 हिन्दी</option><option value="pa">🇮🇳 ਪੰਜਾਬੀ</option><option value="es">🇪🇸 Español</option><option value="fr">🇫🇷 Français</option></select>
+<select id="themeSel" onchange="setTheme(this.value)"><option value="dark">🌑 Dark</option><option value="light">☀️ Light</option><option value="fire">🔥 Fire</option><option value="cyber">💙 Cyber</option></select>
+<button class="iconBtn" id="soundBtn" onclick="window.toggleCyberSound()" title="Eagle Sound">🦅 🔇</button>
+</div>
+</header>
+
+<main class="main">
+<section class="hero" onclick="window.playEagleSound && window.playEagleSound()" title="Click - Eagle Sound">
+<div class="heroInner"><h1><span data-i18n="hero1">Security,</span><br><span data-i18n="hero2">without friction.</span></h1><p data-i18n="heroDesc">Face verification first. Dual OTP as fallback. One Super Admin controls who becomes Admin.</p>
+<div class="badges"><span data-i18n="badge1">Face ID</span><span data-i18n="badge2">Dual OTP</span><span data-i18n="badge3">Super Admin Control</span><span data-i18n="badge4">SIEM Logging</span></div>
+<p style="font-size:12px;opacity:.8;margin-top:10px">🦅 Tap Eagle to hear Eagle Screech • Aag nikalta Eagle</p></div></section>
+
+<section class="card">
+<h2 data-i18n="welcome">Welcome back</h2><p class="sub" data-i18n="sub">Sign in to continue to your workspace.</p>
+<div class="seg"><button id="tabLogin" class="on" onclick="showTab('login')" data-i18n="signin">Sign in</button><button id="tabReg" onclick="showTab('register')" data-i18n="create">Create account</button></div>
+<label data-i18n="role">ROLE</label>
+<select id="roleSel" onchange="onRoleChange()"><option value="super_admin">👑 Super Admin</option><option value="admin">Admin</option><option value="user">User</option><option value="viewer">Viewer</option></select><div id="superAdminHint" class="hint"><b>👑 There is only Super Admin Vinayak Sharma. CSE Student</b><br>Username: <b>Vinayak</b> &nbsp;|&nbsp; Password: <b>11242504</b></div>
+<label data-i18n="username">USERNAME</label>
+<input id="uName" value="admin" placeholder="Username" autocomplete="username">
+<div class="row"><div><label data-i18n="phone">PHONE</label><input id="uPhone" value="+91 9876543210"></div><div><label data-i18n="email">EMAIL</label><input id="uEmail" value="admin@cybershield.com"></div></div>
+<label data-i18n="password">PASSWORD</label>
+<input id="uPass" type="password" value="123456" placeholder="Password">
+<div class="method"><button id="faceBtn" class="on" onclick="setMethod('face')" data-i18n="face">Face ID</button><button id="otpBtn" onclick="setMethod('otp')" data-i18n="otp">Dual OTP</button></div>
+<div id="faceBox"><div class="camBox"><video id="cam" autoplay playsinline muted></video></div>
+<div class="row" style="margin-top:10px"><button class="ghost" onclick="startCam()" data-i18n="enableCam">Enable camera</button><button class="ghost" onclick="captureFace('verify')" data-i18n="verifyFace">Verify face</button></div>
+<div style="display:flex;gap:10px;margin-top:10px"><img id="regImg" style="width:50%;height:72px;object-fit:cover;border-radius:10px;background:#000"><img id="liveImg" style="width:50%;height:72px;object-fit:cover;border-radius:10px;background:#000"></div></div>
+<div id="otpBox" class="otpBox"><button class="ghost" onclick="sendOTPs()" data-i18n="sendOtp">Send OTPs</button><div id="otpShow" class="otpShow"></div>
+<div class="row" style="margin-top:10px"><div><label data-i18n="phoneOtp">PHONE OTP</label><input id="phoneOtp" placeholder="6-digit" inputmode="numeric"></div><div><label data-i18n="emailOtp">EMAIL OTP</label><input id="emailOtp" placeholder="6-digit" inputmode="numeric"></div></div>
+<button class="ghost" onclick="verifyOTPs()" data-i18n="verifyOtp">Verify OTPs</button></div>
+<p id="msg" class="msg"></p>
+<button class="primary" id="mainBtn" onclick="doLogin()" data-i18n="continue">Continue →</button>
+<div class="themeRow"><button onclick="setTheme('dark')" data-t="dark">🌑 Dark</button><button onclick="setTheme('light')" data-t="light">☀️ Light</button><button onclick="setTheme('fire')" data-t="fire">🔥 Fire</button><button onclick="setTheme('cyber')" data-t="cyber">💙 Cyber</button></div>
+<p style="text-align:center;color:var(--muted);font-size:12px;margin-top:12px"><span data-i18n="protected">Protected by Cyber Shield</span> • <a href="#" onclick="return false" data-i18n="privacy">Privacy</a> • <a href="#" onclick="return false" data-i18n="terms">Terms</a></p>
+</section></main>
+<footer class="foot"><span>© 2026 Cyber Shield. <span data-i18n="rights">All rights reserved.</span></span><span data-i18n="version">Version 3.0 • SOC-ready logging</span></footer>
+
+<script src="siem-backend.js"></script>
+<script src="admin-control.js"></script>
+<script src="language.js"></script>
+<script src="eagle-sound.js"></script>
+<script src="sound-toggle.js"></script>
+<script src="location-gate.js"></script>
+<script>
+function setTheme(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('cyber_theme', t); var s=document.getElementById('themeSel'); if(s) s.value=t; document.querySelectorAll('.themeRow button').forEach(function(b){ b.className = b.getAttribute('data-t')===t?'on':''; }); }
+(function(){ var t=localStorage.getItem('cyber_theme')||'dark'; setTheme(t); var l=localStorage.getItem('cyber_lang')||'en'; if(window.setCyberLang) window.setCyberLang(l); if(window.onRoleChange) window.onRoleChange(); })();
+var stream=null, demoPhoneOtp='', demoEmailOtp='';
+function onRoleChange(){
+  var r=document.getElementById('roleSel').value;
+  var hint=document.getElementById('superAdminHint');
+  if(r==='super_admin'){
+    if(hint) hint.style.display='block';
+    document.getElementById('uName').value='Vinayak';
+    document.getElementById('uPass').value='11242504';
+    document.getElementById('msg').innerText='👑 There is only Super Admin Vinayak Sharma. CSE Student';
+  } else {
+    if(hint) hint.style.display='none';
+    document.getElementById('msg').innerText='';
+    if(document.getElementById('uName').value==='Vinayak'){ document.getElementById('uName').value='admin'; document.getElementById('uPass').value='123456'; }
+  }
+}
+function showTab(t){ document.getElementById('tabLogin').className=t==='login'?'on':''; document.getElementById('tabReg').className=t==='register'?'on':''; var b=document.getElementById('mainBtn'); var dict=window.CyberLang ? window.CyberLang[window.getCyberLang()] : null; b.innerText = t==='register' ? (dict?dict.createBtn:'Create account →') : (dict?dict.continue:'Continue →'); if(t==='register') setMethod('face'); }
+function setMethod(m){ document.getElementById('faceBox').style.display=m==='face'?'block':'none'; document.getElementById('otpBox').style.display=m==='otp'?'block':'none'; document.getElementById('faceBtn').className=m==='face'?'on':''; document.getElementById('otpBtn').className=m==='otp'?'on':''; }
+async function startCam(){ try{ stream=await navigator.mediaDevices.getUserMedia({video:true}); document.getElementById('cam').srcObject=stream; }catch(e){ document.getElementById('msg').innerText='Camera unavailable'; } }
+function captureFace(mode){ var v=document.getElementById('cam'); if(!v.srcObject){ startCam(); return; } var c=document.createElement('canvas'); c.width=v.videoWidth||320; c.height=v.videoHeight||240; c.getContext('2d').drawImage(v,0,0); var url=c.toDataURL('image/jpeg'); if(mode==='register'){ document.getElementById('regImg').src=url; } else { document.getElementById('liveImg').src=url; doLogin(); } }
+function sendOTPs(){ demoPhoneOtp=String(Math.floor(100000+Math.random()*900000)); demoEmailOtp=String(Math.floor(100000+Math.random()*900000)); var el=document.getElementById('otpShow'); el.style.display='block'; el.innerHTML='Phone OTP: '+demoPhoneOtp+' • Email OTP: '+demoEmailOtp; if(window.logSIEM) window.logSIEM('otp_sent',{user:document.getElementById('uName').value}); }
+function verifyOTPs(){ var p=document.getElementById('phoneOtp').value.trim(), e=document.getElementById('emailOtp').value.trim(); if(!demoPhoneOtp){ document.getElementById('msg').innerText='Send OTPs first.'; return; } if(p===demoPhoneOtp && e===demoEmailOtp){ document.getElementById('msg').innerText='Verified.'; doLogin(); } else document.getElementById('msg').innerText='Verification failed.'; }
+async function doLogin(){
+  var name=document.getElementById('uName').value.trim()||'Vinayak';
+  var pass=document.getElementById('uPass').value.trim();
+  var role=document.getElementById('roleSel').value;
+  var isReg=document.getElementById('tabReg').className==='on';
+  seedUsers();
+  var users=JSON.parse(localStorage.getItem('cyber_users')||'[]');
+  var u=users.find(function(x){return x.username===name});
+  if(isReg){
+    if(role==='super_admin'){ document.getElementById('msg').innerText='👑 There is only Super Admin Vinayak Sharma. CSE Student'; return; }
+    if(!u){ users.push({username:name,role:'user',email:document.getElementById('uEmail').value,phone:document.getElementById('uPhone').value}); localStorage.setItem('cyber_users',JSON.stringify(users)); }
+    document.getElementById('msg').innerText='Account created.'; showTab('login'); return;
+  }
+  if(!(window.CyberLocation && window.CyberLocation.isAllowed())){
+    if(window.requestCyberLocation){ var loc=await window.requestCyberLocation(name); if(!loc) return; } else return;
+  }
+  if(window.isBlocked && window.isBlocked(name)){ document.getElementById('msg').innerText='This account is blocked.'; return; }
+  if(window.isLockdown && window.isLockdown() && !(window.isSuperAdmin && window.isSuperAdmin(name))){ document.getElementById('msg').innerText='System is in lockdown.'; return; }
+  var effectiveRole=role;
+  if(u && u.role==='super_admin') effectiveRole='super_admin';
+  if(role==='super_admin'){
+    var nLow=name.toLowerCase().replace(/\s+/g,' ');
+    if(!(nLow==='vinayak'||nLow==='vinayak sharma') || pass!=='11242504'){
+      document.getElementById('msg').innerText='👑 There is only Super Admin Vinayak Sharma. CSE Student - Username: Vinayak, Password: 11242504'; return;
+    }
+    name='Vinayak'; effectiveRole='super_admin';
+    if(window.logSIEM) window.logSIEM('super_admin_login',{user:name});
+  }
+  if(role==='admin' && !(u && (u.role==='admin'||u.role==='super_admin'))){
+    if(window.requestAdminAccess) window.requestAdminAccess(name, document.getElementById('uPhone').value, document.getElementById('uEmail').value);
+    document.getElementById('msg').innerText='Admin access request sent to Super Admin.'; return;
+  }
+  saveLoginLocation(name);
+  localStorage.setItem('username',name); localStorage.setItem('cyber_current_user',name); localStorage.setItem('cyber_role',effectiveRole);
+  if(window.logSIEM) window.logSIEM('login_success',{user:name,role:effectiveRole});
+  if(window.playEagleSound) window.playEagleSound();
+  if(effectiveRole==='super_admin') location.href='super_admin_dashboard.html';
+  else if(effectiveRole==='admin') location.href='admin_dashboard.html';
+  else if(effectiveRole==='user') location.href='user_dashboard.html';
+  else location.href='admin_dashboard.html?view=viewer';
+}
+function seedUsers(){
+  var users=JSON.parse(localStorage.getItem('cyber_users')||'[]');
+  function has(n){ return users.some(function(x){ return x.username===n; }); }
+  if(!has('Vinayak')) users.push({username:'Vinayak',name:'Vinayak Sharma',role:'super_admin',city:'Sadhaura',state:'Haryana',email:'vinayak@cybershield.com',password:'11242504'});
+  if(!has('admin')) users.push({username:'admin',name:'Demo Admin',role:'admin',email:'admin@cybershield.com'});
+  if(!has('user')) users.push({username:'user',name:'Demo User',role:'user',email:'user@cybershield.com'});
+  if(!has('viewer')) users.push({username:'viewer',name:'Demo Viewer',role:'viewer',email:'viewer@cybershield.com'});
+  localStorage.setItem('cyber_users',JSON.stringify(users));
+}
+function saveLoginLocation(name){
+  try{
+    var loc=window.CyberLocation ? window.CyberLocation.get() : null; if(!loc) return;
+    var users=JSON.parse(localStorage.getItem('cyber_users')||'[]');
+    var cur=users.find(function(x){ return x.username===name; });
+    if(cur){ cur.lastLocation=loc; cur.lastLoginAt=new Date().toISOString(); localStorage.setItem('cyber_users',JSON.stringify(users)); }
+  }catch(e){}
+}
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script><script src="mode2-firebase.js"></script><script src="mode2-controller.js"></script><script src="mode2-siem.js"></script><script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
