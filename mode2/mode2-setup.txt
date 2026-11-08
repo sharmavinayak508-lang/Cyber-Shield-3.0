@@ -1,0 +1,49 @@
+CYBER SHIELD 3.0 - MODE 2 SETUP
+FILE LIST - SABKE NAAM KE SAATH - COMPLETE CODE
+==================================================
+MODE 1 = DEMO (purani files, localStorage)
+MODE 2 = REALISTIC (nayi files, Firebase)
+
+GITHUB ME DALNE WALI FILES:
+--------------------------
+PURANI (MODE 1) - mat delete karna:
+- index.html
+- login.html (agar mode2-login.html use kar rahe ho to ye purani wali backup rakh lo)
+- admin-control.js
+- language.js
+- eagle-sound.js
+- sound-toggle.js
+- eagle-check.js
+- threat-apis.js
+- eagle.png / eagle.mp3
+
+NAYI (MODE 2) - sabke naam me mode2- likha hai:
+- mode2-login.html      -> MODE 2 ka Login Page. Upar bada MODE 2 likha hoga.
+- mode2-firebase.js     -> Firebase Config + Connect. Isme apna config paste karo.
+- mode2-controller.js    -> MODE 1 / MODE 2 Switch + MODE 2 Login/Register/OTP
+- mode2-siem.js         -> SIEM Dual Write (localStorage + Firestore)
+- mode2-firestore.rules -> Firebase Console > Firestore > Rules me paste karo
+- mode2-user-dashboard.html -> MODE 2 User Dashboard (MODE 2 likha hoga)
+- mode2-setup.txt       -> Ye file
+
+SETUP - 10 MINUTE:
+1) GitHub repo me upar wali nayi files daalo
+2) Firebase Console > Project banao
+   - Authentication > Email/Password > Enable
+   - Authentication > Phone > Test Number add karo (bina Billing ke demo ke liye)
+   - Firestore > Create database > Test mode
+3) Project Settings > Web App > Config copy karo
+   - mode2-firebase.js me PASTE_YOUR_... wali 6 lines me paste karo
+4) Firestore > Rules > mode2-firestore.rules ka content paste karo > Publish
+5) GitHub > Settings > Pages > main branch > Save
+
+TEST:
+- Link kholo > MODE 2 dabao > Upar bada MODE 2 - REALISTIC MODE dikhna chahiye
+- Register karo > Firestore > users me user dikhna chahiye
+- MODE 1 dabao > Upar MODE 1 - DEMO MODE dikhna chahiye > Vinayak login karo
+- Agar MODE 2 me "Firebase connected nahi hai" aaye to Config / Rules check karo
+
+IMPORTANT:
+- MODE 2 ka Real SMS OTP bina Billing ke nahi aata. Isliye MODE 2 me Test-Number OTP flow hai.
+  README me likhna: "Realistic Mode uses Firebase Test Number flow for demo, same code sends real SMS in production."
+- MODE 1 ko kabhi mat todo. MODE 1 hi 7-8 mahine baad teacher ko bachayega.
