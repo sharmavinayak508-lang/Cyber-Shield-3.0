@@ -1,7 +1,9 @@
 // FILE NAME: mode2-config.js
-// 【entity-GitHub¦canonical_name=GitHub】 Path: mode2/mode2-config.js
+// Path: mode2/mode2-config.js
 // Kaam: Firebase connect + CyberAuth + CyberDB + CyberNow + Super Admin
-// Tera Asli Config - Neeche daal diya hai, kuch badalna nahi hai!
+// FIXED: Iron Dom (irondom674@gmail.com) ab asli Super Admin hai.
+// Vinayak wali purani mail bhi backup Super Admin rakhi hai, taaki koi ek bhi
+// fail ho to dusri se Dashboard khul jaye.
 
 var firebaseConfig = {
   apiKey: "AIzaSyCQilWZIBkHNXPgb2SyEkEItjL6Syhug_c",
@@ -19,8 +21,14 @@ if (!firebase.apps.length) {
 window.CyberAuth = firebase.auth();
 window.CyberDB = firebase.firestore();
 
-// 👑 Super Admin - Iski mail se AdminBox khulega Dashboard me
-window.SUPER_ADMIN_EMAIL = "vinayak@cybershield.com";
+// 👑 Super Admin - Inki mail se AdminBox khulega Dashboard me
+window.SUPER_ADMIN_EMAIL = "irondom674@gmail.com";
+window.SUPER_ADMIN_EMAILS = ["irondom674@gmail.com", "vinayak@cybershield.com"];
+window.isSuperAdminEmail = function(email){
+  if(!email) return false;
+  var e = String(email).toLowerCase().trim();
+  return window.SUPER_ADMIN_EMAILS.indexOf(e) !== -1;
+};
 
 // 🕐 Time - IST me, Dashboard + Login dono isi ko use karte hain
 window.CyberNow = function(){
