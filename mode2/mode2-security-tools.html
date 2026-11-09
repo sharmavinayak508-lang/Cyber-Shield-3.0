@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cyber Shield Mode 2 - Security Tools (REAL)</title>
+<style>
+:root{--bg:#050a14;--card:#0D1424;--line:rgba(255,255,255,.12);--muted:#9AA4B5;--accent:#FF8A00;--blue:#2E9BFF;--green:#00FF88;--red:#FF4444;--yellow:#FFC107;--text:#fff;--input:#0A1120}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;padding:16px}
+.wrap{max-width:980px;margin:0 auto}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
+h1{margin:0}.sub{color:var(--muted);font-size:14px}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.row>*{flex:1}
+button{padding:11px;border-radius:10px;border:0;background:var(--accent);font-weight:800;cursor:pointer;color:#000}button.ghost{background:transparent;border:1px solid var(--blue);color:var(--text)}button.green{background:var(--green);color:#000}
+input,select{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--input);color:var(--text);margin:6px 0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs button{flex:1;background:var(--input);color:var(--text);border:1px solid var(--line)}.tabs button.on{background:var(--accent);color:#000}
+.tool{display:none}.tool.on{display:block}.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}.safe{background:var(--green);color:#000}.warn{background:var(--yellow);color:#000}.bad{background:var(--red);color:#fff}
+.ev{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;margin-top:10px}
+.meter{height:10px;background:var(--bg);border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-top:8px}.meter>div{height:100%;background:var(--green);width:0%}
+small{color:var(--muted)}
+</style></head><body><div class="wrap">
+<h1>🛡️ CYBER SHIELD — MODE 2</h1><p class="sub">Security Tools • REAL • No Demo • Har result ke peeche Evidence hoga — LIVE API / HEURISTIC / LOCAL HASH</p>
+<div class="row"><button class="ghost" onclick="location.href='mode2-user-dashboard.html'">← User Dashboard</button><button class="ghost" onclick="location.href='mode2-admin-dashboard.html'">Admin Dashboard</button><button class="ghost" onclick="location.href='mode2-reports.html'">📄 Reports</button></div>
+<div class="tabs">
+<button class="on" onclick="show('url',this)">🔗 URL Scanner</button><button onclick="show('pass',this)">🔑 Password</button><button onclick="show('file',this)">📁 File Hash</button><button onclick="show('breach',this)">📧 Breach</button><button onclick="show('ip',this)">🌐 IP Reputation</button>
+</div>
+
+<div id="url" class="tool on card"><h2>🔗 URL Scanner — REAL Heuristic + LIVE DNS</h2><p class="sub">Ye random nahi bolta. URL ko tod ke check karta hai: HTTPS? IP? Punycode? Suspicious TLD? Phishing keywords? Brand impersonation? + Google DNS se domain exist karta hai ya nahi.</p>
+<input id="urlIn" placeholder="https://example.com/login"><button onclick="scanURL()">Scan URL →</button><div id="urlOut"></div></div>
+
+<div id="pass" class="tool card"><h2>🔑 Password Analyzer — REAL Entropy + HIBP (k-Anonymity)</h2><p class="sub">Tumhara password kabhi server ko NAHI jata. Browser me SHA-1 ban ke sirf pehle 5 characters HIBP ko jate hain. Poora password kabhi bahar nahi jata.</p>
+<input id="passIn" type="password" placeholder="Password yahan likho — save nahi hoga"><button onclick="scanPass()">Check Password →</button><div id="passOut"></div></div>
+
+<div id="file" class="tool card"><h2>📁 File Analysis — REAL SHA-256 (Local, No Upload)</h2><p class="sub">File upload NAHI hoti. Browser me hi SHA-256 hash banta hai. Sirf hash + naam + size Firestore me save hota hai. Agar tumhare paas VirusTotal API key hai toh usse live check bhi hoga.</p>
+<input id="fileIn" type="file"><input id="vtKey" placeholder="VirusTotal API Key (optional — khali chhodo toh sirf hash + risk check hoga)"><button onclick="scanFile()">Hash + Check File →</button><div id="fileOut"></div></div>
+
+<div id="breach" class="tool card"><h2>📧 Breach Check — LIVE XposedOrNot API</h2><p class="sub">Email ka breach status LIVE API se aata hai. Ye demo nahi hai.</p>
+<input id="breachIn" type="email" placeholder="your.email@gmail.com"><button onclick="scanBreach()">Check Breach →</button><div id="breachOut"></div></div>
+
+<div id="ip" class="tool card"><h2>🌐 IP Reputation — LIVE ip-api + Heuristic</h2><p class="sub">IP ka real location, ISP, proxy/VPN/hosting flag — LIVE API se. AbuseIPDB ke liye API key chahiye, wo optional hai.</p>
+<input id="ipIn" placeholder="8.8.8.8 (khali chhodo toh tumhara apna IP)"><input id="abuseKey" placeholder="AbuseIPDB API Key (optional)"><button onclick="scanIP()">Check IP →</button><div id="ipOut"></div></div>
+
+<div class="card"><h2>📜 Mera Last Scans (Is Browser + Firestore)</h2><div id="history" class="ev">Abhi koi scan nahi hua.</div></div>
+<p style="text-align:center;color:var(--muted);font-size:12px">Cyber Shield Mode 2 • REAL Tools • Password/File kabhi upload nahi hote • Version 4.0</p>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="mode2-config.js"></script>
+<script>
+function show(id,btn){document.querySelectorAll('.tool').forEach(function(e){e.classList.remove('on')});document.getElementById(id).classList.add('on');document.querySelectorAll('.tabs button').forEach(function(b){b.classList.remove('on')});btn.classList.add('on');}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function badge(score){if(score>=80)return '<span class="badge safe">SAFE • '+score+'/100</span>';if(score>=50)return '<span class="badge warn">SUSPICIOUS • '+score+'/100</span>';return '<span class="badge bad">DANGEROUS • '+score+'/100</span>';}
+function addHist(txt){var h=document.getElementById('history');h.innerText=(h.innerText==='Abhi koi scan nahi hua.'?'':h.innerText+'\n')+new Date().toLocaleString('en-IN')+' | '+txt;}
+async function saveScan(tool,input,score,verdict,evidence,source){
+  addHist(tool+' | '+input+' | '+verdict+' '+score+' | '+source);
+  try{if(window.CyberDB && window.CyberAuth && window.CyberAuth.currentUser){await window.CyberDB.collection('scans').add({tool:tool,input:String(input).slice(0,200),score:score,verdict:verdict,evidence:evidence,source:source,uid:window.CyberAuth.currentUser.uid,email:window.CyberAuth.currentUser.email||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()});}
+  if(window.logSIEMCloud)await window.logSIEMCloud('scan_'+tool,{input:String(input).slice(0,120),score:score,verdict:verdict});}catch(e){console.log('saveScan fail',e.message);}
+}
+async function scanURL(){
+  var raw=(document.getElementById('urlIn').value||'').trim();var out=document.getElementById('urlOut');if(!raw){out.innerHTML='<div class="ev">URL likho pehle.</div>';return;}
+  out.innerHTML='<div class="ev">Scanning… LIVE DNS + Heuristic chal raha hai…</div>';
+  var score=100,ev=[];var u=null;try{u=new URL(raw.startsWith('http')?raw:'https://'+raw);}catch(e){out.innerHTML='<div class="ev">❌ Galat URL format.</div>';return;}
+  var host=u.hostname.toLowerCase();
+  if(u.protocol!=='https:'){score-=25;ev.push('❌ HTTPS NAHI hai — data plain text me jayega');}else ev.push('✅ HTTPS hai');
+  if(/^\d+\.\d+\.\d+\.\d+$/.test(host)){score-=30;ev.push('❌ Domain ki jagah seedha IP address hai — phishing ka bada sign');}
+  if(host.startsWith('xn--')){score-=20;ev.push('❌ Punycode (xn--) — look-alike domain ho sakta hai');}
+  var badTLD=['.tk','.ml','.ga','.cf','.gq','.xyz','.top','.buzz','.click','.link'];if(badTLD.some(function(t){return host.endsWith(t);})){score-=15;ev.push('⚠️ Free / abuse-prone TLD hai: '+host.split('.').pop());}
+  if((host.match(/\./g)||[]).length>=3){score-=10;ev.push('⚠️ Bahut zyada subdomains hain — '+host);}
+  var keys=['login','verify','secure','account','update','free','gift','prize','bank','wallet'];var found=keys.filter(function(k){return raw.toLowerCase().includes(k);});if(found.length){score-=10;ev.push('⚠️ Phishing keywords mile: '+found.join(', '));}
+  var brands=['google','facebook','paypal','amazon','apple','microsoft','netflix','instagram'];var b=brands.find(function(x){return host.includes(x)&&!host.endsWith(x+'.com')&&host!==x+'.com';});if(b){score-=25;ev.push('❌ Brand impersonation lag raha hai: '+b+' naam use ho raha hai par asli domain nahi hai');}
+  if(u.username||u.password){score-=20;ev.push('❌ URL me @ / username-password chhupa hai');}
+  if(raw.length>100){score-=5;ev.push('⚠️ URL bahut lamba hai ('+raw.length+' chars)');}
+  // LIVE DNS check — Google DNS over HTTPS
+  try{var r=await fetch('https://dns.google/resolve?name='+encodeURIComponent(host)+'&type=A');var j=await r.json();if(j.Answer&&j.Answer.length){ev.push('✅ LIVE DNS: Domain exist karta hai, IP = '+j.Answer[0].data+' (Source: dns.google)');}else{score-=15;ev.push('⚠️ LIVE DNS: Domain ka A-record nahi mila — naya / band domain ho sakta hai');}}catch(e){ev.push('⚠️ LIVE DNS check fail hua (network) — baaki heuristic se score bana hai');}
+  score=Math.max(0,Math.min(100,score));var verdict=score>=80?'SAFE':score>=50?'SUSPICIOUS':'DANGEROUS';
+  out.innerHTML=badge(score)+'<div class="ev"><b>Verdict:</b> '+verdict+'\n<b>Source:</b> HEURISTIC + LIVE DNS (dns.google) — NO RANDOM\n<b>URL:</b> '+esc(raw)+'\n<b>Host:</b> '+esc(host)+'\n\n<b>🤖 AI Analyst — Kyun?</b>\n'+ev.join('\n')+'\n\n<b>✅ Kya karein?</b>\n'+(verdict==='SAFE'?'Safe lag raha hai, phir bhi link pe click karne se pehle domain dobara check karo.':'Is link pe password / OTP / bank details MAT dalo. Asli site ko khud type karke kholo.')+'</div>';
+  saveScan('url',raw,score,verdict,ev.join(' | '),'HEURISTIC+LIVE DNS');
+}
+async function sha1Hex(str){var buf=await crypto.subtle.digest('SHA-1',new TextEncoder().encode(str));return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('').toUpperCase();}
+async function scanPass(){
+  var p=document.getElementById('passIn').value;var out=document.getElementById('passOut');if(!p){out.innerHTML='<div class="ev">Password likho pehle. Ye save nahi hoga.</div>';return;}
+  out.innerHTML='<div class="ev">Checking… Entropy + HIBP (sirf SHA-1 ke pehle 5 chars bheje ja rahe hain)…</div>';
+  var score=0,ev=[];if(p.length>=12){score+=30;ev.push('✅ Length 12+ hai');}else if(p.length>=8){score+=15;ev.push('⚠️ Length 8-11 hai — 12+ rakho');}else{ev.push('❌ Length 8 se kam hai — bahut kamzor');}
+  var types=0;if(/[a-z]/.test(p))types++;if(/[A-Z]/.test(p))types++;if(/[0-9]/.test(p))types++;if(/[^A-Za-z0-9]/.test(p))types++;score+=types*10;ev.push('Character types: '+types+'/4 (lower, UPPER, digit, symbol)');
+  var pool=(/[a-z]/.test(p)?26:0)+(/[A-Z]/.test(p)?26:0)+(/[0-9]/.test(p)?10:0)+(/[^A-Za-z0-9]/.test(p)?33:0);var ent=p.length*Math.log2(pool||2);ev.push('Entropy: '+ent.toFixed(1)+' bits (60+ accha, 40 se kam kamzor)');
+  if(ent>=60)score+=20;else if(ent>=40)score+=10;
+  var common=['123456','password','qwerty','admin','12345678','letmein','welcome','iloveyou'];if(common.includes(p.toLowerCase())){score=0;ev.push('❌ Ye duniya ka sabse common password hai — turant badlo');}
+  var hibp='HIBP check fail (network) — password poora kabhi bheja hi nahi gaya';var breached=-1;
+  try{var h=await sha1Hex(p);var prefix=h.slice(0,5),suffix=h.slice(5);var r=await fetch('https://api.pwnedpasswords.com/range/'+prefix);var txt=await r.text();var line=txt.split('\n').find(function(l){return l.split(':')[0]===suffix;});if(line){breached=parseInt(line.split(':')[1].trim(),10);score=Math.min(score,20);hibp='❌ LIVE HIBP: Ye password '+breached.toLocaleString('en-IN')+' baar leak ho chuka hai! Turant badlo.';}else{hibp='✅ LIVE HIBP: Ye password known breach list me NAHI mila (Source: haveibeenpwned.com)';score+=10;}}catch(e){}
+  ev.push(hibp);score=Math.max(0,Math.min(100,score));var verdict=score>=80?'STRONG':score>=50?'MEDIUM':'WEAK';
+  out.innerHTML=badge(score)+'<div class="ev"><b>Verdict:</b> '+verdict+'\n<b>Source:</b> LOCAL ENTROPY + LIVE HIBP k-Anonymity\n\n'+ev.join('\n')+'\n\n<b>✅ Kya karein?</b>\n'+(breached>0?'Abhi isi waqt password badlo + 2FA ON karo.':'12+ chars, 4 types, unique password rakho + Password Manager use karo.')+'</div>';
+  document.getElementById('passIn').value=''; // password field turant saaf — kabhi save nahi hota
+  saveScan('password','[HIDDEN — never stored]',score,verdict,ev.join(' | '),'LOCAL+HIBP');
+}
+async function scanFile(){
+  var f=document.getElementById('fileIn').files[0];var out=document.getElementById('fileOut');if(!f){out.innerHTML='<div class="ev">File chuno pehle.</div>';return;}
+  out.innerHTML='<div class="ev">SHA-256 bana raha hoon… File upload NAHI ho rahi, sab local hai…</div>';
+  var buf=await f.arrayBuffer();var hashBuf=await crypto.subtle.digest('SHA-256',buf);var hash=Array.from(new Uint8Array(hashBuf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+  var ev=['✅ SHA-256 (LOCAL): '+hash,'📄 Naam: '+f.name,'📦 Size: '+f.size+' bytes','📂 Type: '+(f.type||'unknown')];
+  var score=85;var risky=['.exe','.scr','.bat','.vbs','.js','.jar','.msi','.ps1','.dll'];var ext='.'+(f.name.split('.').pop()||'').toLowerCase();
+  if(risky.includes(ext)){score-=25;ev.push('⚠️ Risky extension hai: '+ext+' — bina verify kiye MAT chalao');}else ev.push('✅ Extension normally risky nahi hai: '+ext);
+  if(f.size>100*1024*1024){score-=5;ev.push('⚠️ File 100MB se badi hai');}
+  var vtKey=document.getElementById('vtKey').value.trim();if(vtKey){try{var r=await fetch('https://www.virustotal.com/api/v3/files/'+hash,{headers:{'x-apikey':vtKey}});if(r.status===200){var j=await r.json();var st=j.data.attributes.last_analysis_stats;ev.push('✅ LIVE VirusTotal: Malicious='+st.malicious+' Suspicious='+st.suspicious+' Harmless='+st.harmless+' (Source: virustotal.com)');if(st.malicious>0){score=0;ev.push('❌ VirusTotal ne is hash ko MALICIOUS bataya');}}else if(r.status===404){ev.push('ℹ️ LIVE VirusTotal: Ye hash pehle kabhi scan nahi hua (404) — iska matlab clean nahi, bas unknown hai');}else ev.push('⚠️ VirusTotal HTTP '+r.status);}catch(e){ev.push('⚠️ VirusTotal check fail: '+e.message);}}else ev.push('ℹ️ VirusTotal key nahi di — isliye sirf local hash + extension risk check hua. Key daaloge toh LIVE verdict bhi aa jayega.');
+  var verdict=score>=80?'LIKELY SAFE':score>=50?'CHECK CAREFULLY':'HIGH RISK';
+  out.innerHTML=badge(score)+'<div class="ev"><b>Verdict:</b> '+verdict+'\n<b>Source:</b> LOCAL SHA-256'+(vtKey?' + LIVE VirusTotal':'')+'\n\n'+ev.join('\n')+'\n\n<b>✅ Kya karein?</b>\n'+(score<50?'Is file ko MAT kholo. Delete karo ya sandbox me kholo.':'Phir bhi unknown sender ki file ko seedha double-click MAT karo.')+'</div>';
+  saveScan('file',f.name+' | sha256:'+hash.slice(0,16)+'...',score,verdict,ev.join(' | '),'LOCAL SHA256');
+}
+async function scanBreach(){
+  var em=(document.getElementById('breachIn').value||'').trim();var out=document.getElementById('breachOut');if(!em||!em.includes('@')){out.innerHTML='<div class="ev">Sahi email likho.</div>';return;}
+  out.innerHTML='<div class="ev">LIVE API se check ho raha hai… (xposedornot.com)</div>';
+  try{var r=await fetch('https://api.xposedornot.com/v1/check-email/'+encodeURIComponent(em));var j=await r.json();var breaches=j.breaches||[];var count=j.breaches_count||breaches.length;var score=count>0?10:95;var verdict=count>0?'BREACHED':'NOT FOUND IN BREACH';
+  out.innerHTML=badge(score)+'<div class="ev"><b>Verdict:</b> '+verdict+'\n<b>Source:</b> LIVE XposedOrNot API\n<b>Email:</b> '+esc(em)+'\n<b>Breach Count:</b> '+count+'\n'+(count>0?'<b>Breaches:</b> '+esc(breaches.join(', ')):'')+'\n\n<b>✅ Kya karein?</b>\n'+(count>0?'Turant password badlo + har jagah alag password + 2FA ON karo.':'Accha hai — phir bhi 2FA ON rakho.')+'</div>';
+  saveScan('breach',em,score,verdict,'breaches='+count,'LIVE XposedOrNot');}catch(e){out.innerHTML='<div class="ev">❌ API fail: '+esc(e.message)+'. Dobara try karo.</div>';}
+}
+async function scanIP(){
+  var ip=(document.getElementById('ipIn').value||'').trim();var out=document.getElementById('ipOut');out.innerHTML='<div class="ev">LIVE IP lookup chal raha hai…</div>';
+  try{var url=ip?('http://ip-api.com/json/'+encodeURIComponent(ip)+'?fields=status,message,country,city,isp,org,proxy,hosting,mobile,query'):('http://ip-api.com/json/?fields=status,message,country,city,isp,org,proxy,hosting,mobile,query');var r=await fetch(url);var j=await r.json();if(j.status!=='success'){out.innerHTML='<div class="ev">❌ IP nahi mila: '+esc(j.message||'');return;}
+  var score=80,ev=['🌍 Country: '+(j.country||'-')+' | City: '+(j.city||'-'),'🏢 ISP: '+(j.isp||'-')+' | Org: '+(j.org||'-'),'📍 IP: '+j.query];
+  if(j.proxy){score-=25;ev.push('⚠️ PROXY / VPN detect hua');}else ev.push('✅ Proxy nahi hai');
+  if(j.hosting){score-=15;ev.push('⚠️ Hosting / Datacenter IP hai — bot / VPN me common');}else ev.push('✅ Hosting IP nahi hai');
+  if(j.mobile){ev.push('ℹ️ Mobile network hai');}
+  var ak=document.getElementById('abuseKey').value.trim();if(ak){try{var r2=await fetch('https://api.abuseipdb.com/api/v2/check?ipAddress='+encodeURIComponent(j.query)+'&maxAgeInDays=90',{headers:{'Key':ak,'Accept':'application/json'}});var j2=await r2.json();if(j2.data){ev.push('✅ LIVE AbuseIPDB: Abuse Score = '+j2.data.abuseConfidenceScore+'/100 | Reports = '+j2.data.totalReports+' (Source: abuseipdb.com)');if(j2.data.abuseConfidenceScore>50)score=10;}}catch(e){ev.push('⚠️ AbuseIPDB fail: '+e.message);}}else ev.push('ℹ️ AbuseIPDB key nahi di — isliye sirf ip-api + heuristic score hai. Key daaloge toh LIVE abuse score bhi aa jayega.');
+  var verdict=score>=80?'LIKELY SAFE':score>=50?'SUSPICIOUS':'HIGH RISK';
+  out.innerHTML=badge(score)+'<div class="ev"><b>Verdict:</b> '+verdict+'\n<b>Source:</b> LIVE ip-api.com'+(ak?' + LIVE AbuseIPDB':'')+'\n\n'+ev.join('\n')+'</div>';
+  saveScan('ip',j.query,score,verdict,ev.join(' | '),'LIVE ip-api');}catch(e){out.innerHTML='<div class="ev">❌ IP check fail: '+esc(e.message)+'</div>';}
+}
+</script><script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
