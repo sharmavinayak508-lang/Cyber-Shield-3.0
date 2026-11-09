@@ -21,45 +21,53 @@
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
 </style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cyber Shield - Secure Sign In</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#050a14;color:#fff;font-family:sans-serif;background-image:url('https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1200&q=80');background-size:cover;background-position:center}
-.overlay{background:rgba(0,0,0,.55);min-height:100vh;padding:16px}
-.card{max-width:520px;margin:20px auto;background:rgba(10,22,40,.92);border:1px solid #00d4ff;border-radius:16px;padding:16px}
-h1{color:#ffaa00;text-align:center;margin:4px 0}h1+p{text-align:center;opacity:.85;font-size:13px}
-select,input{width:100%;padding:11px;border-radius:10px;border:1px solid #333;background:#0f1f3a;color:#fff;margin:6px 0}
+<title data-i18n="pageTitle">Cyber Shield - Secure Sign In</title>
+<style>
+:root{--bg:#050a14;--card:rgba(10,22,40,.92);--input:#0f1f3a;--text:#fff;--muted:rgba(255,255,255,.85);--border:#00d4ff;--boxBg:rgba(0,255,136,.12);--boxBorder:#00ff88;--roleBg:#0a1628}
+[data-theme="light"]{--bg:#eef2f7;--card:#ffffff;--input:#eef2f7;--text:#0a1628;--muted:rgba(10,22,40,.75);--border:#0077b6;--boxBg:rgba(0,150,100,.08);--boxBorder:#00aa77;--roleBg:#eef2f7}
+[data-theme="blue"]{--bg:#001a33;--card:#00264d;--input:#003a66;--text:#ffffff;--muted:rgba(255,255,255,.85);--border:#00aaff;--boxBg:rgba(0,170,255,.12);--boxBorder:#00aaff;--roleBg:#001a33}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background-image:url('https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1200&q=80');background-size:cover;background-position:center}
+.overlay{background:rgba(0,0,0,.55);min-height:100vh;padding:16px}[data-theme="light"] .overlay{background:rgba(255,255,255,.35)}
+.card{max-width:520px;margin:20px auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+h1{color:#ffaa00;text-align:center;margin:4px 0;font-size:28px}h1+p{text-align:center;opacity:.85;font-size:13px;margin:0;color:var(--muted)}
+label{font-size:11px;letter-spacing:.08em;display:block;margin:2px 0 0;color:var(--muted);font-weight:700}
+select,input{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:var(--input);color:var(--text);margin:6px 0;font-size:14px}
 .row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}
-button{cursor:pointer;border:0;border-radius:10px;padding:11px;font-weight:800}
-.green{background:#00ff88}.orange{background:#ff8800;color:#fff}.blue{background:#00d4ff}.red{background:#ff3b3b;color:#fff}
-.box{background:rgba(0,255,136,.12);border:1px solid #00ff88;border-radius:10px;padding:10px;font-size:13px;margin:8px 0}
-.roleInfo{background:#0a1628;border:1px solid #333;border-radius:10px;padding:10px;font-size:13px;margin:8px 0}
-.tabs{display:flex;gap:8px}.tabs button{flex:1}.tabs button.active{background:#00d4ff;color:#000}
+button{cursor:pointer;border:0;border-radius:10px;padding:12px;font-weight:800;font-size:14px}
+.green{background:#00ff88;color:#000}.orange{background:#ff8800;color:#fff}.blue{background:#00d4ff;color:#000}
+.box{background:var(--boxBg);border:1px solid var(--boxBorder);border-radius:10px;padding:10px;font-size:13px;margin:8px 0;line-height:1.5}
+.roleInfo{background:var(--roleBg);border:1px solid #333;border-radius:10px;padding:10px;font-size:13px;margin:8px 0;line-height:1.5}
+.tabs{display:flex;gap:8px}.tabs button{flex:1;background:var(--input);color:var(--text)}.tabs button.active{background:#00d4ff;color:#000}
 .msg{text-align:center;font-size:13px;font-weight:700;min-height:18px;margin:8px 0;color:#ffb347}
 .foot{text-align:center;opacity:.6;font-size:12px;margin-top:10px}
-.hidden{display:none}
 </style></head>
 <body><div class="overlay"><div class="card">
-<h1>🦅 CYBER SHIELD</h1><p>Security Platform &bull; Secure Sign In</p>
+<h1>CYBER SHIELD</h1><p data-i18n="subtitle">Security Platform &bull; Secure Sign In</p>
 <div class="row">
-<select id="langSel"><option>English</option><option>Hindi</option></select>
+<select id="langSel" onchange="setLanguage(this.value)"><option value="en">English</option><option value="hi">Hindi - हिन्दी</option><option value="pa">Punjabi - ਪੰਜਾਬੀ</option><option value="es">Spanish - Español</option><option value="fr">French - Français</option></select>
+<select id="themeSel" onchange="setTheme(this.value)"><option value="dark" data-i18n="themeDark">Dark Theme</option><option value="light" data-i18n="themeLight">Light Theme</option><option value="blue" data-i18n="themeBlue">Blue Theme</option></select>
+</div>
+<div class="row">
 <select id="roleSel" onchange="showRoleInfo()">
-<option value="admin">Admin</option>
-<option value="user">User</option>
-<option value="viewer">Viewer</option>
+<option value="admin" data-i18n="roleAdmin">Admin</option>
+<option value="user" data-i18n="roleUser">User</option>
+<option value="viewer" data-i18n="roleViewer">Viewer</option>
 </select>
 </div>
 <div id="roleInfo" class="roleInfo"></div>
-<div class="tabs"><button id="tabLogin" class="active" onclick="showTab('login')">Sign In</button><button id="tabReg" onclick="showTab('register')">Create Account</button></div>
-<input id="uName" placeholder="Full Name">
-<input id="uEmail" type="email" placeholder="Email">
-<input id="uPhone" placeholder="Phone">
-<input id="uCity" placeholder="City">
-<input id="uState" placeholder="State">
-<input id="uPass" type="password" placeholder="Password">
-<div class="box">Protected by Cyber Shield &bull; Location-verified sign-in &bull; Activity is logged for security.</div>
-<button class="blue" style="width:100%" id="mainBtn" onclick="doAuth()">Sign In &rarr;</button>
-<button class="orange" style="width:100%;margin-top:8px" onclick="location.href='../index.html'">&larr; Back</button>
+<div class="tabs"><button id="tabLogin" class="active" onclick="showTab('login')" data-i18n="tabLogin">Sign In</button><button id="tabReg" onclick="showTab('register')" data-i18n="tabRegister">Create Account</button></div>
+<input id="uName" data-i18n-ph="phName" placeholder="Full Name">
+<input id="uEmail" type="email" data-i18n-ph="phEmail" placeholder="Email Address">
+<input id="uPhone" data-i18n-ph="phPhone" placeholder="Phone Number">
+<input id="uCity" data-i18n-ph="phCity" placeholder="City">
+<input id="uState" data-i18n-ph="phState" placeholder="State">
+<input id="uPass" type="password" data-i18n-ph="phPass" placeholder="Password (Minimum 6 Characters)">
+<div class="box" data-i18n="infoBox">Protected by Cyber Shield &bull; Location-verified sign-in &bull; Activity is logged for security.</div>
+<button class="blue" style="width:100%" id="mainBtn" onclick="doAuth()" data-i18n="btnSignIn">Sign In &rarr;</button>
+<button class="green" style="width:100%;margin-top:8px" onclick="resendVerify()" data-i18n="btnResend">Resend Verification Email</button>
+<button class="orange" style="width:100%;margin-top:8px" onclick="location.href='../index.html'" data-i18n="btnBack">&larr; Back</button>
 <p id="msg" class="msg"></p>
-<p class="foot">Cyber Shield &bull; Privacy &bull; Terms &bull; Version 3.0</p>
+<p class="foot"><span data-i18n="foot">Cyber Shield &bull; Privacy &bull; Terms &bull; Version 3.0</span></p>
 </div></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -68,42 +76,64 @@ button{cursor:pointer;border:0;border-radius:10px;padding:11px;font-weight:800}
 <script src="mode2-location.js"></script>
 <script src="mode2-mail.js"></script>
 <script>
+var LANG = {
+en:{pageTitle:"Cyber Shield - Secure Sign In",subtitle:"Security Platform \u2022 Secure Sign In",themeDark:"Dark Theme",themeLight:"Light Theme",themeBlue:"Blue Theme",roleAdmin:"Admin",roleUser:"User",roleViewer:"Viewer",roleAdminInfo:"<b>Admin:</b> Manage users, approvals and security controls.",roleUserInfo:"<b>User:</b> Access your dashboard and profile.",roleViewerInfo:"<b>Viewer:</b> View-only access.",tabLogin:"Sign In",tabRegister:"Create Account",phName:"Full Name",phEmail:"Email Address",phPhone:"Phone Number",phCity:"City",phState:"State",phPass:"Password (Minimum 6 Characters)",infoBox:"Protected by Cyber Shield \u2022 Location-verified sign-in \u2022 Activity is logged for security.",btnSignIn:"Sign In \u2192",btnCreate:"Create Account \u2192",btnResend:"Resend Verification Email",btnBack:"\u2190 Back",foot:"Cyber Shield \u2022 Privacy \u2022 Terms \u2022 Version 3.0",msgResendNeed:"Please enter your email and password to resend the verification email.",msgResendDone:"Verification email sent. Please check your inbox and spam folder.",msgInvalid:"Please enter a valid email and a password of at least 6 characters.",msgVerifying:"Verifying location and signing you in...",msgLocation:"Location verification is required. Please allow location access and try again.",msgNotVerified:"Email not verified. Please check your inbox and spam folder, click the verification link, then sign in again.",msgNoRecord:"Account record not found. Please create an account.",msgBlocked:"This account is restricted. Please contact support.",msgWelcome:"Welcome back. Redirecting...",msgCreated:"Account created. Please check your email inbox and click the verification link before signing in."},
+hi:{pageTitle:"Cyber Shield - Secure Sign In",subtitle:"Security Platform \u2022 Secure Sign In",themeDark:"Dark Theme",themeLight:"Light Theme",themeBlue:"Blue Theme",roleAdmin:"Admin",roleUser:"User",roleViewer:"Viewer",roleAdminInfo:"<b>Admin:</b> Users, approvals aur security controls manage karein.",roleUserInfo:"<b>User:</b> Apna dashboard aur profile dekhein.",roleViewerInfo:"<b>Viewer:</b> Sirf dekhne ki access.",tabLogin:"Sign In",tabRegister:"Create Account",phName:"Poora Naam",phEmail:"Email Address",phPhone:"Phone Number",phCity:"City",phState:"State",phPass:"Password (Kam se kam 6 Characters)",infoBox:"Cyber Shield dwara surakshit \u2022 Location-verified sign-in \u2022 Activity security ke liye log hoti hai.",btnSignIn:"Sign In \u2192",btnCreate:"Create Account \u2192",btnResend:"Verification Email Dobara Bhejein",btnBack:"\u2190 Back",foot:"Cyber Shield \u2022 Privacy \u2022 Terms \u2022 Version 3.0",msgResendNeed:"Verification email dobara bhejne ke liye apna email aur password daalein.",msgResendDone:"Verification email bhej di gayi. Apna inbox aur spam folder check karein.",msgInvalid:"Kripya sahi email aur kam se kam 6 characters ka password daalein.",msgVerifying:"Location verify karke sign in kiya ja raha hai...",msgLocation:"Location verification zaroori hai. Location access allow karein aur dobara try karein.",msgNotVerified:"Email verify nahi hui. Apna inbox / spam check karein, verification link par click karein, phir sign in karein.",msgNoRecord:"Account record nahi mila. Kripya account banayein.",msgBlocked:"Ye account restricted hai. Support se sampark karein.",msgWelcome:"Welcome back. Redirect ho raha hai...",msgCreated:"Account ban gaya. Sign in se pehle apne email inbox me verification link par click karein."},
+pa:{pageTitle:"Cyber Shield - Secure Sign In",subtitle:"Security Platform \u2022 Secure Sign In",themeDark:"Dark Theme",themeLight:"Light Theme",themeBlue:"Blue Theme",roleAdmin:"Admin",roleUser:"User",roleViewer:"Viewer",roleAdminInfo:"<b>Admin:</b> Users, approvals ate security controls manage karo.",roleUserInfo:"<b>User:</b> Apna dashboard ate profile dekho.",roleViewerInfo:"<b>Viewer:</b> Sirf dekhan di access.",tabLogin:"Sign In",tabRegister:"Create Account",phName:"Poora Naam",phEmail:"Email Address",phPhone:"Phone Number",phCity:"City",phState:"State",phPass:"Password (Ghatt to ghatt 6 Characters)",infoBox:"Cyber Shield wallon surakhshit \u2022 Location-verified sign-in \u2022 Activity security layi log hundi hai.",btnSignIn:"Sign In \u2192",btnCreate:"Create Account \u2192",btnResend:"Verification Email Dobara Bhejo",btnBack:"\u2190 Back",foot:"Cyber Shield \u2022 Privacy \u2022 Terms \u2022 Version 3.0",msgResendNeed:"Verification email dobara bhejan layi apna email ate password pao.",msgResendDone:"Verification email bhej ditti gayi. Apna inbox ate spam folder check karo.",msgInvalid:"Kirpa karke sahi email ate ghatt to ghatt 6 characters da password pao.",msgVerifying:"Location verify karke sign in kitta ja reha hai...",msgLocation:"Location verification zaroori hai. Location access allow karo ate dobara try karo.",msgNotVerified:"Email verify nahi hoyi. Apna inbox / spam check karo, verification link te click karo, phir sign in karo.",msgNoRecord:"Account record nahi mileya. Kirpa karke account banao.",msgBlocked:"Eh account restricted hai. Support naal sampark karo.",msgWelcome:"Welcome back. Redirect ho reha hai...",msgCreated:"Account ban gaya. Sign in ton pehlan apne email inbox vich verification link te click karo."},
+es:{pageTitle:"Cyber Shield - Inicio de Sesion Seguro",subtitle:"Plataforma de Seguridad \u2022 Inicio de Sesion Seguro",themeDark:"Tema Oscuro",themeLight:"Tema Claro",themeBlue:"Tema Azul",roleAdmin:"Administrador",roleUser:"Usuario",roleViewer:"Espectador",roleAdminInfo:"<b>Administrador:</b> Gestiona usuarios, aprobaciones y controles de seguridad.",roleUserInfo:"<b>Usuario:</b> Accede a tu panel y perfil.",roleViewerInfo:"<b>Espectador:</b> Acceso solo de lectura.",tabLogin:"Iniciar Sesion",tabRegister:"Crear Cuenta",phName:"Nombre Completo",phEmail:"Correo Electronico",phPhone:"Numero de Telefono",phCity:"Ciudad",phState:"Estado",phPass:"Contrasena (Minimo 6 Caracteres)",infoBox:"Protegido por Cyber Shield \u2022 Inicio de sesion verificado por ubicacion \u2022 La actividad se registra por seguridad.",btnSignIn:"Iniciar Sesion \u2192",btnCreate:"Crear Cuenta \u2192",btnResend:"Reenviar Correo de Verificacion",btnBack:"\u2190 Atras",foot:"Cyber Shield \u2022 Privacidad \u2022 Terminos \u2022 Version 3.0",msgResendNeed:"Introduce tu correo y contrasena para reenviar el correo de verificacion.",msgResendDone:"Correo de verificacion enviado. Revisa tu bandeja de entrada y spam.",msgInvalid:"Introduce un correo valido y una contrasena de al menos 6 caracteres.",msgVerifying:"Verificando ubicacion e iniciando sesion...",msgLocation:"Se requiere verificacion de ubicacion. Permite el acceso a la ubicacion e intentalo de nuevo.",msgNotVerified:"Correo no verificado. Revisa tu bandeja de entrada y spam, haz clic en el enlace de verificacion y luego inicia sesion.",msgNoRecord:"No se encontro el registro de la cuenta. Crea una cuenta.",msgBlocked:"Esta cuenta esta restringida. Contacta con soporte.",msgWelcome:"Bienvenido de nuevo. Redirigiendo...",msgCreated:"Cuenta creada. Revisa tu correo y haz clic en el enlace de verificacion antes de iniciar sesion."},
+fr:{pageTitle:"Cyber Shield - Connexion Securisee",subtitle:"Plateforme de Securite \u2022 Connexion Securisee",themeDark:"Theme Sombre",themeLight:"Theme Clair",themeBlue:"Theme Bleu",roleAdmin:"Admin",roleUser:"Utilisateur",roleViewer:"Visionneuse",roleAdminInfo:"<b>Admin :</b> Gerer les utilisateurs, les approbations et les controles de securite.",roleUserInfo:"<b>Utilisateur :</b> Acceder a votre tableau de bord et profil.",roleViewerInfo:"<b>Visionneuse :</b> Acces en lecture seule.",tabLogin:"Se Connecter",tabRegister:"Creer un Compte",phName:"Nom Complet",phEmail:"Adresse Email",phPhone:"Numero de Telephone",phCity:"Ville",phState:"Etat",phPass:"Mot de Passe (Minimum 6 Caracteres)",infoBox:"Protege par Cyber Shield \u2022 Connexion verifiee par localisation \u2022 L'activite est journalisee pour la securite.",btnSignIn:"Se Connecter \u2192",btnCreate:"Creer un Compte \u2192",btnResend:"Renvoyer l'Email de Verification",btnBack:"\u2190 Retour",foot:"Cyber Shield \u2022 Confidentialite \u2022 Conditions \u2022 Version 3.0",msgResendNeed:"Entrez votre email et mot de passe pour renvoyer l'email de verification.",msgResendDone:"Email de verification envoye. Verifiez votre boite de reception et spam.",msgInvalid:"Entrez un email valide et un mot de passe d'au moins 6 caracteres.",msgVerifying:"Verification de la localisation et connexion...",msgLocation:"La verification de localisation est requise. Autorisez l'acces a la localisation et reessayez.",msgNotVerified:"Email non verifie. Verifiez votre boite de reception et spam, cliquez sur le lien de verification, puis connectez-vous.",msgNoRecord:"Compte introuvable. Veuillez creer un compte.",msgBlocked:"Ce compte est restreint. Contactez le support.",msgWelcome:"Bon retour. Redirection...",msgCreated:"Compte cree. Verifiez votre boite email et cliquez sur le lien de verification avant de vous connecter."}
+};
+var curLang = localStorage.getItem('cyber_lang') || 'en';
+var curTheme = localStorage.getItem('cyber_theme') || 'dark';
+function t(k){ return (LANG[curLang] && LANG[curLang][k]) || LANG.en[k] || k; }
+function setTheme(th){ curTheme = th; localStorage.setItem('cyber_theme', th); document.documentElement.setAttribute('data-theme', th); var s=document.getElementById('themeSel'); if(s) s.value=th; }
+function setLanguage(l){ curLang = LANG[l] ? l : 'en'; localStorage.setItem('cyber_lang', curLang); document.documentElement.lang = curLang; applyLanguage(); }
+function applyLanguage(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){ var k=el.getAttribute('data-i18n'); if(t(k)) el.innerHTML = t(k); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){ var k=el.getAttribute('data-i18n-ph'); if(t(k)) el.placeholder = t(k); });
+  var ls=document.getElementById('langSel'); if(ls) ls.value=curLang;
+  showRoleInfo(); showTab(mode);
+  document.title = t('pageTitle');
+}
 let mode='login';
-function showRoleInfo(){var r=document.getElementById('roleSel').value;var el=document.getElementById('roleInfo');if(r==='admin')el.innerHTML='<b>Admin:</b> Manage users, approvals and security controls.';else if(r==='user')el.innerHTML='<b>User:</b> Access your dashboard and profile.';else el.innerHTML='<b>Viewer:</b> View-only access.';}
-showRoleInfo();
-function showTab(t){mode=t;document.getElementById('tabLogin').className=t==='login'?'active':'';document.getElementById('tabReg').className=t==='register'?'active':'';document.getElementById('mainBtn').innerText=t==='login'?'Sign In \u2192':'Create Account \u2192';['uName','uPhone','uCity','uState'].forEach(function(id){document.getElementById(id).style.display=t==='register'?'block':'none';});}
-showTab('login');
+function showRoleInfo(){var r=document.getElementById('roleSel').value;var el=document.getElementById('roleInfo');if(r==='admin')el.innerHTML=t('roleAdminInfo');else if(r==='user')el.innerHTML=t('roleUserInfo');else el.innerHTML=t('roleViewerInfo');}
+function showTab(m){mode=m;document.getElementById('tabLogin').className=m==='login'?'active':'';document.getElementById('tabReg').className=m==='register'?'active':'';document.getElementById('mainBtn').innerHTML=m==='login'?t('btnSignIn'):t('btnCreate');['uName','uPhone','uCity','uState'].forEach(function(id){document.getElementById(id).style.display=m==='register'?'block':'none';});}
 function setMsg(m){document.getElementById('msg').innerText=m;}
 async function getLocation(){try{if(window.getCurrentLocation)return await window.getCurrentLocation();}catch(e){}return await new Promise(function(res){if(!navigator.geolocation)return res(null);navigator.geolocation.getCurrentPosition(function(p){res({lat:p.coords.latitude,lng:p.coords.longitude,accuracy:p.coords.accuracy});},function(){res(null);},{timeout:8000});});}
+async function resendVerify(){ var email=document.getElementById('uEmail').value.trim(),pass=document.getElementById('uPass').value.trim(); if(!email||!pass){setMsg(t('msgResendNeed'));return;} try{ var c=await window.CyberAuth.signInWithEmailAndPassword(email,pass); await c.user.sendEmailVerification(); await window.CyberAuth.signOut(); setMsg(t('msgResendDone')); }catch(e){ setMsg(e.message.replace('Firebase: ','')); } }
 async function doAuth(){
   var email=document.getElementById('uEmail').value.trim(),pass=document.getElementById('uPass').value.trim();
-  if(!email||pass.length<6){setMsg('Please enter a valid email and a password of at least 6 characters.');return;}
-  setMsg('Verifying location and signing you in...');
+  if(!email||pass.length<6){setMsg(t('msgInvalid'));return;}
+  setMsg(t('msgVerifying'));
   var loc=await getLocation();
-  if(!loc){setMsg('Location verification is required. Please allow location access and try again.');return;}
+  if(!loc){setMsg(t('msgLocation'));return;}
   try{
     if(mode==='login'){
       var cred=await window.CyberAuth.signInWithEmailAndPassword(email,pass);
+      await cred.user.reload();
+      if(!cred.user.emailVerified){ setMsg(t('msgNotVerified')); await window.CyberAuth.signOut(); return; }
       var doc=await window.CyberDB.collection('users').doc(cred.user.uid).get();
-      if(!doc.exists){setMsg('Account record not found. Please create an account.');return;}
-      var u=doc.data(); if(u.blocked){setMsg('This account is restricted. Please contact support.');await window.CyberAuth.signOut();return;}
+      if(!doc.exists){setMsg(t('msgNoRecord'));return;}
+      var u=doc.data(); if(u.blocked){setMsg(t('msgBlocked'));await window.CyberAuth.signOut();return;}
       if(window.logSIEMCloud)await window.logSIEMCloud('login_success',{email:email,role:u.role,location:loc});
       if(window.sendAuthMail)await window.sendAuthMail('login',{email:email,name:u.name||'',location:loc,time:new Date().toISOString()});
       localStorage.setItem('cyber_current_user',u.email);localStorage.setItem('cyber_role',u.role);
-      setMsg('Welcome back. Redirecting...');
-      location.href='mode2-dashboard.html';
+      setMsg(t('msgWelcome'));
+      location.href='mode2-user-dashboard.html';
     } else {
       var name=document.getElementById('uName').value.trim()||email.split('@')[0];
       var phone=document.getElementById('uPhone').value.trim(),city=document.getElementById('uCity').value.trim(),state=document.getElementById('uState').value.trim();
       var role=document.getElementById('roleSel').value;
       if(email.toLowerCase()===String(window.SUPER_ADMIN_EMAIL||'').toLowerCase())role='super_admin';
       var cred2=await window.CyberAuth.createUserWithEmailAndPassword(email,pass);
-      await window.CyberDB.collection('users').doc(cred2.user.uid).set({email:email,name:name,phone:phone,city:city,state:state,role:role,blocked:false,location:loc,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+      try{ await cred2.user.sendEmailVerification(); }catch(e){}
+      await window.CyberDB.collection('users').doc(cred2.user.uid).set({email:email,name:name,phone:phone,city:city,state:state,role:role,blocked:false,emailVerified:false,location:loc,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
       if(window.logSIEMCloud)await window.logSIEMCloud('signup',{email:email,role:role,location:loc});
       if(window.sendAuthMail)await window.sendAuthMail('register',{email:email,name:name,phone:phone,city:city,state:state,location:loc,time:new Date().toISOString()});
-      setMsg('Account created. Please sign in.'); showTab('login');
+      setMsg(t('msgCreated')); await window.CyberAuth.signOut(); showTab('login');
     }
   }catch(e){setMsg(e.message.replace('Firebase: ','').replace('auth/','')); if(window.logSIEMCloud)await window.logSIEMCloud('login_failed',{email:email,error:e.message,location:loc});}
 }
+setTheme(curTheme); applyLanguage();
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
