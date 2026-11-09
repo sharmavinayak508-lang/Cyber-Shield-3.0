@@ -1,29 +1,50 @@
+// FILE NAME: mode2-firestore.rules
+// GitHub Path: mode2/mode2-firestore.rules
+// + Firebase Console > Firestore Database > Rules me bhi YAHI code paste karke Publish karna hai
+// Nahi toh GitHub wali file se kuch nahi hoga - Rules sirf Firebase me Publish karne se lagte hain
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isSignedIn() { return request.auth != null; }
+    function myUid() { return request.auth.uid; }
+    function myEmail() { return request.auth.token.email; }
+    function isSuperAdmin() { return isSignedIn() && (myEmail() == 'irondom674@gmail.com' || myEmail() == 'vinayak@cybershield.com'); }
+    function myRole() { return get(/databases/$(database)/documents/users/$(myUid())).data.role; }
+    function isAdmin() { return isSignedIn() && (myRole() in ['admin','super_admin'] || isSuperAdmin()); }
 
-    // USERS - Apna data khud padh / likh sakta hai
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    // USERS - apna profile khud, sabka Admin, role/blocked sirf Super Admin
+    match /users/{uid} {
+      allow read: if isSignedIn() && (myUid() == uid || isAdmin());
+      allow create: if isSignedIn() && myUid() == uid;
+      allow update: if isSuperAdmin() || (isSignedIn() && myUid() == uid && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role','blocked']));
+      allow delete: if isSuperAdmin();
     }
 
-    // SIEM LOGS - Login / OTP / Fail ke logs
-    // Sab login user likh sakta hai, padh sirf login user sakta hai
-    match /logs/{logId} {
-      allow create: if request.auth != null;
-      allow read: if request.auth != null;
+    // ADMIN REQUESTS - dekhenga sirf Admin, approve/delete sirf Super Admin
+    match /admin_requests/{id} {
+      allow read: if isAdmin();
+      allow create: if isSignedIn();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // SCANS - apne scans khud dekhega, Admin sab dekhega, dusre ka nahi
+    match /scans/{id} {
+      allow read: if isSignedIn() && (resource.data.uid == myUid() || isAdmin());
+      allow create: if isSignedIn() && request.resource.data.uid == myUid();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // SIEM LOGS - sirf Admin padhega, koi delete/edit nahi kar sakta
+    match /siem_logs/{id} {
+      allow read: if isAdmin();
+      allow create: if isSignedIn();
       allow update, delete: if false;
     }
 
-    // ADMIN REQUESTS - Admin banne ki request
-    match /admin_requests/{reqId} {
-      allow create: if request.auth != null;
-      allow read, update, delete: if request.auth != null;
-    }
-
-    // Baaki sab band - Koi aur collection nahi khulega
-    match /{document=**} {
-      allow read, write: if false;
+    // SETTINGS - sab padh sakte hain (broadcast/lockdown dikhane ke liye), badalega sirf Super Admin
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isSuperAdmin();
     }
   }
 }
