@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><style>
+<html lang="en" data-theme="dark"><head><style>
 @font-face {
   font-family: "Optimistic";
   font-style: normal;
@@ -23,54 +23,85 @@
 </style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title data-i18n="pageTitle">Cyber Shield - Secure Sign In</title>
 <style>
-:root{--bg:#050a14;--card:rgba(10,22,40,.92);--input:#0f1f3a;--text:#fff;--muted:rgba(255,255,255,.85);--border:#00d4ff;--boxBg:rgba(0,255,136,.12);--boxBorder:#00ff88;--roleBg:#0a1628}
-[data-theme="light"]{--bg:#eef2f7;--card:#ffffff;--input:#eef2f7;--text:#0a1628;--muted:rgba(10,22,40,.75);--border:#0077b6;--boxBg:rgba(0,150,100,.08);--boxBorder:#00aa77;--roleBg:#eef2f7}
-[data-theme="blue"]{--bg:#001a33;--card:#00264d;--input:#003a66;--text:#ffffff;--muted:rgba(255,255,255,.85);--border:#00aaff;--boxBg:rgba(0,170,255,.12);--boxBorder:#00aaff;--roleBg:#001a33}
-[data-theme="fire"]{--bg:#140600;--card:#240d02;--input:#1a0a02;--text:#fff2e6;--muted:rgba(255,242,230,.85);--border:#ff4400;--boxBg:rgba(255,68,0,.12);--boxBorder:#ffaa00;--roleBg:#240d02}
-[data-theme="cyber"]{--bg:#020a12;--card:#041a2a;--input:#021422;--text:#e6fbff;--muted:rgba(230,251,255,.85);--border:#00d4ff;--boxBg:rgba(0,212,255,.12);--boxBorder:#00ff88;--roleBg:#041a2a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background-image:url('https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1200&q=80');background-size:cover;background-position:center}
-.overlay{background:rgba(0,0,0,.55);min-height:100vh;padding:16px}[data-theme="light"] .overlay{background:rgba(255,255,255,.35)}
-.card{max-width:520px;margin:20px auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
-h1{color:#ffaa00;text-align:center;margin:4px 0;font-size:28px}h1+p{text-align:center;opacity:.85;font-size:13px;margin:0;color:var(--muted)}
-label{font-size:11px;letter-spacing:.08em;display:block;margin:2px 0 0;color:var(--muted);font-weight:700}
-select,input{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:var(--input);color:var(--text);margin:6px 0;font-size:14px}
+:root{--bg:#060B16;--bg2:#0A1222;--card:#0D1628;--card2:#111E36;--line:rgba(148,180,255,.16);--muted:#8FA1BD;--muted2:#C6D2E8;--accent:#FF8A00;--blue:#2E9BFF;--cyan:#00D4FF;--green:#00E68A;--red:#FF4D4D;--text:#F2F6FF;--input:#0A1222;--shadow:0 22px 55px rgba(0,0,0,.45)}
+[data-theme="light"]{--bg:#EEF2F8;--bg2:#FFFFFF;--card:#FFFFFF;--card2:#F3F6FB;--line:rgba(10,30,60,.13);--muted:#5A6B84;--muted2:#2B3A52;--accent:#F86A00;--blue:#0066CC;--cyan:#0090B8;--green:#00AA77;--red:#D92B2B;--text:#0B1220;--input:#F2F4F8;--shadow:0 16px 35px rgba(10,30,60,.12)}
+[data-theme="blue"]{--bg:#001A33;--card:#00264D;--card2:#00325F;--line:rgba(0,212,255,.28);--muted:#8AD8F0;--muted2:#D9F4FF;--accent:#00D4FF;--blue:#00D4FF;--cyan:#00D4FF;--green:#00FF88;--red:#FF5A5A;--text:#E6FBFF;--input:#003A66}
+[data-theme="fire"]{--bg:#140600;--card:#240D02;--card2:#331206;--line:rgba(255,138,0,.30);--muted:#F8B48A;--muted2:#FFE3C8;--accent:#FF4400;--blue:#FF8800;--cyan:#FFAA00;--green:#00FF88;--red:#FF2222;--text:#FFF2E6;--input:#1A0A02}
+[data-theme="cyber"]{--bg:#020A12;--card:#041A2A;--card2:#062A3F;--line:rgba(0,212,255,.28);--muted:#8AD8F0;--muted2:#D9F4FF;--accent:#00D4FF;--blue:#00D4FF;--cyan:#00D4FF;--green:#00FF88;--red:#FF4444;--text:#E6FBFF;--input:#021422}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+.shell{display:grid;grid-template-columns:1.05fr .95fr;min-height:100vh}
+.left{padding:34px 38px;display:flex;flex-direction:column;background:radial-gradient(700px 400px at 20% 0%,rgba(0,212,255,.18),transparent 60%),radial-gradient(600px 400px at 90% 90%,rgba(255,138,0,.16),transparent 55%),linear-gradient(180deg,#081426,#050A16);border-right:1px solid var(--line)}
+.brand{display:flex;gap:12px;align-items:center}.shield{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#FF2E63);font-size:24px;box-shadow:0 12px 28px rgba(255,138,0,.32)}.brand b{font-size:20px;letter-spacing:.07em}.brand small{display:block;color:var(--muted);letter-spacing:.20em;font-size:9px;margin-top:4px;font-weight:700}
+.left h1{font-size:42px;line-height:1.05;letter-spacing:-.03em;margin:52px 0 12px}.left h1 em{font-style:normal;color:var(--cyan)}.left p.lead{color:var(--muted);font-size:15px;line-height:1.7;margin:0;max-width:480px}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}.feat{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:14px}.feat b{font-size:13px}.feat p{color:var(--muted);font-size:12px;line-height:1.6;margin:6px 0 0}
+.leftFoot{margin-top:auto;color:var(--muted);font-size:12px;display:flex;gap:16px;flex-wrap:wrap}
+.right{padding:26px;display:grid;place-items:center;background:var(--bg)}
+.card{width:100%;max-width:520px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow)}
+.topRow{display:flex;justify-content:space-between;align-items:center;gap:10px}.topRow b{font-size:12px;letter-spacing:.12em;color:var(--muted)}
+h2{font-size:26px;margin:16px 0 4px;letter-spacing:-.02em}.sub{color:var(--muted);font-size:13px;margin:0 0 16px;line-height:1.6}
 .row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}
-button{cursor:pointer;border:0;border-radius:10px;padding:12px;font-weight:800;font-size:14px}
-.green{background:#00ff88;color:#000}.orange{background:#ff8800;color:#fff}.blue{background:#00d4ff;color:#000}
-.box{background:var(--boxBg);border:1px solid var(--boxBorder);border-radius:10px;padding:10px;font-size:13px;margin:8px 0;line-height:1.5}
-.roleInfo{background:var(--roleBg);border:1px solid #333;border-radius:10px;padding:10px;font-size:13px;margin:8px 0;line-height:1.5}
-.tabs{display:flex;gap:8px}.tabs button{flex:1;background:var(--input);color:var(--text)}.tabs button.active{background:#00d4ff;color:#000}
-.msg{text-align:center;font-size:13px;font-weight:700;min-height:18px;margin:8px 0;color:#ffb347}
-.foot{text-align:center;opacity:.6;font-size:12px;margin-top:10px}
+label{font-size:11px;letter-spacing:.08em;display:block;margin:14px 0 0;color:var(--muted);font-weight:700}
+select,input{width:100%;padding:13px 12px;border-radius:11px;border:1px solid var(--line);background:var(--input);color:var(--text);margin:6px 0;font-size:14px}input:focus,select:focus{outline:2px solid var(--blue);outline-offset:1px}
+button{cursor:pointer;border:0;border-radius:11px;padding:13px;font-weight:800;font-size:14px}button.blue{background:var(--blue);color:#fff}button.green{background:var(--green);color:#000}button.orange{background:var(--accent);color:#fff}button.ghost{background:transparent;border:1px solid var(--blue);color:var(--text)}
+.tabs{display:flex;gap:8px;background:var(--input);padding:5px;border-radius:12px;margin:6px 0}.tabs button{flex:1;background:transparent;color:var(--muted)} .tabs button.active{background:var(--blue);color:#fff}
+.roleInfo{background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:11px;font-size:13px;margin:8px 0;line-height:1.6;color:var(--muted2)}
+.box{background:rgba(0,230,138,.08);border:1px solid rgba(0,230,138,.30);border-radius:11px;padding:11px;font-size:12.5px;margin:10px 0;line-height:1.6;color:var(--muted2)}
+.msg{text-align:center;font-size:13px;font-weight:700;min-height:18px;margin:10px 0;color:#FFB347}.msg.ok{color:var(--green)}
+.foot{text-align:center;opacity:.65;font-size:12px;margin-top:12px}
+.passWrap{position:relative}.passWrap button{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:7px 10px;font-size:12px;background:transparent;border:1px solid var(--line);color:var(--text)}
+.eagleLogo{width:50px;height:50px;border-radius:14px;object-fit:cover;border:1px solid var(--line);box-shadow:0 10px 25px rgba(255,138,0,.30);background:#081426}.eagleHero{margin-top:26px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}.eagleHero img{width:100%;max-width:340px;border-radius:12px;border:1px solid var(--line);display:block;margin:0 auto}.eagleHero p{color:var(--muted);font-size:12.5px;line-height:1.6;margin:10px 0 0}.badge{display:inline-block;padding:5px 10px;border-radius:99px;font-size:11px;font-weight:800;background:rgba(0,212,255,.16);color:var(--cyan)}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.left{display:none}.right{padding:16px}}
 </style></head>
-<body><div class="overlay"><div class="card">
-<h1>CYBER SHIELD</h1><p data-i18n="subtitle">Security Platform &bull; Secure Sign In</p><div id="broadcastBar" style="display:none;background:#2E9BFF;color:#fff;border-radius:10px;padding:10px;font-size:13px;margin:8px 0;font-weight:700;text-align:center"></div><div id="lockdownBar" style="display:none;background:#FF4444;color:#fff;border-radius:10px;padding:10px;font-size:13px;margin:8px 0;font-weight:800;text-align:center"></div>
+<body><div class="shell">
+<section class="left">
+<div class="brand"><img class="eagleLogo" src="eagle-logo.png" alt="Cyber Shield Eagle Logo"><div><b>CYBER SHIELD</b><small>SECURITY PLATFORM</small></div></div>
+<span class="badge" style="width:fit-content;margin-top:34px">● ENTERPRISE SECURITY • MODE 2</span>
+<h1 data-i18n="heroTitle">Security,<br>managed like<br><em>a private company.</em></h1>
+<p class="lead" data-i18n="heroLead">Sign in to your secure workspace. Role-based access, location-verified sign-in, and a complete activity log — built for teams that take security seriously.</p>
+<div class="features">
+<div class="feat"><b data-i18n="feat1T">🔐 Role-Based Access</b><p data-i18n="feat1D">Admin, User and Viewer — each role sees only what it should.</p></div>
+<div class="feat"><b data-i18n="feat2T">📍 Location-Verified</b><p data-i18n="feat2D">Every sign-in is verified with location for extra protection.</p></div>
+<div class="feat"><b data-i18n="feat3T">📡 Activity Logged</b><p data-i18n="feat3D">Sign-ins, sign-ups and admin actions are recorded in SIEM.</p></div>
+<div class="feat"><b data-i18n="feat4T">🛡️ Verified Accounts</b><p data-i18n="feat4D">Email verification is required before any account can sign in.</p></div>
+</div>
+<div class="eagleHero"><img src="eagle-logo.png" alt="Cyber Shield Eagle"><p data-i18n="eagleCaption">The Eagle watches over every sign-in. Sharp vision, fast response, zero compromise on security.</p></div><div class="leftFoot"><span>Cyber Shield • Privacy</span><span>Terms</span><span>Version 3.0</span></div>
+</section>
+<section class="right"><div class="card">
+<div class="topRow"><span style="display:flex;align-items:center;gap:8px"><img class="eagleLogo" style="width:34px;height:34px;border-radius:10px" src="eagle-logo.png" alt="Eagle"><b>CYBER SHIELD</b></span><span class="badge">SECURE SIGN IN</span></div>
+<h2 data-i18n="subtitle">Security Platform • Secure Sign In</h2>
+<p class="sub" data-i18n="welcomeBack">Welcome back. Please sign in to continue to your dashboard.</p>
+<div id="broadcastBar" style="display:none;background:#2E9BFF;color:#fff;border-radius:10px;padding:10px;font-size:13px;margin:8px 0;font-weight:700;text-align:center"></div><div id="lockdownBar" style="display:none;background:#FF4444;color:#fff;border-radius:10px;padding:10px;font-size:13px;margin:8px 0;font-weight:800;text-align:center"></div>
 <div class="row">
 <select id="langSel" onchange="setLanguage(this.value)"><option value="en">English</option><option value="hi">Hindi - हिन्दी</option><option value="pa">Punjabi - ਪੰਜਾਬੀ</option><option value="es">Spanish - Español</option><option value="fr">French - Français</option></select>
 <select id="themeSel" onchange="setTheme(this.value)"><option value="dark" data-i18n="themeDark">Dark Theme</option><option value="light" data-i18n="themeLight">Light Theme</option><option value="blue" data-i18n="themeBlue">Blue Theme</option><option value="fire" data-i18n="themeFire">Fire Theme</option><option value="cyber" data-i18n="themeCyber">Cyber Theme</option></select>
 </div>
-<div class="row">
-<select id="roleSel" onchange="showRoleInfo()">
+<label data-i18n="selectRoleLabel">SELECT YOUR ROLE</label>
+<div class="row"><select id="roleSel" onchange="showRoleInfo()">
 <option value="admin" data-i18n="roleAdmin">Admin</option>
 <option value="user" data-i18n="roleUser">User</option>
 <option value="viewer" data-i18n="roleViewer">Viewer</option>
-</select>
-</div>
+</select></div>
 <div id="roleInfo" class="roleInfo"></div>
 <div class="tabs"><button id="tabLogin" class="active" onclick="showTab('login')" data-i18n="tabLogin">Sign In</button><button id="tabReg" onclick="showTab('register')" data-i18n="tabRegister">Create Account</button></div>
+<label><span data-i18n="fullNameLabel">FULL NAME</span> <span style="color:var(--muted);font-weight:400" data-i18n="createOnly1">(Create Account only)</span></label>
 <input id="uName" data-i18n-ph="phName" placeholder="Full Name">
-<input id="uEmail" type="email" data-i18n-ph="phEmail" placeholder="Email Address">
+<label><span data-i18n="emailLabel">EMAIL ADDRESS</span></label>
+<input id="uEmail" type="email" data-i18n-ph="phEmail" placeholder="Email Address" autocomplete="email">
+<label><span data-i18n="phoneLabel">PHONE NUMBER</span> <span style="color:var(--muted);font-weight:400" data-i18n="createOnly2">(Create Account only)</span></label>
 <input id="uPhone" data-i18n-ph="phPhone" placeholder="Phone Number">
-<input id="uCity" data-i18n-ph="phCity" placeholder="City">
-<input id="uState" data-i18n-ph="phState" placeholder="State">
-<input id="uPass" type="password" data-i18n-ph="phPass" placeholder="Password (Minimum 6 Characters)">
-<div class="box" data-i18n="infoBox">Protected by Cyber Shield &bull; Location-verified sign-in &bull; Activity is logged for security.</div>
-<button class="blue" style="width:100%" id="mainBtn" onclick="doAuth()" data-i18n="btnSignIn">Sign In &rarr;</button>
+<div class="row"><div><label><span data-i18n="cityLabel">CITY</span></label><input id="uCity" data-i18n-ph="phCity" placeholder="City"></div><div><label><span data-i18n="stateLabel">STATE</span></label><input id="uState" data-i18n-ph="phState" placeholder="State"></div></div>
+<label><span data-i18n="passLabel">PASSWORD</span></label>
+<div class="passWrap"><input id="uPass" type="password" data-i18n-ph="phPass" placeholder="Password (Minimum 6 Characters)" autocomplete="current-password"><button type="button" onclick="togglePass()" data-i18n="showBtn">Show</button></div>
+<div class="box" data-i18n="infoBox">Protected by Cyber Shield • Location-verified sign-in • Activity is logged for security.</div>
+<button class="blue" style="width:100%" id="mainBtn" onclick="doAuth()" data-i18n="btnSignIn">Sign In →</button>
 <button class="green" style="width:100%;margin-top:8px" onclick="resendVerify()" data-i18n="btnResend">Resend Verification Email</button>
-<button class="orange" style="width:100%;margin-top:8px" onclick="location.href='../index.html'" data-i18n="btnBack">&larr; Back</button>
+<button class="orange" style="width:100%;margin-top:8px" onclick="location.href='../index.html'" data-i18n="btnBack">← Back</button>
 <p id="msg" class="msg"></p>
-<p class="foot"><span data-i18n="foot">Cyber Shield &bull; Privacy &bull; Terms &bull; Version 3.0</span></p>
-</div></div>
+<p class="foot"><span data-i18n="foot">Cyber Shield • Privacy • Terms • Version 3.0</span></p>
+</div></section></div>
+<script>
+function togglePass(){ var p=document.getElementById('uPass'); if(!p) return; p.type=(p.type==='password'?'text':'password'); }
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -88,7 +119,14 @@ fr:{pageTitle:"Cyber Shield - Connexion Securisee",subtitle:"Plateforme de Secur
 
 // --- NEW KEYS (Admin redirect + Lockdown + Admin Request) - added in updated login ---
 (function(){var X={en:{themeFire:"Fire Theme",themeCyber:"Cyber Theme",msgLockdown:"🔒 Lockdown ON hai! Sirf Super Admin login kar sakta hai.",msgAdminRequest:"⏳ Admin Request Super Admin ko bhej di! Approve hone ke baad hi Admin banoge. Tab tak User Dashboard khulega.",msgNeedApproval:"⏳ Tum Admin nahi ho! Request Super Admin ko bhej di! Tab tak User Dashboard khulega.",lockdownBar:"🔒 LOCKDOWN ON - Sirf Super Admin login kar sakta hai"},hi:{themeFire:"फायर थीम",themeCyber:"साइबर थीम",msgLockdown:"🔒 लॉकडाउन ON है! सिर्फ सुपर एडमिन लॉगिन कर सकता है।",msgAdminRequest:"⏳ एडमिन रिक्वेस्ट सुपर एडमिन को भेज दी! अप्रूव होने के बाद ही एडमिन बनोगे। तब तक यूज़र डैशबोर्ड खुलेगा।",msgNeedApproval:"⏳ तुम एडमिन नहीं हो! रिक्वेस्ट सुपर एडमिन को भेज दी! तब तक यूज़र डैशबोर्ड खुलेगा।",lockdownBar:"🔒 लॉकडाउन ON है - सिर्फ सुपर एडमिन लॉगिन कर सकता है"},pa:{themeFire:"ਫਾਇਰ ਥੀਮ",themeCyber:"ਸਾਈਬਰ ਥੀਮ",msgLockdown:"🔒 ਲੌਕਡਾਊਨ ON ਹੈ! ਸਿਰਫ਼ ਸੁਪਰ ਐਡਮਿਨ ਲੌਗਿਨ ਕਰ ਸਕਦਾ ਹੈ।",msgAdminRequest:"⏳ ਐਡਮਿਨ ਰਿਕਵੈਸਟ ਸੁਪਰ ਐਡਮਿਨ ਨੂੰ ਭੇਜ ਦਿੱਤੀ! ਅਪਰੂਵ ਹੋਣ ਤੋਂ ਬਾਅਦ ਹੀ ਐਡਮਿਨ ਬਣੋਗੇ। ਤਦ ਤੱਕ ਯੂਜ਼ਰ ਡੈਸ਼ਬੋਰਡ ਖੁੱਲ੍ਹੇਗਾ।",msgNeedApproval:"⏳ ਤੁਸੀਂ ਐਡਮਿਨ ਨਹੀਂ ਹੋ! ਰਿਕਵੈਸਟ ਸੁਪਰ ਐਡਮਿਨ ਨੂੰ ਭੇਜ ਦਿੱਤੀ! ਤਦ ਤੱਕ ਯੂਜ਼ਰ ਡੈਸ਼ਬੋਰਡ ਖੁੱਲ੍ਹੇਗਾ।",lockdownBar:"🔒 ਲੌਕਡਾਊਨ ON ਹੈ - ਸਿਰਫ਼ ਸੁਪਰ ਐਡਮਿਨ ਲੌਗਿਨ ਕਰ ਸਕਦਾ ਹੈ"},es:{themeFire:"Tema Fuego",themeCyber:"Tema Cyber",msgLockdown:"🔒 ¡Lockdown ON! Solo Super Admin puede iniciar sesion.",msgAdminRequest:"⏳ ¡Solicitud Admin enviada al Super Admin! Seras Admin cuando te apruebe. Mientras tanto abrira el Panel Usuario.",msgNeedApproval:"⏳ ¡No eres Admin! Solicitud enviada al Super Admin. Mientras tanto abrira el Panel Usuario.",lockdownBar:"🔒 LOCKDOWN ON - Solo Super Admin puede iniciar sesion"},fr:{themeFire:"Theme Feu",themeCyber:"Theme Cyber",msgLockdown:"🔒 Confinement ON ! Seul le Super Admin peut se connecter.",msgAdminRequest:"⏳ Demande Admin envoyee au Super Admin ! Tu seras Admin apres approbation. En attendant, le Tableau Utilisateur s'ouvrira.",msgNeedApproval:"⏳ Tu n'es pas Admin ! Demande envoyee au Super Admin. En attendant, le Tableau Utilisateur s'ouvrira.",lockdownBar:"🔒 CONFINEMENT ON - Seul le Super Admin peut se connecter"}};Object.keys(X).forEach(function(l){if(LANG[l])Object.assign(LANG[l],X[l]);});})();
-var curLang = localStorage.getItem('cyber_lang') || 'en';
+
+Object.assign(LANG.en,{heroTitle:"Security,<br>managed like<br><em>a private company.</em>",heroLead:"Sign in to your secure workspace. Role-based access, location-verified sign-in, and a complete activity log — built for teams that take security seriously.",feat1T:"🔐 Role-Based Access",feat1D:"Admin, User and Viewer — each role sees only what it should.",feat2T:"📍 Location-Verified",feat2D:"Every sign-in is verified with location for extra protection.",feat3T:"📡 Activity Logged",feat3D:"Sign-ins, sign-ups and admin actions are recorded in SIEM.",feat4T:"🛡️ Verified Accounts",feat4D:"Email verification is required before any account can sign in.",eagleCaption:"The Eagle watches over every sign-in. Sharp vision, fast response, zero compromise on security.",welcomeBack:"Welcome back. Please sign in to continue to your dashboard.",selectRoleLabel:"SELECT YOUR ROLE",fullNameLabel:"FULL NAME",createOnly1:"(Create Account only)",emailLabel:"EMAIL ADDRESS",phoneLabel:"PHONE NUMBER",createOnly2:"(Create Account only)",cityLabel:"CITY",stateLabel:"STATE",passLabel:"PASSWORD",showBtn:"Show"});
+Object.assign(LANG.hi,{heroTitle:"Security,<br>private company jaisi<br><em>soch ke saath.</em>",heroLead:"Apne secure workspace me sign in karein. Role-based access, location-verified sign-in aur poora activity log — security ko seriously lene wali teams ke liye.",feat1T:"🔐 Role-Based Access",feat1D:"Admin, User aur Viewer — har role ko sirf wahi dikhega jo uska hai.",feat2T:"📍 Location-Verified",feat2D:"Har sign-in location se verify hota hai, extra protection ke liye.",feat3T:"📡 Activity Logged",feat3D:"Sign-in, sign-up aur admin actions SIEM me record hote hain.",feat4T:"🛡️ Verified Accounts",feat4D:"Sign in se pehle email verification zaroori hai.",eagleCaption:"Eagle har sign-in par nazar rakhta hai. Tez nazar, fast response, security me zero compromise.",welcomeBack:"Welcome back. Apne dashboard par jaane ke liye please sign in karein.",selectRoleLabel:"APNA ROLE CHUNEIN",fullNameLabel:"POORA NAAM",createOnly1:"(Sirf Create Account ke liye)",emailLabel:"EMAIL ADDRESS",phoneLabel:"PHONE NUMBER",createOnly2:"(Sirf Create Account ke liye)",cityLabel:"CITY",stateLabel:"STATE",passLabel:"PASSWORD",showBtn:"Dikhao"});
+Object.assign(LANG.pa,{heroTitle:"Security,<br>private company wargi<br><em>soch naal.</em>",heroLead:"Apne secure workspace vich sign in karo. Role-based access, location-verified sign-in ate poora activity log — security nu seriously lain wali teams layi.",feat1T:"🔐 Role-Based Access",feat1D:"Admin, User ate Viewer — har role nu sirf ohio dikhega jo usda hai.",feat2T:"📍 Location-Verified",feat2D:"Har sign-in location naal verify hunda hai, extra protection layi.",feat3T:"📡 Activity Logged",feat3D:"Sign-in, sign-up ate admin actions SIEM vich record hunde han.",feat4T:"🛡️ Verified Accounts",feat4D:"Sign in ton pehlan email verification zaroori hai.",eagleCaption:"Eagle har sign-in te nazar rakhda hai. Tez nazar, fast response, security vich zero compromise.",welcomeBack:"Welcome back. Apne dashboard te jaan layi please sign in karo.",selectRoleLabel:"APNA ROLE CHUNO",fullNameLabel:"POORA NAAM",createOnly1:"(Sirf Create Account layi)",emailLabel:"EMAIL ADDRESS",phoneLabel:"PHONE NUMBER",createOnly2:"(Sirf Create Account layi)",cityLabel:"CITY",stateLabel:"STATE",passLabel:"PASSWORD",showBtn:"Dikhao"});
+Object.assign(LANG.es,{heroTitle:"Seguridad,<br>gestionada como<br><em>una empresa privada.</em>",heroLead:"Inicia sesion en tu espacio seguro. Acceso por roles, inicio verificado por ubicacion y registro completo de actividad.",feat1T:"🔐 Acceso por Roles",feat1D:"Admin, Usuario y Visor — cada rol solo ve lo que debe.",feat2T:"📍 Ubicacion Verificada",feat2D:"Cada inicio se verifica con la ubicacion para mayor proteccion.",feat3T:"📡 Actividad Registrada",feat3D:"Inicios, registros y acciones de admin se guardan en SIEM.",feat4T:"🛡️ Cuentas Verificadas",feat4D:"La verificacion por correo es obligatoria antes de iniciar sesion.",eagleCaption:"El Aguila vigila cada inicio de sesion. Vision aguda, respuesta rapida, cero compromiso en seguridad.",welcomeBack:"Bienvenido de nuevo. Inicia sesion para continuar a tu panel.",selectRoleLabel:"SELECCIONA TU ROL",fullNameLabel:"NOMBRE COMPLETO",createOnly1:"(Solo para Crear Cuenta)",emailLabel:"DIRECCION DE CORREO",phoneLabel:"NUMERO DE TELEFONO",createOnly2:"(Solo para Crear Cuenta)",cityLabel:"CIUDAD",stateLabel:"ESTADO",passLabel:"CONTRASENA",showBtn:"Mostrar"});
+Object.assign(LANG.fr,{heroTitle:"Securite,<br>geree comme<br><em>une entreprise privee.</em>",heroLead:"Connectez-vous a votre espace securise. Acces par roles, connexion verifiee par localisation et journal d activite complet.",feat1T:"🔐 Acces par Roles",feat1D:"Admin, Utilisateur et Visionneuse — chaque role ne voit que ce qu il doit.",feat2T:"📍 Localisation Verifiee",feat2D:"Chaque connexion est verifiee par la localisation pour plus de protection.",feat3T:"📡 Activite Enregistree",feat3D:"Connexions, inscriptions et actions admin sont enregistrees dans SIEM.",feat4T:"🛡️ Comptes Verifies",feat4D:"La verification par email est obligatoire avant de se connecter.",eagleCaption:"L Aigle surveille chaque connexion. Vision precise, reponse rapide, zero compromis sur la securite.",welcomeBack:"Bon retour. Connectez-vous pour continuer vers votre tableau de bord.",selectRoleLabel:"SELECTIONNEZ VOTRE ROLE",fullNameLabel:"NOM COMPLET",createOnly1:"(Creation de compte uniquement)",emailLabel:"ADRESSE EMAIL",phoneLabel:"NUMERO DE TELEPHONE",createOnly2:"(Creation de compte uniquement)",cityLabel:"VILLE",stateLabel:"ETAT",passLabel:"MOT DE PASSE",showBtn:"Afficher"});
+
+var curLang = 'en';
 var curTheme = localStorage.getItem('cyber_theme') || 'dark';
 function t(k){ return (LANG[curLang] && LANG[curLang][k]) || LANG.en[k] || k; }
 function setTheme(th){ curTheme = th; localStorage.setItem('cyber_theme', th); document.documentElement.setAttribute('data-theme', th); var s=document.getElementById('themeSel'); if(s) s.value=th; }
@@ -132,7 +170,7 @@ async function doAuth(){
       if(window.logSIEMCloud)await window.logSIEMCloud('login_success',{email:email,role:u.role,location:loc});
       if(window.sendAuthMail)await window.sendAuthMail('login',{email:email,name:u.name||'',location:loc,time:new Date().toISOString()});
       localStorage.setItem('cyber_current_user',u.email);localStorage.setItem('cyber_role',u.role);
-      setMsg(t('msgWelcome'));
+      if(!(pickedRole==='admin' && u.role!=='admin' && u.role!=='super_admin')) setMsg(t('msgWelcome'));
       goDashboard(u.role);
     } else {
       var name=document.getElementById('uName').value.trim()||email.split('@')[0];
