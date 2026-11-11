@@ -111,10 +111,40 @@ function lockKey(email){ return 'cyber_lock_'+email.toLowerCase(); }
 function isLocked(email){ const d=JSON.parse(localStorage.getItem(lockKey(email))||'null'); if(d && Date.now()<d.until){ document.getElementById('lockInfo').innerText='Account temporarily locked. Try again in '+Math.ceil((d.until-Date.now())/60000)+' minute(s).'; return true; } return false; }
 function recordFail(email){ const k=lockKey(email); const d=JSON.parse(localStorage.getItem(k)||'{"count":0}'); d.count++; if(d.count>=5){ d.until=Date.now()+15*60000; d.count=0; setMsg('Too many failed attempts. Locked for 15 minutes.'); } localStorage.setItem(k,JSON.stringify(d)); }
 function clearFail(email){ localStorage.removeItem(lockKey(email)); }
-async function saveHistory(email,ok,loc,uid,method){ const rec={email,time:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),ok:!!ok,device:navigator.userAgent.slice(0,60),lat:loc?loc.lat:'',lng:loc?loc.lng:'',method:method||'password',uid:uid||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()}; const h=JSON.parse(localStorage.getItem('cyber_history')||'[]'); h.unshift(rec); localStorage.setItem('cyber_history',JSON.stringify(h.slice(0,20))); try{ await window.CyberDB.collection('login_history').add(rec); }catch(e){} }
+
+// ---- 🌍 + IP : jo user Location Allow karke login karega, uska City/State/Country/IP save hoga ----
+// IP se approx city/state/country, GPS se exact lat/lng. Dono milake Firestore users/<uid> me save hota hai.
+async function getIPGeo(lat,lng){
+  let ip='', city='', state='', country='';
+  try{ const r=await fetch('https://ipapi.co/json/'); const j=await r.json();
+    ip=j.ip||''; city=j.city||''; state=j.region||''; country=j.country_name||'';
+  }catch(e){}
+  // GPS hai to usse zyada exact City/State nikalo (free OpenStreetMap reverse-geocode)
+  if(lat && lng){
+    try{ const r2=await fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+lat+'&lon='+lng+'&zoom=10&addressdetails=1',{headers:{'Accept':'application/json'}});
+      const j2=await r2.json(); const a=j2.address||{};
+      city = a.city||a.town||a.village||a.suburb||city; state = a.state||state; country = a.country||country;
+    }catch(e){}
+  }
+  return {ip, city, state, country};
+}
+async function saveUserLocation(uid, loc){
+  if(!uid || !loc) return loc;
+  try{
+    const geo = await getIPGeo(loc.lat, loc.lng);
+    const full = { lat:loc.lat||'', lng:loc.lng||'', accuracy:loc.accuracy||'', ip:geo.ip||'', city:geo.city||'', state:geo.state||'', country:geo.country||'', updatedAt:new Date().toISOString() };
+    await window.CyberDB.collection('users').doc(uid).set({ lastLocation: full, lastLoginAt: firebase.firestore.FieldValue.serverTimestamp() }, {merge:true});
+    return full;
+  }catch(e){ return loc; }
+}
+
+async function saveHistory(email,ok,loc,uid,method){ const rec={email,time:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),ok:!!ok,device:navigator.userAgent.slice(0,60),lat:loc?loc.lat:'',lng:loc?loc.lng:'',ip:loc?loc.ip||'':'',city:loc?loc.city||'':'',state:loc?loc.state||'':'',country:loc?loc.country||'':'',method:method||'password',uid:uid||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()}; const h=JSON.parse(localStorage.getItem('cyber_history')||'[]'); h.unshift(rec); localStorage.setItem('cyber_history',JSON.stringify(h.slice(0,20))); try{ await window.CyberDB.collection('login_history').add(rec); }catch(e){} }
 function goDashboard(role){ location.href='mode2-dashboard-v4.html'; }
 async function finishLogin(cred,u,loc){
-  clearFail(u.email||cred.user.email); saveHistory(u.email||cred.user.email,true,loc,cred.user.uid);
+  clearFail(u.email||cred.user.email);
+  const enrichedLoc = await saveUserLocation(cred.user.uid, loc);
+  const locForLog = enrichedLoc || loc;
+  saveHistory(u.email||cred.user.email,true,locForLog,cred.user.uid);
   checkTrusted(u.email||cred.user.email);
   if(window.logSIEMCloud) await window.logSIEMCloud('login_success',{email:u.email,role:u.role,location:loc});
   if(window.sendAuthMail) await window.sendAuthMail('login',{email:u.email,name:u.name||'',location:loc,time:new Date().toISOString()});
@@ -149,7 +179,7 @@ async function doAuth(){
       else if(wantsAdmin){ role='user'; }
       const cred2=await window.CyberAuth.createUserWithEmailAndPassword(email,pass);
       try{ await cred2.user.sendEmailVerification(); }catch(e){}
-      await window.CyberDB.collection('users').doc(cred2.user.uid).set({email:email,name:name,phone:phone,city:city,state:state,role:role,blocked:false,emailVerified:false,location:loc,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+      const enrichedSignupLoc = await saveUserLocation(cred2.user.uid, loc); await window.CyberDB.collection('users').doc(cred2.user.uid).set({email:email,name:name,phone:phone,city:city,state:state,role:role,blocked:false,emailVerified:false,location:(enrichedSignupLoc||loc),lastLocation:(enrichedSignupLoc||null),createdAt:firebase.firestore.FieldValue.serverTimestamp()});
       if(wantsAdmin){ await createAdminRequest(cred2.user.uid,{email:email,name:name,phone:phone,city:city,state:state}); }
       if(window.logSIEMCloud) await window.logSIEMCloud('signup',{email:email,role:role,location:loc});
       if(window.sendAuthMail) await window.sendAuthMail('register',{email:email,name:name,phone:phone,city:city,state:state,location:loc,time:new Date().toISOString()});
