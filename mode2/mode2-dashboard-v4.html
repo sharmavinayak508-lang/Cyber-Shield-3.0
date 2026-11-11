@@ -92,15 +92,17 @@ function removeFace(){ if(!me) return; if(!confirm('Remove ALL face enrollments 
 const _origRenderLocal = renderLocal; renderLocal = function(){ _origRenderLocal(); updateFaceStatus(); };
 
 async function renderNotif(){ let n=[]; try{ n=await getNotifFS(); }catch(e){} document.getElementById('notifBox').innerHTML=n.length?n.map(x=>'🔔 '+x).join('<br>'):'No new notifications in Firestore.'; }
-async function clearNotif(){ if(!me) return; const s=await window.CyberDB.collection('notifications').where('uid','==',me.uid).get(); for(const d of s.docs) await d.ref.delete(); 
+async function clearNotif(){ if(!me) return; const s=await window.CyberDB.collection('notifications').where('uid','==',me.uid).get(); for(const d of s.docs) await d.ref.delete(); renderNotif(); }
+
 // ---- 🌍 GLOBE (clickable) + 🗺️ MAP + 👤 USER LOCATION PANEL ----
 let globeRot=0, globeSpinning=true, globeZoomLvl=1, globeDragX=null, globeLastPts=[], globeSelected=null, leafletMap=null, leafletMarker=null;
 function globeUserPoints(){
   const pts=[];
   (allUsers||[]).forEach(u=>{
     const L = u.lastLocation || {};
-    const lat = (typeof L.lat==='number') ? L.lat : (typeof u.lat==='number' ? u.lat : (u.location && typeof u.location.lat==='number' ? u.location.lat : null));
-    const lng = (typeof L.lng==='number') ? L.lng : (typeof u.lng==='number' ? u.lng : (u.location && typeof u.location.lng==='number' ? u.location.lng : null));
+    const toNum = v => { const n = Number(v); return (v===''||v==null||isNaN(n)) ? null : n; };
+    const lat = toNum(L.lat ?? u.lat ?? (u.location && u.location.lat));
+    const lng = toNum(L.lng ?? u.lng ?? (u.location && u.location.lng));
     if(lat===null || lng===null) return;
     pts.push({id:u.id, name:u.name||u.email||'User', email:u.email||'', lat, lng,
       city: L.city||u.city||'', state: L.state||u.state||'', country: L.country||'', ip: L.ip||u.ip||'',
@@ -108,7 +110,7 @@ function globeUserPoints(){
   });
   return pts;
 }
-function globeDraw(){
+function globeDraw(){ try{
   const cv=document.getElementById('globeCanvas'); if(!cv) return;
   const ctx=cv.getContext('2d'); const W=cv.width, H=cv.height, cx=W/2, cy=H/2;
   const R=(Math.min(W,H)/2-14)*globeZoomLvl;
@@ -119,7 +121,7 @@ function globeDraw(){
   ctx.strokeStyle='rgba(0,212,255,.7)'; ctx.lineWidth=1.5; ctx.stroke();
   ctx.strokeStyle='rgba(0,212,255,.18)';
   for(let lon=-180;lon<180;lon+=20){ ctx.beginPath();
-    for(let a=-90;a<=90;a+=6){ const la=a*Math.PI/180, lo=lon*Math.PI/180, rad=(a+globeRot)*Math.PI/180;
+    for(let a=-90;a<=90;a+=6){ const la=a*Math.PI/180, lo=lon*Math.PI/180, rad=(lon+globeRot)*Math.PI/180;
       const x=cx+R*Math.cos(la)*Math.sin(lo+rad), y=cy+R*Math.sin(la);
       if(a===-90) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.stroke(); }
   globeLastPts=[];
@@ -135,14 +137,27 @@ function globeDraw(){
   });
   const el=document.getElementById('globeMsg');
   if(el) el.innerText='Dots = '+globeUserPoints().length+' users (Location Allow wale) • Kisi dot pe click karo = uski City / State / Country / IP';
+  }catch(e){ console.log('globeDraw fail', e); } }
+
+// ---- 🗺️ MAP: bina click ke bhi dikhe - default world view + saare users ke markers ----
+function initMapAll(){
+  try{
+    if(typeof L==='undefined' || !document.getElementById('mapBox')) return;
+    if(!leafletMap){ leafletMap=L.map('mapBox').setView([20.59,78.96], 2); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19, attribution:'© OpenStreetMap'}).addTo(leafletMap); }
+    globeUserPoints().forEach(pt=>{
+      L.marker([pt.lat,pt.lng]).addTo(leafletMap).bindPopup('<b>'+(pt.name||'')+'</b><br>'+(pt.city||'')+', '+(pt.state||'')+', '+(pt.country||'')+'<br>IP: '+(pt.ip||'—'));
+    });
+    setTimeout(()=>{ try{ leafletMap.invalidateSize(); }catch(e){} }, 300);
+  }catch(e){ console.log('map init fail', e); }
 }
+
 function globeSpinToggle(){ globeSpinning=!globeSpinning; }
 function globeZoom(d){ globeZoomLvl=Math.min(1.6,Math.max(0.7,globeZoomLvl+d*0.15)); globeDraw(); }
 function showUserLocation(id){
   const pt = globeUserPoints().find(p=>p.id===id) || (allUsers||[]).find(u=>u.id===id);
   if(!pt){ alert('Is user ki location save nahi hai. Usne abhi tak Location Allow karke login nahi kiya.'); return; }
-  const L = pt.lastLocation || pt;
-  const lat = pt.lat ?? (L.lat||''), lng = pt.lng ?? (L.lng||'');
+  const LL = pt.lastLocation || pt;
+  const lat = pt.lat ?? (LL.lat||''), lng = pt.lng ?? (LL.lng||'');
   globeSelected = {id: pt.id, lat, lng};
   const box=document.getElementById('userLocBox');
   if(box) box.innerHTML = '<b>👤 '+(pt.name||'')+'</b> • '+(pt.email||'')+'<br>'
@@ -189,10 +204,10 @@ function copySelectedLocation(){
   });
   cv.addEventListener('pointerdown', e=>{ cv._downX=e.clientX; }, true);
   setInterval(()=>{ if(globeSpinning){ globeRot+=0.6; globeDraw(); } }, 50);
-  globeDraw();
+  globeDraw(); setTimeout(initMapAll, 600);
 })();
 
-renderNotif(); }
+renderNotif();
 async function pushNotif(t){ try{ if(me) await window.CyberDB.collection('notifications').add({uid:me.uid, text:t, createdAt:firebase.firestore.FieldValue.serverTimestamp()}); }catch(e){} renderNotif(); }
 async function pushNotifFS(t){ return pushNotif(t); }
 window.CyberAuth.onAuthStateChanged(async user=>{ if(!user){ location.href='mode2-login.html'; return; } me=user; document.getElementById('who').innerText='Signed in as: '+user.email+' • UID: '+user.uid; try{ const d=await window.CyberDB.collection('users').doc(user.uid).get(); if(d.exists){ const u=d.data(); document.getElementById('pName').value=u.name||''; document.getElementById('pPhone').value=u.phone||''; document.getElementById('pCity').value=u.city||''; if(u.photo){ const im=document.getElementById('pPreview'); im.src=u.photo; im.style.display='block'; } } }catch(e){} loadUsers(); renderLocal(); });
@@ -200,7 +215,7 @@ async function renderLocal(){ let h=[],s=[],t=[]; try{ if(me){ const hs=await wi
 async function revokeSession(id){ await window.CyberDB.collection('sessions').doc(id).delete(); pushNotifFS('Session revoked.'); renderLocal(); }
 async function closeTicketFS(id){ await window.CyberDB.collection('support_tickets').doc(id).update({status:'Closed'}); pushNotifFS('Ticket closed.'); renderLocal(); }
 async function closeTicket(i){ /* legacy - now Firestore */ renderLocal(); }
-async function loadUsers(){ try{ const snap=await window.CyberDB.collection('users').get(); allUsers=snap.docs.map(d=>({id:d.id,...d.data()})); document.getElementById('statUsers').innerText=allUsers.length; renderUsers(); }catch(e){ document.getElementById('userRows').innerHTML='<tr><td colspan=7>Could not load users. Check Firestore rules. '+e.message+'</td></tr>'; } }
+async function loadUsers(){ try{ const snap=await window.CyberDB.collection('users').get(); allUsers=snap.docs.map(d=>({id:d.id,...d.data()})); document.getElementById('statUsers').innerText=allUsers.length; renderUsers(); try{ globeDraw(); initMapAll(); }catch(e){} }catch(e){ document.getElementById('userRows').innerHTML='<tr><td colspan=7>Could not load users. Check Firestore rules. '+e.message+'</td></tr>'; } }
 function renderUsers(){ const q=(document.getElementById('searchBox').value||'').toLowerCase(); const f=document.getElementById('filterRole').value; const list=allUsers.filter(u=>{ const hay=((u.name||'')+' '+(u.email||'')+' '+(u.city||'')).toLowerCase(); if(q && !hay.includes(q)) return false; if(f==='blocked' && !u.blocked) return false; if(f && f!=='blocked' && u.role!==f) return false; return true; }); document.getElementById('userRows').innerHTML=list.map(u=>'<tr><td><input type="checkbox" class="sel" value="'+u.id+'"></td><td>'+(u.name||'')+'</td><td>'+(u.email||'')+'</td><td>'+(u.city||'')+'</td><td>'+(u.role||'')+'</td><td>'+(u.blocked?'🚫 Blocked':'✅ Active')+'</td><td><button onclick="showUserLocation(\''+u.id+'\')">📍 View</button> <button onclick="toggleBlock(\''+u.id+'\','+!!u.blocked+')">'+(u.blocked?'Unblock':'Block')+'</button> <button onclick="delUser(\''+u.id+'\')">Delete</button></td></tr>').join('')||'<tr><td colspan=7>No users match.</td></tr>'; }
 async function toggleBlock(id,was){ await window.CyberDB.collection('users').doc(id).update({blocked:!was}); pushNotif('User '+(was?'unblocked':'blocked')+'.'); loadUsers(); }
 async function delUser(id){ if(!confirm('Delete this user?')) return; await window.CyberDB.collection('users').doc(id).delete(); try{ await window.CyberDB.collection('users').doc(id).delete(); }catch(e){} pushNotif('User deleted.'); loadUsers(); }
